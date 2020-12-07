@@ -1,4 +1,4 @@
-package com.danceschool.DanceSchool;
+package com.danceschool.danceschool;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
