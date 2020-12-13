@@ -1,4 +1,4 @@
-package com.danceschool.danceschool;
+package com.danceschool.danceschool.teacher;
 
 public class TeacherMan implements Teacher {
     @Override

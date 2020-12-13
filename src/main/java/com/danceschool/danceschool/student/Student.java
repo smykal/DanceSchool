@@ -1,4 +1,4 @@
-package com.danceschool.danceschool;
+package com.danceschool.danceschool.student;
 
 public interface Student {
     void learn();
