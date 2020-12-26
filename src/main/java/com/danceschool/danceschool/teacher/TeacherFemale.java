@@ -1,20 +1,20 @@
 package com.danceschool.danceschool.teacher;
 
-import com.danceschool.danceschool.PersonalInformation;
+import com.danceschool.danceschool.PersonalData;
 
 public class TeacherFemale implements Teacher {
-    private PersonalInformation personalInformation;
+    private PersonalData personalData;
 
-    public TeacherFemale(PersonalInformation personalInformation) {
-        this.personalInformation = personalInformation;
+    public TeacherFemale(PersonalData personalData) {
+        this.personalData = personalData;
     }
 
-    public PersonalInformation getPersonalInformation() {
-        return personalInformation;
+    public PersonalData getPersonalData() {
+        return personalData;
     }
 
-    public void setPersonalInformation(PersonalInformation personalInformation) {
-        this.personalInformation = personalInformation;
+    public void setPersonalData(PersonalData personalData) {
+        this.personalData = personalData;
     }
 
     @Override
@@ -23,11 +23,11 @@ public class TeacherFemale implements Teacher {
     }
 
     @Override
-    public String getPersonalName(String nameOrSurname) {
+    public String getPersonalInformation(String nameOrSurname) {
         if (nameOrSurname.equals("name")) {
-            return this.getPersonalInformation().getName();
+            return this.getPersonalData().getName();
         } else {
-            return this.getPersonalInformation().getSurname();
+            return this.getPersonalData().getSurname();
         }
 
     }

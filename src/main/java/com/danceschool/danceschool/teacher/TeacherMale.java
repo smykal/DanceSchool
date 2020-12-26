@@ -7,7 +7,7 @@ public class TeacherMale implements Teacher {
     }
 
     @Override
-    public String getPersonalName(String nameOrSurname) {
+    public String getPersonalInformation(String nameOrSurname) {
         return null;
     }
 }
