@@ -1,13 +1,21 @@
 package com.danceschool.danceschool.teacher;
 
-public class TeacherMale implements Teacher {
+import com.danceschool.danceschool.PersonalDataName;
+import com.danceschool.danceschool.PersonalDataSurname;
 
+public class TeacherMale implements Teacher {
     @Override
     public void teach() {
+
     }
 
     @Override
-    public String getPersonalInformation(String nameOrSurname) {
+    public PersonalDataName getPersonalName() {
+        return null;
+    }
+
+    @Override
+    public PersonalDataSurname getPersonalSurname() {
         return null;
     }
 }

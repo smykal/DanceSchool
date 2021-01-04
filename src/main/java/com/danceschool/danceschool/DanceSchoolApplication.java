@@ -2,7 +2,6 @@ package com.danceschool.danceschool;
 
 import com.danceschool.danceschool.teacher.Teacher;
 import com.danceschool.danceschool.teacher.TeacherFemale;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
@@ -12,19 +11,19 @@ import java.util.List;
 public class DanceSchoolApplication {
 
 	public static void main(String[] args) {
-	    TeacherFemale teacher01 = new TeacherFemale(new PersonalData("Ania","Przybylska", Sex.FEMALE,AdvanceLevel.EXPERT));
-        TeacherFemale teacher02 = new TeacherFemale(new PersonalData("Sasha","Grey",Sex.FEMALE,AdvanceLevel.MASTER));
+	    Teacher teacher01 = new TeacherFemale(new PersonalData(new PersonalDataName("Ania"),new PersonalDataSurname("Przybylska"), Sex.FEMALE,AdvanceLevel.EXPERT));
+        Teacher teacher02 = new TeacherFemale(new PersonalData(new PersonalDataName("Sasha"),new PersonalDataSurname("Grey"),Sex.FEMALE,AdvanceLevel.MASTER));
 
-        List<TeacherFemale> teacherFemaleList = new ArrayList<TeacherFemale>();
+        List<Teacher> teacherFemaleList = new ArrayList<Teacher>();
         teacherFemaleList.add(teacher01);
         teacherFemaleList.add(teacher02);
 
-        for (TeacherFemale teacherFemale : teacherFemaleList) {
-            System.out.println(teacherFemale.getPersonalData().getName() + " " +  teacherFemale.getPersonalData().getSurname()
-            + " " + teacherFemale.getPersonalData().getSex() + " " + teacherFemale.getPersonalData().getAdvanceLevel());
+        for (Teacher teacher : teacherFemaleList) {
+            System.out.println(teacher.getPersonalName());
+            System.out.println(teacher.getPersonalSurname());
         }
 
-        System.out.println(teacher01.getPersonalData().getAdvanceLevel());
+        System.out.println(teacher01.getPersonalSurname());
 	 //   SpringApplication.run(DanceSchoolApplication.class, args);
 	}
 

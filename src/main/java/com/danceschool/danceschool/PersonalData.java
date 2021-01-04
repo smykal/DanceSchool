@@ -1,48 +1,32 @@
 package com.danceschool.danceschool;
 
 public class PersonalData {
-    private String name;
-    private String surname;
+    private PersonalDataName name;
+    private PersonalDataSurname surname;
     private Sex sex;
     private AdvanceLevel advanceLevel;
 
-    public PersonalData(String name, String surname, Sex sex, AdvanceLevel advanceLevel) {
+    public PersonalData(PersonalDataName name, PersonalDataSurname surname, Sex sex, AdvanceLevel advanceLevel) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
         this.advanceLevel = advanceLevel;
     }
 
-    public String getName() {
+    public PersonalDataName getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
+    public PersonalDataSurname getSurname() {
         return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public Sex getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
-    }
-
     public AdvanceLevel getAdvanceLevel() {
         return advanceLevel;
-    }
-
-    public void setAdvanceLevel(AdvanceLevel advanceLevel) {
-        this.advanceLevel = advanceLevel;
     }
 }
 

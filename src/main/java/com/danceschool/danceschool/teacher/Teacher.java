@@ -1,8 +1,12 @@
 package com.danceschool.danceschool.teacher;
 
+import com.danceschool.danceschool.PersonalDataName;
+import com.danceschool.danceschool.PersonalDataSurname;
+
 public interface Teacher {
     void teach();
 
-    String getPersonalInformation(String nameOrSurname);
+    PersonalDataName getPersonalName();
+    PersonalDataSurname getPersonalSurname();
 
 }
