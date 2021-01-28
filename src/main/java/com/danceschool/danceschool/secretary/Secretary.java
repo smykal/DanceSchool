@@ -1,9 +1,6 @@
 package com.danceschool.danceschool.secretary;
 
 import com.danceschool.danceschool.Position;
-import com.danceschool.danceschool.student.Student;
-import com.danceschool.danceschool.teacher.Teacher;
-import org.springframework.cache.interceptor.NamedCacheResolver;
 
 
 public class Secretary {

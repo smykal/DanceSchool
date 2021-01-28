@@ -1,9 +1,8 @@
 package com.danceschool.danceschool;
 
 import com.danceschool.danceschool.secretary.Secretary;
-import com.danceschool.danceschool.teacher.Teacher;
-import com.danceschool.danceschool.teacher.TeacherFemale;
-import org.springframework.boot.SpringApplication;
+import com.danceschool.danceschool.teacher.TeacherSkills;
+import com.danceschool.danceschool.teacher.TeacherSkillsFemale;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
@@ -14,19 +13,19 @@ import java.util.Map;
 @SpringBootApplication
 public class DanceSchoolApplication {
 	public static void main(String[] args) {
-	    Teacher teacher01 = new TeacherFemale(new PersonalData(new PersonalDataName("Ania"),new PersonalDataSurname("Przybylska"), Sex.FEMALE,AdvanceLevel.EXPERT));
-        Teacher teacher02 = new TeacherFemale(new PersonalData(new PersonalDataName("Sasha"),new PersonalDataSurname("Grey"),Sex.FEMALE,AdvanceLevel.MASTER));
+	    TeacherSkills teacherSkills01 = new TeacherSkillsFemale(new PersonalData(new PersonalDataName("Ania"),new PersonalDataSurname("Przybylska"), Sex.FEMALE,AdvanceLevel.EXPERT));
+        TeacherSkills teacherSkills02 = new TeacherSkillsFemale(new PersonalData(new PersonalDataName("Sasha"),new PersonalDataSurname("Grey"),Sex.FEMALE,AdvanceLevel.MASTER));
 
-        List<Teacher> teacherFemaleList = new ArrayList<Teacher>();
-        teacherFemaleList.add(teacher01);
-        teacherFemaleList.add(teacher02);
+        List<TeacherSkills> teacherSkillsFemaleList = new ArrayList<TeacherSkills>();
+        teacherSkillsFemaleList.add(teacherSkills01);
+        teacherSkillsFemaleList.add(teacherSkills02);
 
-        for (Teacher teacher : teacherFemaleList) {
-            System.out.println(teacher.getPersonalName());
-            System.out.println(teacher.getPersonalSurname());
+        for (TeacherSkills teacherSkills : teacherSkillsFemaleList) {
+            System.out.println(teacherSkills.getPersonalName());
+            System.out.println(teacherSkills.getPersonalSurname());
         }
 
-        System.out.println(teacher01.getPersonalSurname());
+        System.out.println(teacherSkills01.getPersonalSurname());
 
         Secretary maggy = new Secretary.SecretaryBuilder(Position.SECRETARY,"Magdalena", "Dora")
                 .build();
