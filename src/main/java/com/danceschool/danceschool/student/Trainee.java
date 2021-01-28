@@ -1,17 +1,13 @@
-package com.danceschool.danceschool.secretary;
+package com.danceschool.danceschool.student;
 
 import com.danceschool.danceschool.Position;
-import com.danceschool.danceschool.student.Student;
-import com.danceschool.danceschool.teacher.Teacher;
-import org.springframework.cache.interceptor.NamedCacheResolver;
 
-
-public class Secretary {
+public class Trainee {
     private final Position position;
     private final String firstName;
     private final String lastName;
 
-    private Secretary(SecretaryBuilder builder) {
+    public Trainee(TraineeBuilder builder) {
         this.position = builder.position;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
@@ -31,27 +27,27 @@ public class Secretary {
 
     @Override
     public String toString() {
-        return "Secretary: {" +
-                "position = " + position +
-                ", firstName = '" + firstName + '\'' +
-                ", lastName = '" + lastName + '\'' +
+        return "Trainee{" +
+                "position=" + position +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
 
-    public static class SecretaryBuilder {
+    public static class TraineeBuilder{
         private final Position position;
         private final String firstName;
         private final String lastName;
 
-        public SecretaryBuilder(Position position, String firstName, String lastName) {
+        public TraineeBuilder(Position position, String firstName, String lastName) {
             this.position = position;
             this.firstName = firstName;
             this.lastName = lastName;
         }
 
-        public Secretary build() {
-            Secretary secretary = new Secretary(this);
-            return secretary;
+        public Trainee build(){
+            Trainee trainee = new Trainee(this);
+            return trainee;
         }
     }
 }
