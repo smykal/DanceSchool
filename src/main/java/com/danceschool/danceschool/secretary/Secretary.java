@@ -1,9 +1,11 @@
 package com.danceschool.danceschool.secretary;
 
 import com.danceschool.danceschool.Position;
+import com.danceschool.danceschool.student.Trainee;
+import com.danceschool.danceschool.teacher.Teacher;
 
 
-public class Secretary {
+public class Secretary implements SecretarySkills {
     private final Position position;
     private final String firstName;
     private final String lastName;
@@ -33,6 +35,20 @@ public class Secretary {
                 ", firstName = '" + firstName + '\'' +
                 ", lastName = '" + lastName + '\'' +
                 '}';
+    }
+
+    @Override
+    public Teacher addTeacher() {
+        Teacher teacherBob = new Teacher.TeacherBuilder(Position.TEACHER, "Bob", "Dylan")
+                .build();
+        return teacherBob;
+    }
+
+    @Override
+    public Trainee addStudent() {
+            Trainee traineeMark = new Trainee.TraineeBuilder(Position.STUDENT,"Mark", "Zuckenburg")
+                    .build();
+        return traineeMark;
     }
 
     public static class SecretaryBuilder {

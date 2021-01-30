@@ -1,11 +1,14 @@
 package com.danceschool.danceschool.secretary;
 
+import com.danceschool.danceschool.student.Trainee;
+import com.danceschool.danceschool.teacher.Teacher;
+
 import java.util.Map;
 
 public interface SecretarySkills {
-//    void addTeacher();
-//    void addStudent();
+    Teacher addTeacher();
+    Trainee addStudent();
 //    void removeTeacher();
 //    void removeStudent();
-//    Map<Integer, Student> setUpGroup();
+
 }

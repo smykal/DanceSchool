@@ -1,38 +1,32 @@
 package com.danceschool.danceschool;
 
 import com.danceschool.danceschool.secretary.Secretary;
-import com.danceschool.danceschool.teacher.TeacherSkills;
-import com.danceschool.danceschool.teacher.TeacherSkillsFemale;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 @SpringBootApplication
 public class DanceSchoolApplication {
 	public static void main(String[] args) {
-	    TeacherSkills teacherSkills01 = new TeacherSkillsFemale(new PersonalData(new PersonalDataName("Ania"),new PersonalDataSurname("Przybylska"), Sex.FEMALE,AdvanceLevel.EXPERT));
-        TeacherSkills teacherSkills02 = new TeacherSkillsFemale(new PersonalData(new PersonalDataName("Sasha"),new PersonalDataSurname("Grey"),Sex.FEMALE,AdvanceLevel.MASTER));
-
-        List<TeacherSkills> teacherSkillsFemaleList = new ArrayList<TeacherSkills>();
-        teacherSkillsFemaleList.add(teacherSkills01);
-        teacherSkillsFemaleList.add(teacherSkills02);
-
-        for (TeacherSkills teacherSkills : teacherSkillsFemaleList) {
-            System.out.println(teacherSkills.getPersonalName());
-            System.out.println(teacherSkills.getPersonalSurname());
-        }
-
-        System.out.println(teacherSkills01.getPersonalSurname());
-
+        Set<Object> groupMonday = new HashSet<>();
         Secretary maggy = new Secretary.SecretaryBuilder(Position.SECRETARY,"Magdalena", "Dora")
                 .build();
+        Secretary ann = new Secretary.SecretaryBuilder(Position.SECRETARY,"Anna", "Paw")
+                .build();
 
-        System.out.println(maggy);
+        groupMonday.add(maggy);
+        groupMonday.add(maggy.addTeacher());
+        groupMonday.add(maggy.addStudent());
 
-        Map<String, PersonalData> newGroup = new HashMap<>();
+        Iterator<Object> groupMondayIterator = groupMonday.iterator();
+
+        while(groupMondayIterator.hasNext()){
+            System.out.println(groupMondayIterator.next());
+        }
+
+
 
 	   // SpringApplication.run(DanceSchoolApplication.class, args);
 	}
