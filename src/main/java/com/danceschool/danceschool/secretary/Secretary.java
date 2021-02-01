@@ -1,23 +1,19 @@
 package com.danceschool.danceschool.secretary;
 
-import com.danceschool.danceschool.Position;
+import com.danceschool.danceschool.Address;
+import com.danceschool.danceschool.Level;
+import com.danceschool.danceschool.PersonalData;
 import com.danceschool.danceschool.student.Trainee;
 import com.danceschool.danceschool.teacher.Teacher;
 
 
 public class Secretary implements SecretarySkills {
-    private final Position position;
     private final String firstName;
     private final String lastName;
 
     private Secretary(SecretaryBuilder builder) {
-        this.position = builder.position;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
-    }
-
-    public Position getPosition() {
-        return position;
     }
 
     public String getFirstName() {
@@ -31,33 +27,42 @@ public class Secretary implements SecretarySkills {
     @Override
     public String toString() {
         return "Secretary: {" +
-                "position = " + position +
-                ", firstName = '" + firstName + '\'' +
+                "firstName = '" + firstName + '\'' +
                 ", lastName = '" + lastName + '\'' +
                 '}';
     }
 
     @Override
-    public Teacher addTeacher() {
-        Teacher teacherBob = new Teacher.TeacherBuilder(Position.TEACHER, "Bob", "Dylan")
+    public Teacher createTeacher(PersonalData personalData, Address address) {
+        Teacher teacher = new Teacher.TeacherBuilder()
+                .setLastName(personalData.getSurname())
+                .setFirstName(personalData.getName())
+                .setAddress(address.getAddress())
+                .setLevel(Level.HIGH)
                 .build();
-        return teacherBob;
+        return teacher;
     }
 
     @Override
-    public Trainee addStudent() {
-            Trainee traineeMark = new Trainee.TraineeBuilder(Position.STUDENT,"Mark", "Zuckenburg")
-                    .build();
-        return traineeMark;
+    public void addTeacher() {
+
+    }
+
+    @Override
+    public Trainee createStudent(PersonalData personalData, Address address) {
+        return null;
+    }
+
+    @Override
+    public void addStudent() {
+
     }
 
     public static class SecretaryBuilder {
-        private final Position position;
         private final String firstName;
         private final String lastName;
 
-        public SecretaryBuilder(Position position, String firstName, String lastName) {
-            this.position = position;
+        public SecretaryBuilder(String firstName, String lastName) {
             this.firstName = firstName;
             this.lastName = lastName;
         }
