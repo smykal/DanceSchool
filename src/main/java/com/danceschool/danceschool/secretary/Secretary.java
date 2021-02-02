@@ -34,22 +34,27 @@ public class Secretary implements SecretarySkills {
 
     @Override
     public Teacher createTeacher(PersonalData personalData, Address address) {
-        Teacher teacher = new Teacher.TeacherBuilder()
+        Teacher teacher = new Teacher.TeacherBuilder(Level.HIGH, personalData, address)
+                .setLevel(Level.HIGH)
+                .setAddress(address.getAddress())
                 .setLastName(personalData.getSurname())
                 .setFirstName(personalData.getName())
-                .setAddress(address.getAddress())
-                .setLevel(Level.HIGH)
                 .build();
         return teacher;
     }
 
     @Override
     public void addTeacher() {
-
     }
 
     @Override
-    public Trainee createStudent(PersonalData personalData, Address address) {
+    public Trainee createStudent(PersonalData personalData, Address address, Level level) {
+        Trainee trainee = new Trainee.TraineeBuilder(level, personalData, address)
+                .setFirstName(personalData.getName())
+                .setLastName(personalData.getSurname())
+                .setAddress(address.getAddress())
+                .setTraineeLevel(level)
+                .build();
         return null;
     }
 

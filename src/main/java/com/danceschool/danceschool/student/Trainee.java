@@ -1,43 +1,75 @@
 package com.danceschool.danceschool.student;
 
+import com.danceschool.danceschool.Address;
+import com.danceschool.danceschool.Level;
+import com.danceschool.danceschool.PersonalData;
+
 public class Trainee {
-    private final String firstName;
-    private final String lastName;
+    private final Level level;
+    private final PersonalData personalData;
+    private final Address address;
 
-    public Trainee(TraineeBuilder builder) {
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
+    public Trainee(TraineeBuilder traineeBuilder) {
+        this.level = traineeBuilder.level;
+        this.personalData = traineeBuilder.personalData;
+        this.address = traineeBuilder.address;
     }
 
-
-    public String getFirstName() {
-        return firstName;
+    public Level getLevel() {
+        return level;
     }
 
-    public String getLastName() {
-        return lastName;
+    public PersonalData getPersonalData() {
+        return personalData;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     @Override
     public String toString() {
         return "Trainee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "level=" + level +
+                ", personalData=" + personalData +
+                ", address=" + address +
                 '}';
     }
 
-    public static class TraineeBuilder{
-        private final String firstName;
-        private final String lastName;
+    public static class TraineeBuilder {
+        private Level level;
+        private PersonalData personalData;
+        private Address address;
 
-        public TraineeBuilder(String firstName, String lastName) {
-            this.firstName = firstName;
-            this.lastName = lastName;
+        public TraineeBuilder(Level level, PersonalData personalData, Address address) {
+            this.level = level;
+            this.personalData = personalData;
+            this.address = address;
         }
 
-        public Trainee build(){
+        public Trainee build() {
             Trainee trainee = new Trainee(this);
             return trainee;
+        }
+
+        public TraineeBuilder setTraineeLevel(Level level) {
+            this.level = level;
+            return this;
+        }
+
+        public TraineeBuilder setFirstName(String name) {
+            this.personalData.setName(name);
+            return this;
+        }
+
+        public TraineeBuilder setLastName(String surname) {
+            this.personalData.setSurname(surname);
+            return this;
+        }
+
+        public TraineeBuilder setAddress(String address) {
+            this.address.setAddress(address);
+            return this;
         }
     }
 }

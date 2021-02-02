@@ -11,7 +11,8 @@ public class Address {
         return address;
     }
 
-    public void setAddress(String address) {
+    public String setAddress(String address) {
         this.address = address;
+        return address;
     }
 }

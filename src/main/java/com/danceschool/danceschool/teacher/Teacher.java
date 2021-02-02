@@ -10,10 +10,10 @@ public class Teacher {
     private final PersonalData personalData;
     private final Address address;
     
-    public Teacher(TeacherBuilder builder) {
-        this.level = builder.level;
-        this.personalData = builder.personalData;
-        this.address = builder.address;
+    public Teacher(TeacherBuilder teacherBuilder) {
+        this.level = teacherBuilder.level;
+        this.personalData = teacherBuilder.personalData;
+        this.address = teacherBuilder.address;
     }
 
     public Level getLevel() {
@@ -41,6 +41,12 @@ public class Teacher {
         private Level level;
         private PersonalData personalData;
         private Address address;
+
+        public TeacherBuilder(Level level, PersonalData personalData, Address address) {
+            this.level = level;
+            this.personalData = personalData;
+            this.address = address;
+        }
 
         public Teacher build() {
             Teacher teacher = new Teacher(this);
