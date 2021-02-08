@@ -55,7 +55,7 @@ public class Secretary implements SecretarySkills {
                 .setAddress(address.getAddress())
                 .setTraineeLevel(level)
                 .build();
-        return null;
+        return trainee;
     }
 
     @Override

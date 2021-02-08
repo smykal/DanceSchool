@@ -15,24 +15,12 @@ public class Trainee {
         this.address = traineeBuilder.address;
     }
 
-    public Level getLevel() {
-        return level;
-    }
-
-    public PersonalData getPersonalData() {
-        return personalData;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
     @Override
     public String toString() {
         return "Trainee{" +
                 "level=" + level +
-                ", personalData=" + personalData +
-                ", address=" + address +
+                ", personalData=" + personalData.getName() + " " + personalData.getSurname() +
+                ", address=" + address.getAddress() +
                 '}';
     }
 

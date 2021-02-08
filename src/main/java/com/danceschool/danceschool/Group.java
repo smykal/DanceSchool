@@ -16,6 +16,19 @@ public class Group {
         this.level = level;
     }
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "teacher=" + teacher +
+                ", trainees=" + trainees +
+                ", level=" + level +
+                '}';
+    }
+
     public void addTrainee(Trainee trainee) {
         trainees.add(trainee);
     }

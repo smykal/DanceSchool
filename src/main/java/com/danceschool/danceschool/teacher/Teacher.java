@@ -32,8 +32,8 @@ public class Teacher {
     public String toString() {
         return "Teacher{" +
                 "level=" + level +
-                ", personalData=" + personalData +
-                ", address=" + address +
+                ", personalData=" + personalData.getName() + " " + personalData.getSurname() +
+                ", address=" + address.getAddress() +
                 '}';
     }
 
