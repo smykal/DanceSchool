@@ -1,35 +1,19 @@
 package com.danceschool.danceschool;
 
-import com.danceschool.danceschool.student.Trainee;
-import com.danceschool.danceschool.teacher.Teacher;
-
 import java.util.Set;
 
 public class Group {
-    private Teacher teacher;
-    private Set<Trainee> trainees;
-    private Level level;
+    Level level;
+    Teacher teacher;
+    Set<Student> studentSet;
 
-    public Group(Teacher teacher, Set<Trainee> trainees, Level level) {
-        this.teacher = teacher;
-        this.trainees = trainees;
+    public Group(Level level, Teacher teacher, Set<Student> studentSet) {
         this.level = level;
+        this.teacher = teacher;
+        this.studentSet = studentSet;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-                "teacher=" + teacher +
-                ", trainees=" + trainees +
-                ", level=" + level +
-                '}';
-    }
-
-    public void addTrainee(Trainee trainee) {
-        trainees.add(trainee);
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 }

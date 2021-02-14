@@ -1,18 +1,13 @@
 package com.danceschool.danceschool;
 
 public class Address {
-    private String address;
+    private String City;
+    private String Street;
+    private int code;
 
-    public Address(String address) {
-        this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String setAddress(String address) {
-        this.address = address;
-        return address;
+    public Address(String city, String street, int code) {
+        City = city;
+        Street = street;
+        this.code = code;
     }
 }
