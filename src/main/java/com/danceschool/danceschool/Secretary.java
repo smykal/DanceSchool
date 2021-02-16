@@ -54,9 +54,9 @@ public class Secretary implements ShowGroupMembers, ChangeTeacher, AddStudent, R
     @Override
     public void showGroupMembers(Group group) {
         System.out.println(group.getClass().getSimpleName() +"  " + group.getClass().getCanonicalName());
-        System.out.println(group.level);
-        System.out.println(group.teacher);
-        Iterator<Student> studentIterator = group.studentSet.iterator();
+        System.out.println(group.getLevel());
+        System.out.println(group.getTeacher());
+        Iterator<Student> studentIterator = group.getStudentSet().iterator();
         while (studentIterator.hasNext()) {
             System.out.println(studentIterator.next());
         }
@@ -70,11 +70,11 @@ public class Secretary implements ShowGroupMembers, ChangeTeacher, AddStudent, R
 
     @Override
     public void addStudent(Group group, Student student) {
-        group.studentSet.add(student);
+        group.getStudentSet().add(student);
     }
 
     @Override
     public void removeStudent(Group group, Student student) {
-        group.studentSet.remove(student);
+        group.getStudentSet().remove(student);
     }
 }

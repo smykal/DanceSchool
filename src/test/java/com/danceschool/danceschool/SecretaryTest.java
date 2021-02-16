@@ -18,14 +18,15 @@ class SecretaryTest {
     void showGroupMembersTest() {
         //given
         Secretary madzia = new Secretary.Builder(new PersonalData("Magdalena", "Manna")).build();
-        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"),Level.PROFFESIONAL).build();
+        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"), Level.PROFFESIONAL).build();
         Set<Student> studentSetAdam = new HashSet<>();
-        Group group01 = new Group(Level.AMATEUR,teacherAdam,studentSetAdam);
+        Group group01 = new Group(Level.AMATEUR, teacherAdam, studentSetAdam);
         Level actualLevel = group01.level;
 
         //when
-        madzia.addStudent(group01,new Student.Builder(new PersonalData("Janek", "Romanek"),Level.AMATEUR).build());
+        madzia.addStudent(group01, new Student.Builder(new PersonalData("Janek", "Romanek"), Level.AMATEUR).build());
         Level expectedLevel = Level.AMATEUR;
+
         //then
         assertEquals(actualLevel, expectedLevel);
     }
@@ -35,13 +36,13 @@ class SecretaryTest {
     void changeTeacherTest() {
         //given
         Secretary madzia = new Secretary.Builder(new PersonalData("Magdalena", "Manna")).build();
-        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"),Level.PROFFESIONAL).build();
+        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"), Level.PROFFESIONAL).build();
         Set<Student> studentSetAdam = new HashSet<>();
-        Group group01 = new Group(Level.AMATEUR,teacherAdam,studentSetAdam);
+        Group group01 = new Group(Level.AMATEUR, teacherAdam, studentSetAdam);
         Teacher actualTeacher = group01.teacher;
 
         //when
-        madzia.changeTeacher(group01,new Teacher.Builder(new PersonalData("Nowy","Nauczyciel"),Level.PROFFESIONAL).build());
+        madzia.changeTeacher(group01, new Teacher.Builder(new PersonalData("Nowy", "Nauczyciel"), Level.PROFFESIONAL).build());
         Teacher expectedTeacher = group01.teacher;
 
         //then
@@ -53,17 +54,17 @@ class SecretaryTest {
     void addStudentTest() {
         //given
         Secretary madzia = new Secretary.Builder(new PersonalData("Magdalena", "Manna")).build();
-        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"),Level.PROFFESIONAL).build();
+        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"), Level.PROFFESIONAL).build();
         Set<Student> studentSetAdam = new HashSet<>();
-        Group group01 = new Group(Level.AMATEUR,teacherAdam,studentSetAdam);
-        madzia.addStudent(group01,new Student.Builder(new PersonalData("Ania","Adamczyk"),Level.AMATEUR).build());
+        Group group01 = new Group(Level.AMATEUR, teacherAdam, studentSetAdam);
+        madzia.addStudent(group01, new Student.Builder(new PersonalData("Ania", "Adamczyk"), Level.AMATEUR).build());
         int actualSize = group01.studentSet.size();
         //when
-        madzia.addStudent(group01,new Student.Builder(new PersonalData("Jola","Mickiewicz"),Level.AMATEUR).build());
+        madzia.addStudent(group01, new Student.Builder(new PersonalData("Jola", "Mickiewicz"), Level.AMATEUR).build());
         int expectedSize = group01.studentSet.size();
 
         //then
-        assertTrue(expectedSize>actualSize);
+        assertTrue(expectedSize > actualSize);
 
     }
 
@@ -72,16 +73,16 @@ class SecretaryTest {
     void removeStudentTest() {
         //given
         Secretary madzia = new Secretary.Builder(new PersonalData("Magdalena", "Manna")).build();
-        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"),Level.PROFFESIONAL).build();
+        Teacher teacherAdam = new Teacher.Builder(new PersonalData("Adam", "Nalkowski"), Level.PROFFESIONAL).build();
         Set<Student> studentSetAdam = new HashSet<>();
-        Group group01 = new Group(Level.AMATEUR,teacherAdam,studentSetAdam);
-        madzia.addStudent(group01,new Student.Builder(new PersonalData("Ania","Adamczyk"),Level.AMATEUR).build());
+        Group group01 = new Group(Level.AMATEUR, teacherAdam, studentSetAdam);
+        madzia.addStudent(group01, new Student.Builder(new PersonalData("Ania", "Adamczyk"), Level.AMATEUR).build());
         int actualSize = group01.studentSet.size();
         //when
-        madzia.removeStudent(group01,new Student.Builder(new PersonalData("Ania","Adamczyk"),Level.AMATEUR).build());
+        madzia.removeStudent(group01, new Student.Builder(new PersonalData("Ania", "Adamczyk"), Level.AMATEUR).build());
         int expectedSize = group01.studentSet.size();
 
         //then
-        assertTrue(expectedSize<actualSize);
+        assertTrue(expectedSize < actualSize);
     }
 }
