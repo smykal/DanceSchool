@@ -3,11 +3,12 @@ package com.danceschool.danceschool.data;
 public class PersonalData {
     private String name;
     private String surname;
-    private Address address;
+    private String address;
 
-    public PersonalData(String name, String surname) {
+    public PersonalData(String name, String surname,String address) {
         this.name = name;
         this.surname = surname;
+        this.address = address;
     }
 
     public void setName(String name) {

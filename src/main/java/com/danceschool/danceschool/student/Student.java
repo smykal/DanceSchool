@@ -3,13 +3,13 @@ package com.danceschool.danceschool.student;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
-;
-
 public class Student {
-
     private PersonalData personalData;
     private Level level;
 
+    public String getSurname() {
+        return personalData.getSurname();
+    }
     public static class Builder {
 
         private PersonalData personalData;
@@ -18,9 +18,8 @@ public class Student {
         public Builder() {
         }
 
-        public Builder(PersonalData personalData, Level level) {
+        public Builder(PersonalData personalData) {
             this.personalData = personalData;
-            this.level = level;
         }
 
         public Builder personalData(PersonalData personalData){
