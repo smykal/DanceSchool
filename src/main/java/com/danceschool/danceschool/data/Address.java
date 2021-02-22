@@ -1,4 +1,4 @@
-package com.danceschool.danceschool;
+package com.danceschool.danceschool.data;
 
 public class Address {
     private String City;

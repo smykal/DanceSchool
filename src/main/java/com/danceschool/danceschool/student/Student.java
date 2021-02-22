@@ -1,4 +1,9 @@
-package com.danceschool.danceschool;;
+package com.danceschool.danceschool.student;
+
+import com.danceschool.danceschool.data.Level;
+import com.danceschool.danceschool.data.PersonalData;
+
+;
 
 public class Student {
 
@@ -13,7 +18,7 @@ public class Student {
         public Builder() {
         }
 
-        Builder(PersonalData personalData, Level level) {
+        public Builder(PersonalData personalData, Level level) {
             this.personalData = personalData;
             this.level = level;
         }
@@ -29,12 +34,6 @@ public class Student {
         }
 
         public Student build() {
-            if(this.personalData == null){
-                throw new NullPointerException("The property \"personalData\" is null. "
-                        + "Please set the value by \"personalData()\". "
-                        + "The property \"personalData\" is required.");
-            }
-
             return new Student(this);
         }
     }
@@ -42,10 +41,6 @@ public class Student {
     private Student(Builder builder) {
         this.personalData = builder.personalData;
         this.level = builder.level;
-    }
-
-    public void doSomething() {
-        // do something
     }
 
     @Override

@@ -1,4 +1,7 @@
-package com.danceschool.danceschool;
+package com.danceschool.danceschool.data;
+
+import com.danceschool.danceschool.student.Student;
+import com.danceschool.danceschool.teacher.Teacher;
 
 import java.util.Set;
 
