@@ -8,6 +8,6 @@ public interface StudentRepository {
 
     void createStudent(PersonalData personalData, Level level);
     Student readStudent(String surname);
-    void updateStudent(PersonalData oldPersonalData, PersonalData newPersonalData, Level newLevel);
+    void updateStudent(String surname, PersonalData newPersonalData, Level newLevel);
     void deleteStudent(String surname);
 }

@@ -10,6 +10,8 @@ public class Student {
     public String getSurname() {
         return personalData.getSurname();
     }
+    public String getName() { return personalData.getName(); }
+
     public static class Builder {
 
         private PersonalData personalData;

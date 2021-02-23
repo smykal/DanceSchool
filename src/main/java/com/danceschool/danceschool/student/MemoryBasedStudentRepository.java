@@ -20,29 +20,44 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     @Override
     public Student readStudent(String surname) {
+        int j = 0;
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
 
             if (student.getSurname().equals(surname) == true) {
+                System.out.println("Student: " + student + " " + student.toString());
                 return student;
+            }
+        }
+        throw new IllegalStateException("Not found student with surname: " + surname);
+
+    }
+
+    @Override
+    public void updateStudent(String surname, PersonalData newPersonalData, Level newLevel) {
+        Student newStudent = new Student.Builder(newPersonalData)
+                .level(newLevel)
+                .build();
+        for (int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+            if (student.getSurname().equals(surname) == true) {
+                System.out.println("old student: " + student.toString());
+                studentList.set(i,newStudent);
+                System.out.println("new student: " + newStudent.toString());
             }
         }
         throw new IllegalStateException("Not found student with surname: " + surname);
     }
 
     @Override
-    public void updateStudent(PersonalData oldPersonalData, PersonalData newPersonalData, Level newLevel) {
-//        for (int i = 0; i < studentList.size(); i++) {
-//            Student student = studentList.get(i);
-//
-//            if (student.getSurname().equals(surname) == true) {
-//                studentList.set(i,student);
-//            }
-//        }
-    }
-
-    @Override
     public void deleteStudent(String surname) {
-
+        for (int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+            if (student.getSurname().equals(surname) == true) {
+                System.out.println("Student to remove: " + student.toString());
+                studentList.remove(i);
+            }
+        }
+        throw new IllegalStateException("Not found student with surname: " + surname);
     }
 }
