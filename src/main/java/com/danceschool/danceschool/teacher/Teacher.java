@@ -3,24 +3,25 @@ package com.danceschool.danceschool.teacher;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
-;
-
 public class Teacher {
 
     private PersonalData personalData;
     private Level level;
+
+    public String getSurname() { return personalData.getSurname(); }
 
     public static class Builder {
 
         private PersonalData personalData;
         private Level level;
 
+
+
         public Builder() {
         }
 
-        public Builder(PersonalData personalData, Level level) {
+        public Builder(PersonalData personalData) {
             this.personalData = personalData;
-            this.level = level;
         }
 
         public Builder personalData(PersonalData personalData){
@@ -41,10 +42,6 @@ public class Teacher {
     private Teacher(Builder builder) {
         this.personalData = builder.personalData;
         this.level = builder.level;
-    }
-
-    public void doSomething() {
-        // do something
     }
 
     @Override

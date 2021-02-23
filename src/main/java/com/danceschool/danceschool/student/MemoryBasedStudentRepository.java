@@ -20,7 +20,6 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     @Override
     public Student readStudent(String surname) {
-        int j = 0;
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
 
