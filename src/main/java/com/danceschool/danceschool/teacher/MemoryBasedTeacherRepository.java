@@ -8,6 +8,12 @@ import java.util.List;
 
 public class MemoryBasedTeacherRepository implements TeacherRepository{
     private List<Teacher> teacherList = new ArrayList<>();
+    private static final MemoryBasedTeacherRepository memoryBasedTeacherRepositoryInstance = new MemoryBasedTeacherRepository();
+    private MemoryBasedTeacherRepository() {
+    }
+    public static MemoryBasedTeacherRepository getMemoryBasedTeacherRepositoryInstance(){
+        return memoryBasedTeacherRepositoryInstance;
+    }
 
     @Override
     public void createTeacher(PersonalData personalData, Level level) {

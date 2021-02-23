@@ -10,7 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DanceSchoolApplication {
     public static void main(String[] args) {
         Secretary madzia = new Secretary(new PersonalData("Imie", "Nazwisko", "Adres"),
-                new MemoryBasedStudentRepository(), new MemoryBasedTeacherRepository());
+                MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance(),
+                MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance());
+
+
         madzia.menu();
         // SpringApplication.run(DanceSchoolApplication.class, args);
     }

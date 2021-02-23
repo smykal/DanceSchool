@@ -6,8 +6,15 @@ import com.danceschool.danceschool.data.PersonalData;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MemoryBasedStudentRepository implements StudentRepository{
     private List<Student> studentList = new ArrayList<>();
+    private static final MemoryBasedStudentRepository memoryBasedStudentRepositoryInstance = new MemoryBasedStudentRepository();
+    private MemoryBasedStudentRepository(){
+    }
+    public static MemoryBasedStudentRepository getMemoryBasedStudentRepositoryInstance(){
+        return memoryBasedStudentRepositoryInstance;
+    }
 
     @Override
     public void createStudent(PersonalData personalData, Level level) {
@@ -29,7 +36,6 @@ public class MemoryBasedStudentRepository implements StudentRepository{
             }
         }
         throw new IllegalStateException("Not found student with surname: " + surname);
-
     }
 
     @Override

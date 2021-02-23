@@ -21,7 +21,7 @@ public class Secretary {
     public void menu(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wybierz: ");
-        System.out.println("1 - aby bawić się z nauczycielkami");
+        System.out.println("1 - aby zarządzać studentami/studentkami");
         System.out.println("2 - aby pewnie pozwalniać belfrów");
         System.out.println("0 - aby zakończyć");
         String option = scanner.nextLine();
