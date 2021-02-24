@@ -18,12 +18,16 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     @Override
     public void createStudent(PersonalData personalData, Level level) {
-        Student student = new Student.Builder(personalData)
-                .level(level)
-                .build();
-        studentList.add(student);
-        System.out.println("add student: " + student.toString());
-    }
+       try {
+           Student student = new Student.Builder(personalData)
+                   .level(level)
+                   .build();
+           studentList.add(student);
+           System.out.println("add student: " + student.toString());
+       } catch (IllegalArgumentException n)
+       { System.out.println("error - cos zjebanego w podanych danych"); }
+       }
+
 
     @Override
     public Student readStudent(String surname) {
