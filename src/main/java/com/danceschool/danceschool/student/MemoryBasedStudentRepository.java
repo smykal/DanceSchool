@@ -9,11 +9,12 @@ import java.util.List;
 
 public class MemoryBasedStudentRepository implements StudentRepository{
     private List<Student> studentList = new ArrayList<>();
-    private static final MemoryBasedStudentRepository memoryBasedStudentRepositoryInstance = new MemoryBasedStudentRepository();
+    private static final MemoryBasedStudentRepository MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE = new MemoryBasedStudentRepository();
     private MemoryBasedStudentRepository(){
     }
+    
     public static MemoryBasedStudentRepository getMemoryBasedStudentRepositoryInstance(){
-        return memoryBasedStudentRepositoryInstance;
+        return MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE;
     }
 
     @Override

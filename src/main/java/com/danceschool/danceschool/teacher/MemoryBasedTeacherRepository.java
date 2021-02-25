@@ -8,11 +8,12 @@ import java.util.List;
 
 public class MemoryBasedTeacherRepository implements TeacherRepository{
     private List<Teacher> teacherList = new ArrayList<>();
-    private static final MemoryBasedTeacherRepository memoryBasedTeacherRepositoryInstance = new MemoryBasedTeacherRepository();
+    private static final MemoryBasedTeacherRepository MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE = new MemoryBasedTeacherRepository();
     private MemoryBasedTeacherRepository() {
     }
+
     public static MemoryBasedTeacherRepository getMemoryBasedTeacherRepositoryInstance(){
-        return memoryBasedTeacherRepositoryInstance;
+        return MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE;
     }
 
     @Override
@@ -24,7 +25,6 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
         teacherList.add(teacher);
         System.out.println("Add element: " + teacher.getClass().getSimpleName());
         System.out.println(teacher.toString());
-
     }
 
     @Override
@@ -45,10 +45,9 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
                     .level(newLevel)
                     .build();
             if (teacher.getSurname().equals(surname) == true) {
-                teacherList.set(i,teacher);
+                teacherList.set(i, teacher);
             }
         }
-
     }
 
     @Override

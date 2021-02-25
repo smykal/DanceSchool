@@ -18,7 +18,8 @@ public class Secretary {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
     }
-    public void menu(){
+
+    public void menu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wybierz: ");
         System.out.println("1 - aby zarządzać studentami/studentkami");
@@ -39,6 +40,7 @@ public class Secretary {
                 System.out.println("Wszystko źle, z tego nic nie będzie");
         }
     }
+
     public void crudForStudent() {
         System.out.println("Wybierz cyfrę: 1, 2, 3 lub 4 aby odpowiednio:");
         System.out.println("1 - dodaj nowego studenta");
@@ -64,6 +66,7 @@ public class Secretary {
                 System.out.println("you choose badly");
         }
     }
+
     public void crudForTeacher() {
         System.out.println("Wybierz cyfrę: 1, 2, 3 lub 4 aby odpowiednio:");
         System.out.println("1 - dodaj nowego nauczyciela");
@@ -101,7 +104,7 @@ public class Secretary {
             String registerStudentLevel = scanner.nextLine();
             System.out.println("give address: ");
             String registerStudentAddress = scanner.nextLine();
-            PersonalData personalData = new PersonalData(registerStudentName,registerStudentSurname,registerStudentAddress);
+            PersonalData personalData = new PersonalData(registerStudentName, registerStudentSurname, registerStudentAddress);
             Level level = Level.valueOf(registerStudentLevel);
             studentRepository.createStudent(personalData, level);
         } catch (IllegalArgumentException exception) {
@@ -116,7 +119,8 @@ public class Secretary {
         String surname = scanner.nextLine();
         studentRepository.readStudent(surname);
     }
-    public void updateStudentInfo(){
+
+    public void updateStudentInfo() {
         System.out.println("give surname of student to upgrade his data");
         Scanner scanner = new Scanner(System.in);
         String surname = scanner.nextLine();
@@ -129,12 +133,13 @@ public class Secretary {
         String newAddress = scanner.nextLine();
         System.out.println("give new level");
         String newLevelStudent = scanner.nextLine();
-        PersonalData newPersonalData = new PersonalData(newName,newSurname,newAddress);
+        PersonalData newPersonalData = new PersonalData(newName, newSurname, newAddress);
         Level newLevel = Level.valueOf(newLevelStudent);
-        studentRepository.updateStudent(surname,personalData,newLevel);
+        studentRepository.updateStudent(surname, personalData, newLevel);
 
     }
-    public void deleteStudent(){
+
+    public void deleteStudent() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of student to delete: ");
         String surname = scanner.nextLine();
@@ -151,22 +156,23 @@ public class Secretary {
         String address = scanner.nextLine();
         System.out.println("give teacher level: ");
         String teacherLevel = scanner.nextLine();
-        PersonalData personalData = new PersonalData(name,surname,address);
+        PersonalData personalData = new PersonalData(name, surname, address);
         Level level = Level.valueOf(teacherLevel);
         Teacher teacher = new Teacher.Builder()
                 .personalData(personalData)
                 .level(level)
                 .build();
-        teacherRepository.createTeacher(personalData,level);
+        teacherRepository.createTeacher(personalData, level);
     }
-    public void printTeacherInfo(){
+
+    public void printTeacherInfo() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of teacher to show");
         String surname = scanner.nextLine();
         teacherRepository.readTeacher(surname);
     }
 
-    public void updateTeacherInfo(){
+    public void updateTeacherInfo() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of teacher whose data to change ");
         String surname = scanner.nextLine();
@@ -178,9 +184,9 @@ public class Secretary {
         String newAddress = scanner.nextLine();
         System.out.println("give new level");
         String newLevel = scanner.nextLine();
-        PersonalData personalData = new PersonalData(newName,newSurname,newAddress);
+        PersonalData personalData = new PersonalData(newName, newSurname, newAddress);
         Level level = Level.valueOf(newLevel);
-        teacherRepository.updateTeacher(surname,personalData,level);
+        teacherRepository.updateTeacher(surname, personalData, level);
     }
 
     public void removeTeacher() {
