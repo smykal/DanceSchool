@@ -91,18 +91,23 @@ public class Secretary {
     }
 
     public void registerStudent() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("give name: ");
-        String registerStudentName = scanner.nextLine();
-        System.out.println("give surname: ");
-        String registerStudentSurname = scanner.nextLine();
-        System.out.println("give level: ");
-        String registerStudentLevel = scanner.nextLine();
-        System.out.println("give address: ");
-        String registerStudentAddress = scanner.nextLine();
-        PersonalData personalData = new PersonalData(registerStudentName,registerStudentSurname,registerStudentAddress);
-        Level level = Level.valueOf(registerStudentLevel);
-        studentRepository.createStudent(personalData, level);
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("give name: ");
+            String registerStudentName = scanner.nextLine();
+            System.out.println("give surname: ");
+            String registerStudentSurname = scanner.nextLine();
+            System.out.println("give level: ");
+            String registerStudentLevel = scanner.nextLine();
+            System.out.println("give address: ");
+            String registerStudentAddress = scanner.nextLine();
+            PersonalData personalData = new PersonalData(registerStudentName,registerStudentSurname,registerStudentAddress);
+            Level level = Level.valueOf(registerStudentLevel);
+            studentRepository.createStudent(personalData, level);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Nieprawidłowy rodzaj Enuma: " + exception.getMessage());
+        }
+
     }
 
     public void printStudentInfo() {

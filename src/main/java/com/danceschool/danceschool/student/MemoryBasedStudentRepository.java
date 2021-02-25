@@ -18,14 +18,11 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     @Override
     public void createStudent(PersonalData personalData, Level level) {
-       try {
-           Student student = new Student.Builder(personalData)
-                   .level(level)
-                   .build();
-           studentList.add(student);
-           System.out.println("add student: " + student.toString());
-       } catch (IllegalArgumentException n)
-       { System.out.println("error - cos zjebanego w podanych danych"); }
+               Student student = new Student.Builder(personalData)
+                       .level(level)
+                       .build();
+               studentList.add(student);
+               System.out.println("add student: " + student.toString());
        }
 
 
@@ -39,7 +36,8 @@ public class MemoryBasedStudentRepository implements StudentRepository{
                 return student;
             }
         }
-        throw new IllegalStateException("Not found student with surname: " + surname);
+        //tak tylko aby działało
+        return null;
     }
 
     @Override
@@ -55,7 +53,6 @@ public class MemoryBasedStudentRepository implements StudentRepository{
                 System.out.println("new student: " + newStudent.toString());
             }
         }
-        throw new IllegalStateException("Not found student with surname: " + surname);
     }
 
     @Override
@@ -67,6 +64,9 @@ public class MemoryBasedStudentRepository implements StudentRepository{
                 studentList.remove(i);
             }
         }
-        throw new IllegalStateException("Not found student with surname: " + surname);
+    }
+
+    public List<Student> getStudentList() {
+        return studentList;
     }
 }

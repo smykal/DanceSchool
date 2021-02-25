@@ -2,50 +2,50 @@ package com.danceschool.danceschool;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
-import com.danceschool.danceschool.student.Student;
+import com.danceschool.danceschool.student.MemoryBasedStudentRepository;
+import com.danceschool.danceschool.student.StudentRepository;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class MemoryBasedStudentRepositoryTest {
     @Test
     @DisplayName("should create student when get correct data")
-    public void createStudentWithCorrectDataTest() {
-        //given empty studentList and correct PersonalData object
-        List<Student> studentList = new ArrayList<>();
+    public void shouldAddStudentToStudentList() {
+        //given correct PersonalData object and correct enum Level
         PersonalData personalData = new PersonalData("Name","Surname", "Address");
         Level level = Level.valueOf("AMATEUR");
 
         //when add a new student with correct fields
-        studentList.add(new Student.Builder()
-                .personalData(personalData)
-                .level(level)
-                .build());
-        int expectedSize = studentList.size();
-        int actualSize = 1;
+        StudentRepository repositoryInstance = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance();
+        repositoryInstance.createStudent(personalData,level);
+        int actualSize = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance().getStudentList().size();
+
 
         //then studentList should be one size bigger than before
-        assertEquals(expectedSize,actualSize);
+        assertEquals(1,actualSize);
     }
+
     @Test
-    @DisplayName("should print message when get wrong PersonalData ")
-    public void createStudentWithoutCorrectDataTest() {
-        //given empty studentList and wrong PersonalData object
-        List<Student> studentList = new ArrayList<>();
+    @DisplayName("should remove student from studentList")
+    public void shouldRemoveStudentFromStudentList() {
+        //given
         PersonalData personalData = new PersonalData(null,"Surname", "Address");
         Level level = Level.valueOf("AMATEUR");
-
-        //when add a new student with wrong PersonalData fields
-        studentList.add(new Student.Builder()
-                .personalData(personalData)
-                .level(level)
-                .build());
-
-        //then should give back error with message
-        assertEquals();
+        StudentRepository repositoryInstance = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance();
+        repositoryInstance.createStudent(personalData,level);
+        String surname = "Surname";
+        //when
+        repositoryInstance.deleteStudent(surname);
+        //than
+        int expectedSize = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance().getStudentList().size();
+        assertEquals(0,expectedSize);
     }
+    
 }
 
