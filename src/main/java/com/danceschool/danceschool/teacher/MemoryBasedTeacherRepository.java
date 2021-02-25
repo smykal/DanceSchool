@@ -16,6 +16,8 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
         return MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE;
     }
 
+    public List<Teacher> getTeacherList() { return teacherList; }
+
     @Override
     public void createTeacher(PersonalData personalData, Level level) {
         Teacher teacher = new Teacher.Builder()
@@ -40,12 +42,13 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
     @Override
     public void updateTeacher(String surname, PersonalData newPersonalData, Level newLevel) {
         for (int i = 0; i < teacherList.size(); i++) {
-            Teacher teacher = new Teacher.Builder()
-                    .personalData(newPersonalData)
-                    .level(newLevel)
-                    .build();
-            if (teacher.getSurname().equals(surname) == true) {
+            if (teacherList.get(i).getSurname().equals(surname)) {
+                Teacher teacher = new Teacher.Builder()
+                        .personalData(newPersonalData)
+                        .level(newLevel)
+                        .build();
                 teacherList.set(i, teacher);
+                System.out.println(teacher.toString());
             }
         }
     }
@@ -53,10 +56,10 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
     @Override
     public void deleteTeacher(String surname) {
         for (int i = 0; i < teacherList.size(); i++) {
-            Teacher teacher = teacherList.get(i);
-            if (teacher.getSurname().equals(surname) == true) {
-                System.out.println("teacher for remove: " + teacher.getClass().getSimpleName());
-                System.out.println("teacher for remove: " + teacher.toString());
+
+            if (teacherList.get(i).getSurname().equals(surname)) {
+                System.out.println("teacher for remove: " + teacherList.get(i).getClass().getSimpleName());
+                System.out.println("teacher for remove: " + teacherList.get(i).toString());
                 teacherList.remove(i);
             }
         }

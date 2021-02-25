@@ -12,7 +12,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
     private static final MemoryBasedStudentRepository MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE = new MemoryBasedStudentRepository();
     private MemoryBasedStudentRepository(){
     }
-    
+
     public static MemoryBasedStudentRepository getMemoryBasedStudentRepositoryInstance(){
         return MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE;
     }
@@ -28,17 +28,14 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
 
     @Override
-    public Student readStudent(String surname) {
+    public void readStudent(String surname) {
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
 
             if (student.getSurname().equals(surname) == true) {
                 System.out.println("Student: " + student + " " + student.toString());
-                return student;
             }
         }
-        //tak tylko aby działało
-        return null;
     }
 
     @Override

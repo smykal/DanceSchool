@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class MemoryBasedStudentRepositoryTest {
+public class MemoryBasedStudentRepositoryTests {
     @Test
     @DisplayName("should create student when get correct data")
     public void shouldAddStudentToStudentList() {
@@ -46,6 +46,6 @@ public class MemoryBasedStudentRepositoryTest {
         int expectedSize = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance().getStudentList().size();
         assertEquals(0,expectedSize);
     }
-    
+
 }
 

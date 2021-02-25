@@ -7,7 +7,7 @@ public interface StudentRepository {
 
 
     void createStudent(PersonalData personalData, Level level);
-    Student readStudent(String surname);
+    void readStudent(String surname);
     void updateStudent(String surname, PersonalData newPersonalData, Level newLevel);
     void deleteStudent(String surname);
 }
