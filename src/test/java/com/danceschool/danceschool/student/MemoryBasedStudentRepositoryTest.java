@@ -14,21 +14,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-class MemoryBasedStudentRepositoryTests {
+public class MemoryBasedStudentRepositoryTest {
 
     @BeforeEach
     public void setUp() {
         System.out.println("preparation");
         PersonalData personalData = new PersonalData("name", "surname", "address");
         Level level = Level.AMATEUR;
-        MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
+        MemoryBasedStudentRepository
+                .getMemoryBasedStudentRepositoryInstance()
                 .createStudent(personalData, level);
     }
 
     @AfterEach
     public void tearDown() {
-        MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
-                .getStudentList().clear();
+        MemoryBasedStudentRepository
+                .getMemoryBasedStudentRepositoryInstance()
+                .deleteAllStudents();
         System.out.println("fin \n");
     }
 
@@ -47,19 +49,31 @@ class MemoryBasedStudentRepositoryTests {
     }
 
     @Test
-    @DisplayName("should create second student when get correct data")
+    @DisplayName("should add second student to student list")
     public void shouldAddSecondStudentToStudentList() {
         //given
-        PersonalData personalData = new PersonalData("name2", "surname2", "address2");
+        PersonalData personalData = new PersonalData("studentTestName",
+                "studentTestSurname", "studentTestAddress");
         Level level = Level.AMATEUR;
         MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
                 .createStudent(personalData, level);
+        Student expectedStudent = new Student.Builder()
+                .personalData(personalData)
+                .level(level)
+                .build();
         //when
         int actualSize = MemoryBasedStudentRepository
                 .getMemoryBasedStudentRepositoryInstance()
                 .getStudentList().size();
+
+        Student actualStudent = MemoryBasedStudentRepository
+                .getMemoryBasedStudentRepositoryInstance()
+                .getStudentList()
+                .get(1);
+
         //then
         assertEquals(2, actualSize);
+        assertEquals(expectedStudent,actualStudent);
     }
 
 

@@ -6,17 +6,20 @@ import com.danceschool.danceschool.data.PersonalData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemoryBasedTeacherRepository implements TeacherRepository{
+public class MemoryBasedTeacherRepository implements TeacherRepository {
     private List<Teacher> teacherList = new ArrayList<>();
     private static final MemoryBasedTeacherRepository MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE = new MemoryBasedTeacherRepository();
+
     private MemoryBasedTeacherRepository() {
     }
 
-    public static MemoryBasedTeacherRepository getMemoryBasedTeacherRepositoryInstance(){
+    public static MemoryBasedTeacherRepository getMemoryBasedTeacherRepositoryInstance() {
         return MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE;
     }
 
-    public List<Teacher> getTeacherList() { return teacherList; }
+    public List<Teacher> getTeacherList() {
+        return teacherList;
+    }
 
     @Override
     public void createTeacher(PersonalData personalData, Level level) {
@@ -56,7 +59,6 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
     @Override
     public void deleteTeacher(String surname) {
         for (int i = 0; i < teacherList.size(); i++) {
-
             if (teacherList.get(i).getSurname().equals(surname)) {
                 System.out.println("teacher for remove: " + teacherList.get(i).getClass().getSimpleName());
                 System.out.println("teacher for remove: " + teacherList.get(i).toString());

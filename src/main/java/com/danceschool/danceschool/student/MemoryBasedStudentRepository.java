@@ -9,7 +9,8 @@ import java.util.List;
 
 public class MemoryBasedStudentRepository implements StudentRepository{
     private List<Student> studentList = new ArrayList<>();
-    private static final MemoryBasedStudentRepository MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE = new MemoryBasedStudentRepository();
+    private static final MemoryBasedStudentRepository MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE =
+            new MemoryBasedStudentRepository();
     private MemoryBasedStudentRepository(){
     }
 
@@ -65,7 +66,13 @@ public class MemoryBasedStudentRepository implements StudentRepository{
     }
 
     public List<Student> getStudentList() {
-        return studentList;
+        List<Student> studentListCopy = new ArrayList<>();
+        studentListCopy.addAll(studentList);
+        return studentListCopy;
+    }
+
+    public void deleteAllStudents() {
+        studentList.clear();
     }
 
     @Override
