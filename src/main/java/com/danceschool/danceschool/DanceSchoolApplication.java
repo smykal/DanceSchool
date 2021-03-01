@@ -8,16 +8,18 @@ import java.io.IOException;
 @SpringBootApplication
 public class DanceSchoolApplication {
     public static void main(String[] args) throws IOException {
-//        Secretary madzia = new Secretary(new PersonalData("Imie", "Nazwisko", "Adres"),
-//                MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance(),
-//                MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance());
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .createNewStudentList();
+        try {
+            FileBasedStudentRepository
+                    .getFileBasedStudentRepositoryInstance()
+                    .createNewStudentList();
 
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .deleteNewCsvStudentList();
+            FileBasedStudentRepository
+                    .getFileBasedStudentRepositoryInstance()
+                    .deleteNewCsvStudentList();
+        } catch (IOException exception) {
+            System.out.println(exception);
+        }
+
 
         // SpringApplication.run(DanceSchoolApplication.class, args);
     }
