@@ -34,7 +34,7 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
         for (int i = 0; i < teacherList.size(); i++) {
             Teacher teacher = teacherList.get(i);
             if (teacher.getSurname().equals(surname) == true) {
-                System.out.println(teacher.toString());
+                System.out.println("READ: " + teacher.toString());
             }
         }
     }
@@ -48,7 +48,7 @@ public class MemoryBasedTeacherRepository implements TeacherRepository{
                         .level(newLevel)
                         .build();
                 teacherList.set(i, teacher);
-                System.out.println(teacher.toString());
+                System.out.println("Updated teacher: " + teacher.toString());
             }
         }
     }

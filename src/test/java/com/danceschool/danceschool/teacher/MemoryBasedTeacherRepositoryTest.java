@@ -2,79 +2,102 @@ package com.danceschool.danceschool.teacher;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryBasedTeacherRepositoryTest {
 
-    @Test
-
-    void createTeacher() {
-        //given
-        PersonalData personalData = new PersonalData("name", "surname", "address");
-        Level level = Level.AMATEUR;
-        //when
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().createTeacher(personalData,level);
-        int actualTeacherListSize = MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().getTeacherList().size();
-        //than
-        assertEquals(1,actualTeacherListSize);
-
+    @BeforeEach
+    public void setUp() {
+        System.out.println("Start Test");
+        PersonalData personalData = new PersonalData("teacherName", "teacherSurname", "teacherAddress" );
+        Level teacherLevel = Level.AMATEUR;
+        MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .createTeacher(personalData,teacherLevel);
+    }
+    @AfterEach
+    public void tearDown() {
+        MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .getTeacherList()
+                .clear();
+        System.out.println("Finish test \n");
     }
 
     @Test
-    void readTeacher() {
+    @DisplayName("should add new teacher to teacherList and increase teacherList to 1")
+    public void shouldCreateTeacher() {
         //given
-        PersonalData personalData = new PersonalData("name", "surname", "address");
-        Level level = Level.AMATEUR;
-        String surname = "surname";
+            //section @BeforeEach provide this part
+
         //when
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().createTeacher(
-                personalData,
-                level);
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().readTeacher(surname);
+        int actualSize = MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .getTeacherList()
+                .size();
+
         //than
-        //??
+        assertEquals(1,actualSize);
     }
 
     @Test
-    void updateTeacher() {
+    @DisplayName("should show content of teacher")
+    public void shouldReadTeacher() {
         //given
-        PersonalData personalData = new PersonalData("name", "surname",  "address");
-        PersonalData newPersonalData = new PersonalData("newName", "newSurname", "newAddress");
-        Level level = Level.AMATEUR;
-        Level newLevel = Level.PROFESSIONAL;
-        String surname = "surname";
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().createTeacher(
-                personalData,
-                level);
-        String actualName = MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().getTeacherList().get(0).getSurname();
+        String surnameOfTeacherToRead = "teacherSurname";
+        MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .readTeacher(surnameOfTeacherToRead);
         //when
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().updateTeacher(
-                surname,
-                newPersonalData,
-                newLevel );
+        String actualSurname = MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .getTeacherList()
+                .get(0)
+                .getSurname();
+
         //than
-        //fuck
+        assertEquals("teacherSurname", actualSurname);
     }
 
     @Test
-    void deleteTeacher() {
+    @DisplayName("should change surname of teacher to \"private Kowalski\"")
+    public void shouldUpdateTeacher() {
         //given
-        PersonalData personalData = new PersonalData("name", "surname",  "address");
-        PersonalData newPersonalData = new PersonalData("newName", "newSurname", "newAddress");
-        Level level = Level.AMATEUR;
-        Level newLevel = Level.PROFESSIONAL;
-        String surname = "surname";
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().createTeacher(
-                personalData,
-                level);
+        String teacherToChange = "teacherSurname";
+        PersonalData newPersonalData = new PersonalData("szeregowy Kowalski", "private Kowalski", "Nowy address");
         //when
-        MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().deleteTeacher(surname);
-        int actualSize = MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().getTeacherList().size();
+        MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .updateTeacher(teacherToChange, newPersonalData,Level.PROFESSIONAL);
+        String actualSurname = MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .getTeacherList()
+                .get(0)
+                .getSurname();
+        //than
+        assertEquals("private Kowalski", actualSurname);
+    }
 
+    @Test
+    @DisplayName("should delete teacher and left empty teacherList")
+    public void shouldDeleteTeacher() {
+        //given
+        String surnameToDelete = "teacherSurname";
+        //when
+        MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .deleteTeacher(surnameToDelete);
+        int actualSize = MemoryBasedTeacherRepository
+                .getMemoryBasedTeacherRepositoryInstance()
+                .getTeacherList()
+                .size();
         //than
         assertEquals(0,actualSize);
-
     }
+
+
 }

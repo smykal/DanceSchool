@@ -1,9 +1,8 @@
-package com.danceschool.danceschool;
+package com.danceschool.danceschool.student;
+
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
-import com.danceschool.danceschool.student.MemoryBasedStudentRepository;
-import com.danceschool.danceschool.student.Student;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class MemoryBasedStudentRepositoryTests {
+class MemoryBasedStudentRepositoryTests {
 
     @BeforeEach
-    public void prepareEach(){
+    public void setUp() {
         System.out.println("preparation");
         PersonalData personalData = new PersonalData("name", "surname", "address");
         Level level = Level.AMATEUR;
@@ -27,7 +26,7 @@ public class MemoryBasedStudentRepositoryTests {
     }
 
     @AfterEach
-    public void finishEach(){
+    public void tearDown() {
         MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
                 .getStudentList().clear();
         System.out.println("fin \n");
@@ -44,7 +43,7 @@ public class MemoryBasedStudentRepositoryTests {
                 .getStudentList().size();
 
         //then
-        assertEquals(1,actualSize);
+        assertEquals(1, actualSize);
     }
 
     @Test
@@ -60,7 +59,7 @@ public class MemoryBasedStudentRepositoryTests {
                 .getMemoryBasedStudentRepositoryInstance()
                 .getStudentList().size();
         //then
-        assertEquals(2,actualSize);
+        assertEquals(2, actualSize);
     }
 
 
@@ -79,7 +78,7 @@ public class MemoryBasedStudentRepositoryTests {
 
     @Test
     @DisplayName("should change \"name2\" to \"newName\", same with surname2 and address2")
-    public void shouldReplacePersonalData(){
+    public void shouldReplacePersonalData() {
         //given
         PersonalData personalData = new PersonalData("name2", "surname2", "address2");
         Level level = Level.AMATEUR;
@@ -91,13 +90,13 @@ public class MemoryBasedStudentRepositoryTests {
 
         //when
         MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
-                .updateStudent(surnameToEdition,newPersonalData,Level.PROFESSIONAL);
+                .updateStudent(surnameToEdition, newPersonalData, Level.PROFESSIONAL);
         String actualName = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
                 .getStudentList().get(1).getName();
         String expectedName = newPersonalData.getName();
 
         //than
-        assertEquals(expectedName,actualName);
+        assertEquals(expectedName, actualName);
     }
 
     @Test
@@ -115,9 +114,6 @@ public class MemoryBasedStudentRepositoryTests {
                 .getStudentList()
                 .size();
         //than
-        assertEquals(0,actualSize);
-
-
+        assertEquals(0, actualSize);
     }
 }
-
