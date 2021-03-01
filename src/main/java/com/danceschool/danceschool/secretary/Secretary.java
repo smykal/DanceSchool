@@ -19,80 +19,6 @@ public class Secretary {
         this.teacherRepository = teacherRepository;
     }
 
-    public void menu() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wybierz: ");
-        System.out.println("1 - aby zarządzać studentami/studentkami");
-        System.out.println("2 - aby pewnie pozwalniać belfrów");
-        System.out.println("0 - aby zakończyć");
-        String option = scanner.nextLine();
-        switch (option) {
-            case "1":
-                crudForStudent();
-                break;
-            case "2":
-                crudForTeacher();
-                break;
-            case "0":
-                System.out.println("Fin");
-                break;
-            default:
-                System.out.println("Wszystko źle, z tego nic nie będzie");
-        }
-    }
-
-    public void crudForStudent() {
-        System.out.println("Wybierz cyfrę: 1, 2, 3 lub 4 aby odpowiednio:");
-        System.out.println("1 - dodaj nowego studenta");
-        System.out.println("2 - pokaż informacje o studnecie");
-        System.out.println("3 - aktualizuj informacje o studnecie");
-        System.out.println("4 - usuń studnenta");
-        Scanner scanner = new Scanner(System.in);
-        String chooseAct = scanner.nextLine();
-        switch (chooseAct) {
-            case "1":
-                registerStudent();
-                break;
-            case "2":
-                printStudentInfo();
-                break;
-            case "3":
-                updateStudentInfo();
-                break;
-            case "4":
-                deleteStudent();
-                break;
-            default:
-                System.out.println("you choose badly");
-        }
-    }
-
-    public void crudForTeacher() {
-        System.out.println("Wybierz cyfrę: 1, 2, 3 lub 4 aby odpowiednio:");
-        System.out.println("1 - dodaj nowego nauczyciela");
-        System.out.println("2 - pokaż informacje o nauczycielu");
-        System.out.println("3 - aktualizuj informacje o nauczycielu");
-        System.out.println("4 - usuń belfra");
-        Scanner scanner = new Scanner(System.in);
-        String chooseAct = scanner.nextLine();
-        switch (chooseAct) {
-            case "1":
-                registerTeacher();
-                break;
-            case "2":
-                printTeacherInfo();
-                break;
-            case "3":
-                updateTeacherInfo();
-                break;
-            case "4":
-                removeTeacher();
-                break;
-            default:
-                System.out.println("you choose badly");
-        }
-    }
-
     public void registerStudent() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -108,7 +34,7 @@ public class Secretary {
             Level level = Level.valueOf(registerStudentLevel);
             studentRepository.createStudent(personalData, level);
         } catch (IllegalArgumentException exception) {
-            System.out.println("Nieprawidłowy rodzaj Enuma: " + exception.getMessage());
+            System.out.println("wrong kind of enum: " + exception.getMessage());
         }
 
     }

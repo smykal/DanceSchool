@@ -32,8 +32,8 @@ public class MemoryBasedStudentRepository implements StudentRepository{
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
 
-            if (student.getSurname().equals(surname) == true) {
-                System.out.println("Student: " + student + " " + student.toString());
+            if (student.getSurname().equals(surname)) {
+                System.out.println("show student data: " + student);
             }
         }
     }
@@ -45,7 +45,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
                 .build();
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
-            if (student.getSurname().equals(surname) == true) {
+            if (student.getSurname().equals(surname)) {
                 System.out.println("old student: " + student.toString());
                 studentList.set(i,newStudent);
                 System.out.println("new student: " + newStudent.toString());
@@ -57,7 +57,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
     public void deleteStudent(String surname) {
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
-            if (student.getSurname().equals(surname) == true) {
+            if (student.getSurname().equals(surname)) {
                 System.out.println("Student to remove: " + student.toString());
                 studentList.remove(i);
             }
@@ -66,5 +66,20 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     public List<Student> getStudentList() {
         return studentList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MemoryBasedStudentRepository that = (MemoryBasedStudentRepository) o;
+
+        return studentList != null ? studentList.equals(that.studentList) : that.studentList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return studentList != null ? studentList.hashCode() : 0;
     }
 }

@@ -13,8 +13,6 @@ public class DanceSchoolApplication {
                 MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance(),
                 MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance());
 
-
-        madzia.menu();
         // SpringApplication.run(DanceSchoolApplication.class, args);
     }
 }

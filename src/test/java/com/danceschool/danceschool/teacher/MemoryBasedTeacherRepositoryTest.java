@@ -4,9 +4,6 @@ import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryBasedTeacherRepositoryTest {
@@ -46,7 +43,7 @@ class MemoryBasedTeacherRepositoryTest {
         PersonalData personalData = new PersonalData("name", "surname",  "address");
         PersonalData newPersonalData = new PersonalData("newName", "newSurname", "newAddress");
         Level level = Level.AMATEUR;
-        Level newLevel = Level.PROFFESIONAL;
+        Level newLevel = Level.PROFESSIONAL;
         String surname = "surname";
         MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().createTeacher(
                 personalData,
@@ -67,7 +64,7 @@ class MemoryBasedTeacherRepositoryTest {
         PersonalData personalData = new PersonalData("name", "surname",  "address");
         PersonalData newPersonalData = new PersonalData("newName", "newSurname", "newAddress");
         Level level = Level.AMATEUR;
-        Level newLevel = Level.PROFFESIONAL;
+        Level newLevel = Level.PROFESSIONAL;
         String surname = "surname";
         MemoryBasedTeacherRepository.getMemoryBasedTeacherRepositoryInstance().createTeacher(
                 personalData,
