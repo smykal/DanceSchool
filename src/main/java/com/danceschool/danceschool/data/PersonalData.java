@@ -27,6 +27,8 @@ public class PersonalData {
         return surname;
     }
 
+    public String getAddress() { return address; }
+
     @Override
     public String toString() {
         return "PersonalData{" +

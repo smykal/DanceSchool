@@ -1,3 +1,4 @@
-"name","surname","address","level"
-"name1","suranem1","address1","level1"
-"name2","suranem2","address2","level2"
+">>name<<",">>surname<<",">>address<<",">>level<<"
+"testName1","testSurname1,","testAddress1","PROFESSIONAL"
+"testName2","testSurname2,","testAddress2","AMATEUR"
+"testName3","testSurname3,","testAddress3","PROFESSIONAL"
