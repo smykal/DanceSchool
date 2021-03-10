@@ -3,6 +3,7 @@ package com.danceschool.danceschool.student;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
     }
 
     @Override
-    public void createStudent(PersonalData personalData, Level level) {
+    public void createStudent(PersonalData personalData, Level level) throws IOException {
                Student student = new Student.Builder(personalData)
                        .level(level)
                        .build();

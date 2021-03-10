@@ -6,6 +6,7 @@ import com.danceschool.danceschool.student.StudentRepository;
 import com.danceschool.danceschool.teacher.Teacher;
 import com.danceschool.danceschool.teacher.TeacherRepository;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Secretary {
@@ -33,7 +34,7 @@ public class Secretary {
             PersonalData personalData = new PersonalData(registerStudentName, registerStudentSurname, registerStudentAddress);
             Level level = Level.valueOf(registerStudentLevel);
             studentRepository.createStudent(personalData, level);
-        } catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException | IOException exception) {
             System.out.println("wrong kind of enum: " + exception.getMessage());
         }
 
