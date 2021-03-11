@@ -1,4 +1,4 @@
-">>name<<",">>surname<<",">>address<<",">>level<<"
-"testName1","testSurname1,","testAddress1","PROFESSIONAL"
-"testName2","testSurname2,","testAddress2","AMATEUR"
-"testName3","testSurname3,","testAddress3","PROFESSIONAL"
+""">>name<<"","">>surname<<"","">>address<<"","">>level<<"""
+"""testName1"",""testSurname1,"",""testAddress1"",""PROFESSIONAL"""
+"""testName2"",""newSurname,"",""testAddress2"",""AMATEUR"""
+"""testName3"",""testSurname3,"",""testAddress3"",""PROFESSIONAL"""

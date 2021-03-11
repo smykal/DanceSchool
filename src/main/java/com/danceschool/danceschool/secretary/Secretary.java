@@ -6,6 +6,7 @@ import com.danceschool.danceschool.student.StudentRepository;
 import com.danceschool.danceschool.teacher.Teacher;
 import com.danceschool.danceschool.teacher.TeacherRepository;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -47,7 +48,7 @@ public class Secretary {
         studentRepository.readStudent(surname);
     }
 
-    public void updateStudentInfo() {
+    public void updateStudentInfo() throws IOException {
         System.out.println("give surname of student to upgrade his data");
         Scanner scanner = new Scanner(System.in);
         String surname = scanner.nextLine();
@@ -66,7 +67,7 @@ public class Secretary {
 
     }
 
-    public void deleteStudent() {
+    public void deleteStudent() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of student to delete: ");
         String surname = scanner.nextLine();

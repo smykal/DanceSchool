@@ -7,11 +7,15 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 public class FileBasedStudentRepository implements StudentRepository {
 
@@ -28,6 +32,7 @@ public class FileBasedStudentRepository implements StudentRepository {
     final String PATH = "C:/Users/Mateusz/IdeaProjects/DanceSchool/DanceSchool/csv/students.csv";
 
     public void createNewStudentList() {
+        System.out.println("createNewStudentList");
         File studentCSVFile = new File(PATH);
         try {
             FileWriter outputFile = new FileWriter(studentCSVFile);
@@ -42,6 +47,7 @@ public class FileBasedStudentRepository implements StudentRepository {
     }
 
     public void deleteNewCsvStudentList() throws IOException {
+        System.out.println("deleteNewCsvStudentList");
         try {
             Files.deleteIfExists(Paths.get(PATH));
         } catch (IOException error) {
@@ -53,6 +59,7 @@ public class FileBasedStudentRepository implements StudentRepository {
 
     @Override
     public void createStudent(PersonalData personalData, Level level) {
+
         try {
             FileWriter outputFile = new FileWriter(PATH, true);
             CSVWriter writer = new CSVWriter(outputFile);
@@ -63,13 +70,14 @@ public class FileBasedStudentRepository implements StudentRepository {
                     level.name()};
             writer.writeNext(student);
             writer.close();
-
+            System.out.println("createStudent: " + student.toString());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
     public void readAllStudent() throws IOException {
+        System.out.println("readAllStudent");
         FileReader fileReader = new FileReader(PATH);
         BufferedReader reader = new BufferedReader(fileReader);
         String line = reader.readLine();
@@ -82,6 +90,7 @@ public class FileBasedStudentRepository implements StudentRepository {
 
     @Override
     public void readStudent(String surname) {
+        System.out.println("readStudent");
         try (FileReader fileReader = new FileReader(PATH)) {
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
@@ -91,33 +100,49 @@ public class FileBasedStudentRepository implements StudentRepository {
                 }
                 line = reader.readLine();
             }
-
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
     @Override
-    public void updateStudent(String surname, PersonalData newPersonalData, Level newLevel) {
-        try (FileReader fileReader = new FileReader(PATH)) {
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line = reader.readLine();
-            while (line != null) {
-                if (line.contains(surname)) {
-                    System.out.println("found student like: " + line);
-                    line.replace(surname, newPersonalData.getSurname());
-                    System.out.println(line);
-                }
-                line = reader.readLine();
-            }
+    public void updateStudent
+            (String surname, PersonalData newPersonalData, Level newLevel)
+            throws IOException {
+        System.out.println("updateStudent:");
+        BufferedReader reader = new BufferedReader(new FileReader(PATH));
+        List<String> studentList = new ArrayList<>();
+        String line = reader.readLine();
+        while (line != null) {
+            studentList.add(line);
+            line = reader.readLine();
+        }
+        reader.close();
 
-        } catch (IOException exception) {
-            exception.printStackTrace();
+        for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).contains(surname)) {
+                String replace = studentList.get(i)
+                        .replace(surname, newPersonalData.getSurname());
+                System.out.println(replace);
+                studentList.set(i, replace);
+            }
+        }
+        FileWriter inputWriter = new FileWriter(PATH);
+        CSVWriter writer = new CSVWriter(inputWriter);
+
+        for (String s : studentList) {
+            String[] entries = s.split("-");
+            writer.writeNext(entries);
+        }
+        writer.close();
+
+        System.out.println("początek wyświetlania listy");
+        for (String item : studentList) {
+            System.out.println(item);
         }
     }
 
     @Override
     public void deleteStudent(String surname) {
-
     }
 }

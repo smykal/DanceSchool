@@ -51,7 +51,8 @@ public class DanceSchoolApplication {
 
         FileBasedStudentRepository
                 .getFileBasedStudentRepositoryInstance()
-                .updateStudent("surname2", newPersonalData, newLevel);
+                .updateStudent("testSurname2",newPersonalData,level);
+
 
         // SpringApplication.run(DanceSchoolApplication.class, args);
     }
