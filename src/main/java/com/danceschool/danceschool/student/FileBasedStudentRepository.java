@@ -143,6 +143,34 @@ public class FileBasedStudentRepository implements StudentRepository {
     }
 
     @Override
-    public void deleteStudent(String surname) {
+    public void deleteStudent(String surname) throws IOException {
+        System.out.println("deleteStudent:");
+        BufferedReader reader = new BufferedReader(new FileReader(PATH));
+        List<String> studentList = new ArrayList<>();
+        String line = reader.readLine();
+        while (line != null) {
+            studentList.add(line);
+            line = reader.readLine();
+        }
+        reader.close();
+
+        for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).contains(surname)) {
+                studentList.remove(i);
+            }
+        }
+        FileWriter inputWriter = new FileWriter(PATH);
+        CSVWriter writer = new CSVWriter(inputWriter);
+
+        for (String s : studentList) {
+            String[] entries = s.split("-");
+            writer.writeNext(entries);
+        }
+        writer.close();
+
+        System.out.println("początek wyświetlania listy");
+        for (String item : studentList) {
+            System.out.println(item);
+        }
     }
 }
