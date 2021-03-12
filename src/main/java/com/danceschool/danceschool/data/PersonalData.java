@@ -5,7 +5,7 @@ public class PersonalData {
     private String surname;
     private String address;
 
-    public PersonalData(String name, String surname,String address) {
+    private PersonalData(String name, String surname,String address) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -19,6 +19,8 @@ public class PersonalData {
         this.surname = surname;
     }
 
+    public void setAddress(String address) { this.address = address; }
+
     public String getName() {
         return name;
     }
@@ -28,6 +30,7 @@ public class PersonalData {
     }
 
     public String getAddress() { return address; }
+
 
     @Override
     public String toString() {
@@ -54,5 +57,33 @@ public class PersonalData {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         return result;
+    }
+
+    public static final class PersonalDataBuilder {
+        private String name;
+        private String surname;
+        private String address;
+
+        public PersonalDataBuilder() {
+        }
+
+        public PersonalDataBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PersonalDataBuilder withSurname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public PersonalDataBuilder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public PersonalData build() {
+            return new PersonalData(name, surname, address);
+        }
     }
 }

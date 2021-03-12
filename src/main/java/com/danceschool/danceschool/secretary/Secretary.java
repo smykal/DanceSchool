@@ -32,13 +32,22 @@ public class Secretary {
             String registerStudentLevel = scanner.nextLine();
             System.out.println("give address: ");
             String registerStudentAddress = scanner.nextLine();
-            PersonalData personalData = new PersonalData(registerStudentName, registerStudentSurname, registerStudentAddress);
+            PersonalData personalData = createPersonalData(registerStudentName, registerStudentSurname, registerStudentAddress);
             Level level = Level.valueOf(registerStudentLevel);
             studentRepository.createStudent(personalData, level);
         } catch (IllegalArgumentException | IOException exception) {
             System.out.println("wrong kind of enum: " + exception.getMessage());
         }
 
+    }
+
+    private PersonalData createPersonalData(String registerStudentName, String registerStudentSurname, String registerStudentAddress) {
+        PersonalData personalData = new PersonalData.PersonalDataBuilder()
+                .withName(registerStudentName)
+                .withSurname(registerStudentSurname)
+                .withAddress(registerStudentAddress)
+                .build();
+        return personalData;
     }
 
     public void printStudentInfo() {
@@ -61,7 +70,7 @@ public class Secretary {
         String newAddress = scanner.nextLine();
         System.out.println("give new level");
         String newLevelStudent = scanner.nextLine();
-        PersonalData newPersonalData = new PersonalData(newName, newSurname, newAddress);
+        PersonalData newPersonalData = createPersonalData(newName, newSurname, newAddress);
         Level newLevel = Level.valueOf(newLevelStudent);
         studentRepository.updateStudent(surname, personalData, newLevel);
 
@@ -84,7 +93,7 @@ public class Secretary {
         String address = scanner.nextLine();
         System.out.println("give teacher level: ");
         String teacherLevel = scanner.nextLine();
-        PersonalData personalData = new PersonalData(name, surname, address);
+        PersonalData personalData = createPersonalData(name, surname, address);
         Level level = Level.valueOf(teacherLevel);
         Teacher teacher = new Teacher.Builder()
                 .personalData(personalData)
@@ -112,7 +121,7 @@ public class Secretary {
         String newAddress = scanner.nextLine();
         System.out.println("give new level");
         String newLevel = scanner.nextLine();
-        PersonalData personalData = new PersonalData(newName, newSurname, newAddress);
+        PersonalData personalData = createPersonalData(newName, newSurname, newAddress);
         Level level = Level.valueOf(newLevel);
         teacherRepository.updateTeacher(surname, personalData, level);
     }

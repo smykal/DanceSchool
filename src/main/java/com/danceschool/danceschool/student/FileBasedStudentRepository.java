@@ -2,20 +2,13 @@ package com.danceschool.danceschool.student;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.opencsv.CSVWriter;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 public class FileBasedStudentRepository implements StudentRepository {
 
@@ -34,10 +27,14 @@ public class FileBasedStudentRepository implements StudentRepository {
     public void createNewStudentList() {
         System.out.println("createNewStudentList");
         File studentCSVFile = new File(PATH);
+        final String NAME = ">>name<<";
+        final String SURNAME = ">>surname<<";
+        final String ADDRESS = ">>address<<";
+        final String LEVEL = ">>level<<";
         try {
             FileWriter outputFile = new FileWriter(studentCSVFile);
             CSVWriter writer = new CSVWriter(outputFile);
-            String[] header = {">>name<<", ">>surname<<", ">>address<<", ">>level<<"};
+            String[] header = {NAME, SURNAME, ADDRESS, LEVEL};
             writer.writeNext(header);
             writer.close();
 
@@ -51,15 +48,13 @@ public class FileBasedStudentRepository implements StudentRepository {
         try {
             Files.deleteIfExists(Paths.get(PATH));
         } catch (IOException error) {
+            System.out.println("such file doesnt exist ");
             error.printStackTrace();
         }
-
-
     }
 
     @Override
     public void createStudent(PersonalData personalData, Level level) {
-
         try {
             FileWriter outputFile = new FileWriter(PATH, true);
             CSVWriter writer = new CSVWriter(outputFile);
@@ -68,7 +63,7 @@ public class FileBasedStudentRepository implements StudentRepository {
                     personalData.getSurname(),
                     personalData.getAddress(),
                     level.name()};
-            writer.writeNext(student);
+            writer.writeNext(student, false);
             writer.close();
             System.out.println("createStudent: " + student.toString());
         } catch (IOException exception) {
@@ -76,7 +71,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         }
     }
 
-    public void readAllStudent() throws IOException {
+    public void readAllStudents() throws IOException {
         System.out.println("readAllStudent");
         FileReader fileReader = new FileReader(PATH);
         BufferedReader reader = new BufferedReader(fileReader);
@@ -106,38 +101,63 @@ public class FileBasedStudentRepository implements StudentRepository {
     }
 
     @Override
-    public void updateStudent
-            (String surname, PersonalData newPersonalData, Level newLevel)
-            throws IOException {
+    public void updateStudent(
+            String surname,
+            PersonalData newPersonalData,
+            Level newLevel
+    ) throws IOException {
         System.out.println("updateStudent:");
-        BufferedReader reader = new BufferedReader(new FileReader(PATH));
-        List<String> studentList = new ArrayList<>();
-        String line = reader.readLine();
-        while (line != null) {
-            studentList.add(line);
-            line = reader.readLine();
-        }
-        reader.close();
-
-        for (int i = 0; i < studentList.size(); i++) {
-            if (studentList.get(i).contains(surname)) {
-                String replace = studentList.get(i)
-                        .replace(surname, newPersonalData.getSurname());
-                System.out.println(replace);
-                studentList.set(i, replace);
+            BufferedReader reader = null;
+            List<Student> studentList = new ArrayList<>();
+        try {
+            reader = new BufferedReader(new FileReader(PATH));
+            String titleLine = reader.readLine();
+            String line = reader.readLine();
+            while (line != null) {
+                studentList.add(Student.convertCsvStudentToStudent(line));
+                line = reader.readLine();
+            }
+        } catch (IOException exceptionXd) {
+            exceptionXd.printStackTrace();
+        } finally {
+            if (reader != null) {
+                reader.close();
             }
         }
-        FileWriter inputWriter = new FileWriter(PATH);
-        CSVWriter writer = new CSVWriter(inputWriter);
 
-        for (String s : studentList) {
-            String[] entries = s.split("-");
-            writer.writeNext(entries);
+        for (int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+            if (student.getSurname().equalsIgnoreCase(surname)) {
+                student.setName(newPersonalData.getName());
+                student.setSurname(newPersonalData.getSurname());
+                student.setAddress(newPersonalData.getAddress());
+                student.setLevel(newLevel);
+                studentList.set(i, student);
+            }
         }
-        writer.close();
+
+        FileWriter inputWriter = null;
+        CSVWriter writer = null;
+        try {
+            inputWriter = new FileWriter(PATH);
+            writer = new CSVWriter(inputWriter);
+            for (Student student : studentList) {
+                writer.writeNext(student.convertStudentToCsvFormat());
+            }
+        } catch (IOException wrongPath) {
+            wrongPath.printStackTrace();
+        }
+        finally {
+            if (writer != null ) {
+                writer.close();
+            }
+            if (inputWriter != null) {
+                inputWriter.close();
+            }
+        }
 
         System.out.println("początek wyświetlania listy");
-        for (String item : studentList) {
+        for (Student item : studentList) {
             System.out.println(item);
         }
     }
