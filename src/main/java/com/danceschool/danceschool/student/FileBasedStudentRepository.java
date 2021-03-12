@@ -105,10 +105,10 @@ public class FileBasedStudentRepository implements StudentRepository {
             String surname,
             PersonalData newPersonalData,
             Level newLevel
-    ) throws IOException {
+    ) {
         System.out.println("updateStudent:");
-            BufferedReader reader = null;
-            List<Student> studentList = new ArrayList<>();
+        BufferedReader reader = null;
+        List<Student> studentList = new ArrayList<>();
         try {
             reader = new BufferedReader(new FileReader(PATH));
             String titleLine = reader.readLine();
@@ -120,9 +120,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         } catch (IOException exceptionXd) {
             exceptionXd.printStackTrace();
         } finally {
-            if (reader != null) {
-                reader.close();
-            }
+            closeCsvReader(reader);
         }
 
         for (int i = 0; i < studentList.size(); i++) {
@@ -146,19 +144,44 @@ public class FileBasedStudentRepository implements StudentRepository {
             }
         } catch (IOException wrongPath) {
             wrongPath.printStackTrace();
-        }
-        finally {
-            if (writer != null ) {
-                writer.close();
-            }
-            if (inputWriter != null) {
-                inputWriter.close();
-            }
+        } finally {
+            closeCsvWriterResource(writer);
+            closeResource(inputWriter);
         }
 
         System.out.println("początek wyświetlania listy");
         for (Student item : studentList) {
             System.out.println(item);
+        }
+    }
+
+    private void closeCsvReader(BufferedReader reader) {
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeResource(FileWriter inputWriter) {
+        if (inputWriter != null) {
+            try {
+                inputWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeCsvWriterResource(CSVWriter writer) {
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
