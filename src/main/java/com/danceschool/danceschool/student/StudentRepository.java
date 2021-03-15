@@ -10,7 +10,7 @@ public interface StudentRepository {
 
 
     void createStudent(PersonalData personalData, Level level) throws IOException;
-    void readStudent(String surname);
+    void readStudent(String surname) throws IOException;
     void updateStudent(String surname, PersonalData newPersonalData, Level newLevel) throws IOException;
     void deleteStudent(String surname) throws IOException;
 }

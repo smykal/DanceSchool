@@ -4,7 +4,11 @@ import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 import com.opencsv.CSVWriter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -24,22 +28,24 @@ public class FileBasedStudentRepository implements StudentRepository {
 
     final String PATH = "C:/Users/Mateusz/IdeaProjects/DanceSchool/DanceSchool/csv/students.csv";
 
-    public void createNewStudentList() {
+    public void createNewStudentList() throws IOException {
         System.out.println("createNewStudentList");
         File studentCSVFile = new File(PATH);
         final String NAME = ">>name<<";
         final String SURNAME = ">>surname<<";
         final String ADDRESS = ">>address<<";
         final String LEVEL = ">>level<<";
+        CSVWriter writer = null;
         try {
             FileWriter outputFile = new FileWriter(studentCSVFile);
-            CSVWriter writer = new CSVWriter(outputFile);
+            writer = new CSVWriter(outputFile);
             String[] header = {NAME, SURNAME, ADDRESS, LEVEL};
             writer.writeNext(header);
-            writer.close();
 
         } catch (IOException exception) {
             exception.printStackTrace();
+        } finally {
+            closeCsvWriterResource(writer);
         }
     }
 
@@ -54,41 +60,51 @@ public class FileBasedStudentRepository implements StudentRepository {
     }
 
     @Override
-    public void createStudent(PersonalData personalData, Level level) {
+    public void createStudent(PersonalData personalData, Level level) throws IOException {
+       CSVWriter writer = null;
         try {
             FileWriter outputFile = new FileWriter(PATH, true);
-            CSVWriter writer = new CSVWriter(outputFile);
+            writer = new CSVWriter(outputFile);
             String[] student = {
                     personalData.getName(),
                     personalData.getSurname(),
                     personalData.getAddress(),
                     level.name()};
             writer.writeNext(student, false);
-            writer.close();
+
             System.out.println("createStudent: " + student.toString());
         } catch (IOException exception) {
             exception.printStackTrace();
+        } finally {
+            closeCsvWriterResource(writer);
         }
     }
 
     public void readAllStudents() throws IOException {
-        System.out.println("readAllStudent");
-        FileReader fileReader = new FileReader(PATH);
-        BufferedReader reader = new BufferedReader(fileReader);
-        String line = reader.readLine();
-        while (line != null) {
-            System.out.println(line);
+        BufferedReader reader = null;
+        try {
+            System.out.println("readAllStudent");
+            FileReader fileReader = new FileReader(PATH);
+            reader = new BufferedReader(fileReader);
+            String line;
             line = reader.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = reader.readLine();
+            }
+        } finally {
+            closeCsvReader(reader);
         }
-        reader.close();
     }
 
     @Override
-    public void readStudent(String surname) {
+    public void readStudent(String surname) throws IOException {
         System.out.println("readStudent");
+        BufferedReader reader = null;
         try (FileReader fileReader = new FileReader(PATH)) {
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line = reader.readLine();
+            reader = new BufferedReader(fileReader);
+            String line;
+            line = reader.readLine();
             while (line != null) {
                 if (line.contains(surname)) {
                     System.out.println("\n" + "found student like: " + line + "\n");
@@ -97,6 +113,8 @@ public class FileBasedStudentRepository implements StudentRepository {
             }
         } catch (IOException exception) {
             exception.printStackTrace();
+        } finally {
+            closeCsvReader(reader);
         }
     }
 
@@ -155,6 +173,51 @@ public class FileBasedStudentRepository implements StudentRepository {
         }
     }
 
+
+
+    @Override
+    public void deleteStudent(String surname) throws IOException {
+        System.out.println("deleteStudent:");
+        List<String> studentList = null;
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(PATH));
+            studentList = new ArrayList<>();
+            String line = reader.readLine();
+            while (line != null) {
+                studentList.add(line);
+                line = reader.readLine();
+            }
+        } finally {
+            closeCsvReader(reader);
+        }
+
+        for (int i = 0; i < studentList.size(); i++) {
+            if (studentList.get(i).contains(surname)) {
+                studentList.remove(i);
+            }
+        }
+
+        CSVWriter writer = null;
+        try {
+            FileWriter inputWriter = new FileWriter(PATH);
+            writer = new CSVWriter(inputWriter);
+
+            for (String s : studentList) {
+                String[] entries = s.split("-");
+                writer.writeNext(entries);
+            }
+        } finally {
+            assert writer != null;
+            writer.close();
+        }
+
+        System.out.println("początek wyświetlania listy");
+        for (String item : studentList) {
+            System.out.println(item);
+        }
+    }
+
     private void closeCsvReader(BufferedReader reader) {
         if (reader != null) {
             try {
@@ -182,38 +245,6 @@ public class FileBasedStudentRepository implements StudentRepository {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public void deleteStudent(String surname) throws IOException {
-        System.out.println("deleteStudent:");
-        BufferedReader reader = new BufferedReader(new FileReader(PATH));
-        List<String> studentList = new ArrayList<>();
-        String line = reader.readLine();
-        while (line != null) {
-            studentList.add(line);
-            line = reader.readLine();
-        }
-        reader.close();
-
-        for (int i = 0; i < studentList.size(); i++) {
-            if (studentList.get(i).contains(surname)) {
-                studentList.remove(i);
-            }
-        }
-        FileWriter inputWriter = new FileWriter(PATH);
-        CSVWriter writer = new CSVWriter(inputWriter);
-
-        for (String s : studentList) {
-            String[] entries = s.split("-");
-            writer.writeNext(entries);
-        }
-        writer.close();
-
-        System.out.println("początek wyświetlania listy");
-        for (String item : studentList) {
-            System.out.println(item);
         }
     }
 }

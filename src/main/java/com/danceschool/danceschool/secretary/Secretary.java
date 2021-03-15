@@ -50,7 +50,7 @@ public class Secretary {
         return personalData;
     }
 
-    public void printStudentInfo() {
+    public void printStudentInfo() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of student to show detais: ");
         String surname = scanner.nextLine();
