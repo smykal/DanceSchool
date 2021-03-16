@@ -13,8 +13,12 @@ class MemoryBasedTeacherRepositoryTest {
     @BeforeEach
     public void setUp() {
         System.out.println("Start Test");
-        PersonalData personalData = new PersonalData("teacherName", "teacherSurname", "teacherAddress" );
-        Level teacherLevel = Level.AMATEUR;
+        PersonalData personalData = new PersonalData.PersonalDataBuilder()
+                .withName("teacherName")
+                .withSurname("teacherSurname")
+                .withAddress("teacherAddress")
+                .build();
+                Level teacherLevel = Level.AMATEUR;
         MemoryBasedTeacherRepository
                 .getMemoryBasedTeacherRepositoryInstance()
                 .createTeacher(personalData,teacherLevel);
@@ -68,7 +72,11 @@ class MemoryBasedTeacherRepositoryTest {
     public void shouldUpdateTeacher() {
         //given
         String teacherToChange = "teacherSurname";
-        PersonalData newPersonalData = new PersonalData("szeregowy Kowalski", "private Kowalski", "Nowy address");
+        PersonalData newPersonalData = new PersonalData.PersonalDataBuilder()
+                .withName("szeregowy Kowalski")
+                .withSurname("private Kowalski")
+                .withAddress("Nowy address")
+                .build();
         //when
         MemoryBasedTeacherRepository
                 .getMemoryBasedTeacherRepositoryInstance()

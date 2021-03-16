@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,9 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MemoryBasedStudentRepositoryTest {
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         System.out.println("preparation");
-        PersonalData personalData = new PersonalData("name", "surname", "address");
+        PersonalData personalData = new PersonalData.PersonalDataBuilder()
+                .withName("testName")
+                .withSurname("testSurname")
+                .withAddress("testAddress")
+                .build();
         Level level = Level.AMATEUR;
         MemoryBasedStudentRepository
                 .getMemoryBasedStudentRepositoryInstance()
@@ -50,10 +55,14 @@ public class MemoryBasedStudentRepositoryTest {
 
     @Test
     @DisplayName("should add second student to student list")
-    public void shouldAddSecondStudentToStudentList() {
+    public void shouldAddSecondStudentToStudentList() throws IOException {
         //given
-        PersonalData personalData = new PersonalData("studentTestName",
-                "studentTestSurname", "studentTestAddress");
+        PersonalData personalData = new PersonalData.PersonalDataBuilder()
+                .withName("studentTestName")
+                .withSurname("studentTestSurname")
+                .withAddress("studentTestAddress")
+                .build();
+
         Level level = Level.AMATEUR;
         MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
                 .createStudent(personalData, level);
@@ -81,25 +90,34 @@ public class MemoryBasedStudentRepositoryTest {
     @DisplayName("should show student interior - do method toString on Student")
     public void shouldShowStudentInterior() {
         //given
-        String surname = "surname";
+        String surname = "testSurname";
         //when
         List<Student> studentList = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance().getStudentList();
         MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance().readStudent(surname);
         boolean prawdaWyjdzieNaJaw = surname.equals(studentList.get(0).getSurname());
+        System.out.println(prawdaWyjdzieNaJaw);
         //than
         assertTrue(prawdaWyjdzieNaJaw);
     }
 
     @Test
     @DisplayName("should change \"name2\" to \"newName\", same with surname2 and address2")
-    public void shouldReplacePersonalData() {
+    public void shouldReplacePersonalData() throws IOException {
         //given
-        PersonalData personalData = new PersonalData("name2", "surname2", "address2");
+        PersonalData personalData = new PersonalData.PersonalDataBuilder()
+                .withName("name2")
+                .withSurname("surname2")
+                .withAddress("address2")
+                .build();
         Level level = Level.AMATEUR;
         MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
                 .createStudent(personalData, level);
 
-        PersonalData newPersonalData = new PersonalData("newName", "newSurname", "newAddress");
+        PersonalData newPersonalData = new PersonalData.PersonalDataBuilder()
+                .withName("newName")
+                .withSurname("newSurname")
+                .withAddress("newAddress")
+                .build();
         String surnameToEdition = "surname2";
 
         //when
@@ -117,7 +135,7 @@ public class MemoryBasedStudentRepositoryTest {
     @DisplayName("should delete student from the studentList and left empty studentList")
     public void shouldDeleteStudent() {
         //given
-        String studentNameToDelete = "surname";
+        String studentNameToDelete = "testSurname";
 
         //when
         MemoryBasedStudentRepository
@@ -127,6 +145,7 @@ public class MemoryBasedStudentRepositoryTest {
                 .getMemoryBasedStudentRepositoryInstance()
                 .getStudentList()
                 .size();
+        System.out.println(actualSize);
         //than
         assertEquals(0, actualSize);
     }
