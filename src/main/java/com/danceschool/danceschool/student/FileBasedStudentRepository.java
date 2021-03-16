@@ -46,7 +46,8 @@ public class FileBasedStudentRepository implements StudentRepository {
             writer.writeNext(studentData, false);
         } catch (IOException exception) {
             exception.printStackTrace();
-        } finally {
+        }
+        finally {
             System.out.println("createStudent: " + Arrays.toString(studentData));
             closeCsvWriterResource(writer);
         }
