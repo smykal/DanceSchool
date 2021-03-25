@@ -43,13 +43,13 @@ public class DanceSchoolApplication {
         fileBasedStudentRepository
                 .readAllStudents();
 
-        fileBasedStudentRepository
-                .readStudent("testSurname2");
+//        fileBasedStudentRepository
+//                .readStudent("testSurname2");
 
-        PersonalData newPersonalData = createPersonalData(
-                "randomName", "randomSurname", "randomAddress");
-        fileBasedStudentRepository
-                .updateStudent("testSurname2", newPersonalData, level);
+//        PersonalData newPersonalData = createPersonalData(
+//                "randomName", "randomSurname", "randomAddress");
+//        fileBasedStudentRepository
+//                .updateStudent("testSurname2", newPersonalData, level);
 //
 //        FileBasedStudentRepository
 //                .getFileBasedStudentRepositoryInstance()

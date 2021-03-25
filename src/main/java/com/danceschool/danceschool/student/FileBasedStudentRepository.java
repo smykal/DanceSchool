@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class FileBasedStudentRepository implements StudentRepository {
     final String PATH = "C:/Users/Mateusz/IdeaProjects/DanceSchool/DanceSchool/csv/students.csv";
@@ -33,7 +34,7 @@ public class FileBasedStudentRepository implements StudentRepository {
     }
 
     @Override
-    public void createStudent(PersonalData personalData, Level level) {
+    public UUID createStudent(PersonalData personalData, Level level) {
         CSVWriter writer = null;
         String[] studentData = {
                 personalData.getName(),
@@ -51,16 +52,17 @@ public class FileBasedStudentRepository implements StudentRepository {
             System.out.println("createStudent: " + Arrays.toString(studentData));
             closeCsvWriterResource(writer);
         }
+        return null;
     }
 
     @Override
-    public void readStudent(String surname) {
-        System.out.println("readStudent");
+    public Student readStudent(UUID uuid) {
+        System.out.println("readStudent with id: " + uuid.toString());
         try (FileReader fileReader = new FileReader(PATH);
              BufferedReader reader = new BufferedReader(fileReader)) {
             String line = reader.readLine();
             while (line != null) {
-                if (line.contains(surname)) {
+                if (line.contains(uuid.toString())) {
                     System.out.println("\n" + "found student like: " + line + "\n");
                 }
                 line = reader.readLine();
@@ -68,15 +70,16 @@ public class FileBasedStudentRepository implements StudentRepository {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+        return null;
     }
 
     @Override
-    public void updateStudent(
-            String surname,
+    public Student updateStudent(
+            UUID uuid,
             PersonalData newPersonalData,
             Level newLevel
     ) {
-        System.out.println("updateStudent:");
+        System.out.println("updateStudent with id: " + uuid.toString());
         BufferedReader reader = null;
         List<Student> studentList = new ArrayList<>();
         try {
@@ -95,7 +98,7 @@ public class FileBasedStudentRepository implements StudentRepository {
 
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
-            if (student.getSurname().equalsIgnoreCase(surname)) {
+            if (student.getId().equals(uuid)) {
                 student.setName(newPersonalData.getName());
                 student.setSurname(newPersonalData.getSurname());
                 student.setAddress(newPersonalData.getAddress());
@@ -118,10 +121,11 @@ public class FileBasedStudentRepository implements StudentRepository {
             closeCsvWriterResource(writer);
             closeResource(inputWriter);
         }
+        return null;
     }
 
     @Override
-    public void deleteStudent(String surname) throws IOException {
+    public UUID deleteStudent(UUID uuid) throws IOException {
         System.out.println("deleteStudent:");
         List<String> studentList = new ArrayList<>();
         BufferedReader reader = null;
@@ -129,7 +133,7 @@ public class FileBasedStudentRepository implements StudentRepository {
             reader = new BufferedReader(new FileReader(PATH));
             String line = reader.readLine();
             while (line != null) {
-                if (!line.contains(surname)) {
+                if (!line.contains(uuid.toString())) {
                     studentList.add(line);
                     line = reader.readLine();
                 }
@@ -150,6 +154,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         } finally {
             closeCsvWriterResource(writer);
         }
+        return null;
     }
 
     public void createNewStudentList() {
@@ -169,7 +174,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         }
     }
 
-    public void readAllStudents() throws IOException {
+    public Student readAllStudents() throws IOException {
         BufferedReader reader = null;
         try {
             System.out.println("readAllStudent");
@@ -184,6 +189,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         } finally {
             closeCsvReader(reader);
         }
+        return null;
     }
 
     public void deleteNewCsvStudentList() {
@@ -225,4 +231,5 @@ public class FileBasedStudentRepository implements StudentRepository {
             }
         }
     }
+
 }

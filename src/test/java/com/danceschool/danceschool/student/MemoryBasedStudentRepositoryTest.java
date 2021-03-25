@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -135,12 +136,12 @@ public class MemoryBasedStudentRepositoryTest {
     @DisplayName("should delete student from the studentList and left empty studentList")
     public void shouldDeleteStudent() {
         //given
-        String studentNameToDelete = "testSurname";
+        UUID studentIdToDelete;
 
         //when
         MemoryBasedStudentRepository
                 .getMemoryBasedStudentRepositoryInstance()
-                .deleteStudent(studentNameToDelete);
+                .deleteStudent(studentIdToDelete);
         int actualSize = MemoryBasedStudentRepository
                 .getMemoryBasedStudentRepositoryInstance()
                 .getStudentList()

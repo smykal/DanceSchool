@@ -6,10 +6,12 @@ import org.springframework.security.core.parameters.P;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class Student {
     private PersonalData personalData;
     private Level level;
+    private UUID id;
 
     public String getSurname() {
         return personalData.getSurname();
@@ -26,6 +28,8 @@ public class Student {
     public Level getLevel() {
         return level;
     }
+
+    public UUID getId() { return id; }
 
     public void setName(String newName) {
         this.personalData.setName(newName); }
@@ -71,6 +75,7 @@ public class Student {
     private Student(Builder builder) {
         this.personalData = builder.personalData;
         this.level = builder.level;
+        this.id = UUID.randomUUID();
     }
 
     public String[] convertStudentToCsvFormat() {

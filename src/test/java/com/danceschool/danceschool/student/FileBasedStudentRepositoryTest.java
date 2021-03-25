@@ -47,11 +47,20 @@ class FileBasedStudentRepositoryTest {
         FileBasedStudentRepository
                 .getFileBasedStudentRepositoryInstance()
                 .createStudent(testPersonalData,testLevel);
+        FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance()
+                .readStudent("testSurname");
+
         //then
+
+
     }
 
     @Test
     void readStudent() {
+        //given
+        //when
+        //then
     }
 
     @Test

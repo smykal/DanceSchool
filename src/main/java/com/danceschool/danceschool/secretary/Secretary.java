@@ -9,6 +9,7 @@ import com.danceschool.danceschool.teacher.TeacherRepository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Secretary {
     private PersonalData personalData;
@@ -50,14 +51,14 @@ public class Secretary {
         return personalData;
     }
 
-    public void printStudentInfo() throws IOException {
+    public void printStudentInfo(UUID uuid) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of student to show detais: ");
         String surname = scanner.nextLine();
-        studentRepository.readStudent(surname);
+        studentRepository.readStudent(uuid);
     }
 
-    public void updateStudentInfo() throws IOException {
+    public void updateStudentInfo(UUID uuid ) throws IOException {
         System.out.println("give surname of student to upgrade his data");
         Scanner scanner = new Scanner(System.in);
         String surname = scanner.nextLine();
@@ -72,15 +73,15 @@ public class Secretary {
         String newLevelStudent = scanner.nextLine();
         PersonalData newPersonalData = createPersonalData(newName, newSurname, newAddress);
         Level newLevel = Level.valueOf(newLevelStudent);
-        studentRepository.updateStudent(surname, personalData, newLevel);
+        studentRepository.updateStudent(uuid , personalData, newLevel);
 
     }
 
-    public void deleteStudent() throws IOException {
+    public void deleteStudent(UUID uuid) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of student to delete: ");
         String surname = scanner.nextLine();
-        studentRepository.deleteStudent(surname);
+        studentRepository.deleteStudent(uuid);
     }
 
     public void registerTeacher() {
