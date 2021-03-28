@@ -3,9 +3,11 @@ package com.danceschool.danceschool;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 import com.danceschool.danceschool.student.FileBasedStudentRepository;
+import com.danceschool.danceschool.student.Student;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @SpringBootApplication
 public class DanceSchoolApplication {
@@ -43,8 +45,17 @@ public class DanceSchoolApplication {
         fileBasedStudentRepository
                 .readAllStudents();
 
-//        fileBasedStudentRepository
-//                .readStudent("testSurname2");
+        Student student = new Student
+                .Builder()
+                .level(Level.PROFESSIONAL)
+                .personalData(personalData)
+                .build();
+        System.out.println("student ID");
+        System.out.println(student.getId());
+
+
+        fileBasedStudentRepository
+                .readStudent(UUID.fromString("1bf58258-8e20-476c-984d-508e2e0083f3"));
 
 //        PersonalData newPersonalData = createPersonalData(
 //                "randomName", "randomSurname", "randomAddress");

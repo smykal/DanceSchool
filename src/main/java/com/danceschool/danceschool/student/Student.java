@@ -40,10 +40,10 @@ public class Student {
     public void setAddress(String newAddress) {
         this.personalData.setAddress(newAddress);
     }
-
     public void setLevel(Level level) {
         this.level = level;
     }
+    public void setId(UUID id) { this.id = id; }
 
     public static class Builder {
 

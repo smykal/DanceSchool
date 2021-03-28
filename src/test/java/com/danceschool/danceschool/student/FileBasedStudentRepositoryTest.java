@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +24,8 @@ class FileBasedStudentRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance();
     }
 
     @AfterEach
@@ -43,17 +46,17 @@ class FileBasedStudentRepositoryTest {
                 .withAddress("testAddress")
                 .build();
         Level testLevel = Level.AMATEUR;
+        Student student = new Student.Builder()
+                .personalData(testPersonalData)
+                .level(testLevel)
+                .build();
+        student.setId(UUID.fromString("c0109fd3-5197-45a3-8432-9c7b86426efe"));
         //when
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .createStudent(testPersonalData,testLevel);
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .readStudent("testSurname");
+        UUID testUUID = FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance().createStudent(testPersonalData,testLevel);
 
         //then
-
-
+        assertNotNull(testUUID, "if true - that means that createStudent gave back UUID as a result" );
     }
 
     @Test

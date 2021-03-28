@@ -22,6 +22,7 @@ public class FileBasedStudentRepository implements StudentRepository {
     public static final String SURNAME = ">>surname<<";
     public static final String ADDRESS = ">>address<<";
     public static final String LEVEL = ">>level<<";
+    public static final String ID = ">>student ID<<";
 
     private static final FileBasedStudentRepository FILE_BASED_STUDENT_REPOSITORY_INSTANCE =
             new FileBasedStudentRepository();
@@ -36,11 +37,17 @@ public class FileBasedStudentRepository implements StudentRepository {
     @Override
     public UUID createStudent(PersonalData personalData, Level level) {
         CSVWriter writer = null;
+        Student student = new Student
+                .Builder()
+                .personalData(personalData)
+                .level(level)
+                .build();
         String[] studentData = {
                 personalData.getName(),
                 personalData.getSurname(),
                 personalData.getAddress(),
-                level.name()};
+                level.name(),
+                student.getId().toString()};
         try {
             FileWriter outputFile = new FileWriter(PATH, true);
             writer = new CSVWriter(outputFile);
@@ -52,7 +59,7 @@ public class FileBasedStudentRepository implements StudentRepository {
             System.out.println("createStudent: " + Arrays.toString(studentData));
             closeCsvWriterResource(writer);
         }
-        return null;
+        return student.getId();
     }
 
     @Override
@@ -64,6 +71,9 @@ public class FileBasedStudentRepository implements StudentRepository {
             while (line != null) {
                 if (line.contains(uuid.toString())) {
                     System.out.println("\n" + "found student like: " + line + "\n");
+                } else {
+                    System.out.println("\n" + " no such student with id: "
+                            + uuid.toString());
                 }
                 line = reader.readLine();
             }
@@ -162,7 +172,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         File studentCSVFile = new File(PATH);
 
         CSVWriter writer = null;
-        String[] header = {NAME, SURNAME, ADDRESS, LEVEL};
+        String[] header = {NAME, SURNAME, ADDRESS, LEVEL, ID};
         try {
             FileWriter outputFile = new FileWriter(studentCSVFile);
             writer = new CSVWriter(outputFile);
