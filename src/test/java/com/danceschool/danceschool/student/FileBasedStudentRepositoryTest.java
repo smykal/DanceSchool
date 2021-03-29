@@ -26,6 +26,29 @@ class FileBasedStudentRepositoryTest {
     void setUp() {
         FileBasedStudentRepository
                 .getFileBasedStudentRepositoryInstance();
+        FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance()
+                .createNewStudentList();
+        PersonalData testPersonalData01 = new PersonalData.PersonalDataBuilder()
+                .withName("testName01")
+                .withSurname("testSurname01")
+                .withAddress("testAddress01")
+                .build();
+        Level testLevel1 = Level.PROFESSIONAL;
+
+        PersonalData testPersonalData02 = new PersonalData.PersonalDataBuilder()
+                .withName("testName02")
+                .withSurname("testSurname02")
+                .withAddress("testAddress02")
+                .build();
+        Level testLevel2 = Level.PROFESSIONAL;
+
+        FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData01, testLevel1);
+        FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData02, testLevel2);
     }
 
     @AfterEach
@@ -50,24 +73,30 @@ class FileBasedStudentRepositoryTest {
                 .personalData(testPersonalData)
                 .level(testLevel)
                 .build();
-        student.setId(UUID.fromString("c0109fd3-5197-45a3-8432-9c7b86426efe"));
         //when
         UUID testUUID = FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance().createStudent(testPersonalData,testLevel);
-
+                .getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData,testLevel);
         //then
         assertNotNull(testUUID, "if true - that means that createStudent gave back UUID as a result" );
     }
 
     @Test
+    @DisplayName ("method should give back String with users details")
     void readStudent() {
         //given
+        String testSurname = "testSurname02";
         //when
+        Student actual = FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance()
+                .readStudent(UUID.fromString(testSurname));
         //then
+        assertTrue(actual!=null,"Object exist");
     }
 
     @Test
     void updateStudent() {
+
     }
 
     @Test

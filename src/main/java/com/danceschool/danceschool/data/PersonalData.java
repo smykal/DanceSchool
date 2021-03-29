@@ -5,7 +5,7 @@ public class PersonalData {
     private String surname;
     private String address;
 
-    private PersonalData(String name, String surname,String address) {
+    private PersonalData(String name, String surname, String address) {
         this.name = name;
         this.surname = surname;
         this.address = address;

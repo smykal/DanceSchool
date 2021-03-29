@@ -55,7 +55,7 @@ public class Secretary {
         Scanner scanner = new Scanner(System.in);
         System.out.println("give surname of student to show detais: ");
         String surname = scanner.nextLine();
-        studentRepository.readStudent(uuid);
+      //  studentRepository.readStudent(uuid);
     }
 
     public void updateStudentInfo(UUID uuid ) throws IOException {

@@ -65,15 +65,15 @@ public class FileBasedStudentRepository implements StudentRepository {
     @Override
     public Student readStudent(UUID uuid) {
         System.out.println("readStudent with id: " + uuid.toString());
+        Student testStudent;
         try (FileReader fileReader = new FileReader(PATH);
              BufferedReader reader = new BufferedReader(fileReader)) {
             String line = reader.readLine();
             while (line != null) {
                 if (line.contains(uuid.toString())) {
                     System.out.println("\n" + "found student like: " + line + "\n");
-                } else {
-                    System.out.println("\n" + " no such student with id: "
-                            + uuid.toString());
+                    testStudent = Student.convertCsvStudentToStudent(line);
+                    return testStudent;
                 }
                 line = reader.readLine();
             }

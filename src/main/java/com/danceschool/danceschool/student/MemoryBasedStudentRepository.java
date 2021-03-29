@@ -26,7 +26,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
                        .level(level)
                        .build();
                studentList.add(student);
-               System.out.println("add student: " + student.toString());
+               System.out.println("create student: " + student.toString());
                UUID uuid = student.getId();
         return uuid;
     }
@@ -38,6 +38,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
             Student student = studentList.get(i);
             if (student.getId().equals(uuid)) {
                 System.out.println("show student data: " + student);
+                return student;
             }
         }
         return null;
@@ -45,7 +46,8 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     @Override
     public Student updateStudent(UUID uuid, PersonalData newPersonalData, Level newLevel) {
-        Student newStudent = new Student.Builder(newPersonalData)
+        Student newStudent = new Student.Builder()
+                .personalData(newPersonalData)
                 .level(newLevel)
                 .build();
         for (int i = 0; i < studentList.size(); i++) {

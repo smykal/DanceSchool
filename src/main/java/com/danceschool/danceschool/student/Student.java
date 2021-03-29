@@ -2,7 +2,6 @@ package com.danceschool.danceschool.student;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
-import org.springframework.security.core.parameters.P;
 
 import java.util.Arrays;
 import java.util.List;
@@ -125,6 +124,7 @@ public class Student {
         return "Student{" +
                 "personalData=" + personalData +
                 ", level=" + level +
+                " Id= " + id.toString() +
                 '}';
     }
 }
