@@ -1,5 +1,3 @@
-">>name<<",">>surname<<",">>address<<",">>level<<",">>student ID<<"
-testName,testSurname,testAddress,PROFESSIONAL,6538a780-8711-4680-8071-ad46b2662d3d
-testName,testSurname1,testAddress,PROFESSIONAL,b4b822a8-ae4e-43fd-84a6-a2a73048be54
-testName,testSurname2,testAddress,PROFESSIONAL,d741dbfe-9f6b-4cc7-9b6c-6e001ff1ccee
-testName,testSurname3,testAddress,PROFESSIONAL,71e423ff-5136-4ce4-89a1-e864a21cbadd
+"testName01","testSurname01","testAddress01","PROFESSIONAL","3a87816a-d68f-4f17-8011-0cd84a1e3e5c"
+"testName02","testSurname02","testAddress02","AMATEUR","31c46598-abca-46c4-8626-12e12b84f353"
+"newTestName","newTestSurname","newTestAddress","PROFESSIONAL","714a1403-a38f-44c5-ad61-c59b3195534d"

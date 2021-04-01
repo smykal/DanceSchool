@@ -6,16 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.when;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Persistable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,37 +16,35 @@ class FileBasedStudentRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance();
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
+        getFileBasedStudentRepositoryInstance();
+        getFileBasedStudentRepositoryInstance()
                 .createNewStudentList();
         PersonalData testPersonalData01 = new PersonalData.PersonalDataBuilder()
                 .withName("testName01")
                 .withSurname("testSurname01")
                 .withAddress("testAddress01")
                 .build();
-        Level testLevel1 = Level.PROFESSIONAL;
 
         PersonalData testPersonalData02 = new PersonalData.PersonalDataBuilder()
                 .withName("testName02")
                 .withSurname("testSurname02")
                 .withAddress("testAddress02")
                 .build();
-        Level testLevel2 = Level.PROFESSIONAL;
 
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .createStudent(testPersonalData01, testLevel1);
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .createStudent(testPersonalData02, testLevel2);
+        getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData01, Level.PROFESSIONAL);
+        getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData02, Level.AMATEUR);
+    }
+
+    private FileBasedStudentRepository getFileBasedStudentRepositoryInstance() {
+        return FileBasedStudentRepository
+                .getFileBasedStudentRepositoryInstance();
     }
 
     @AfterEach
     void tearDown() {
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
+        getFileBasedStudentRepositoryInstance()
                 .deleteNewCsvStudentList();
     }
 
@@ -68,35 +58,92 @@ class FileBasedStudentRepositoryTest {
                 .withSurname("testSurname")
                 .withAddress("testAddress")
                 .build();
-        Level testLevel = Level.AMATEUR;
-        Student student = new Student.Builder()
-                .personalData(testPersonalData)
-                .level(testLevel)
-                .build();
+
         //when
-        UUID testUUID = FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .createStudent(testPersonalData,testLevel);
+        UUID actualUUID = getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData,Level.AMATEUR);
+
         //then
-        assertNotNull(testUUID, "if true - that means that createStudent gave back UUID as a result" );
+        Student student = getFileBasedStudentRepositoryInstance().readStudent(actualUUID);
+        UUID expectedUUID = student.getId();
+
+        assertEquals(actualUUID, expectedUUID);
+
     }
 
     @Test
-    @DisplayName ("method should give back String with users details")
+    @DisplayName ("test is comparing expected values of student with shown by readStudent() method")
     void readStudent() {
         //given
-        String testSurname = "testSurname02";
+        PersonalData testPersonalData = new PersonalData
+                .PersonalDataBuilder()
+                .withName("testName")
+                .withSurname("testSurname")
+                .withAddress("testAddress")
+                .build();
+        UUID actualUUID = getFileBasedStudentRepositoryInstance().createStudent(testPersonalData, Level.AMATEUR);
+
         //when
-        Student actual = FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
-                .readStudent(UUID.fromString(testSurname));
+        Student actualStudent = getFileBasedStudentRepositoryInstance().readStudent(actualUUID);
+
         //then
-        assertTrue(actual!=null,"Object exist");
+        String actualName = actualStudent.getName();
+        String expectedName = testPersonalData.getName();
+
+        String actualSurname = actualStudent.getSurname();
+        String expectedSurname = testPersonalData.getSurname();
+
+        String actualAddress = actualStudent.getAddress();
+        String expectedAddress = testPersonalData.getAddress();
+
+        UUID expectedUUID = actualStudent.getId();
+
+        assertEquals(actualName,expectedName);
+        assertEquals(actualSurname,expectedSurname);
+        assertEquals(actualAddress,expectedAddress);
+        assertEquals(actualUUID,expectedUUID);
     }
 
     @Test
+    @DisplayName("should check is new parameters of student are equals to expected")
     void updateStudent() {
+        //given
+        PersonalData testPersonalData = new PersonalData
+                .PersonalDataBuilder()
+                .withName("testName")
+                .withSurname("testSurname")
+                .withAddress("testAddress")
+                .build();
+        Level testLevel = Level.AMATEUR;
+        UUID actualUUID = getFileBasedStudentRepositoryInstance()
+                .createStudent(testPersonalData, testLevel);
+        PersonalData testNewPersonalData = new PersonalData
+                .PersonalDataBuilder()
+                .withName("newTestName")
+                .withSurname("newTestSurname")
+                .withAddress("newTestAddress")
+                .build();
+        Level newTestLevel = Level.PROFESSIONAL;
 
+        //when
+        getFileBasedStudentRepositoryInstance()
+                .updateStudent(actualUUID, testNewPersonalData, Level.PROFESSIONAL);
+
+        //than
+        Student actualStudent = getFileBasedStudentRepositoryInstance()
+                .readStudent(actualUUID);
+        String actualName = actualStudent.getName();
+        String expectedName = testNewPersonalData.getName();
+        String actualSurname = actualStudent.getSurname();
+        String expectedSurname = testNewPersonalData.getSurname();
+        String actualAddress = actualStudent.getAddress();
+        String expectedAddress = testNewPersonalData.getAddress();
+        UUID expectedUUID = actualStudent.getId();
+
+        assertEquals(expectedName,actualName);
+        assertEquals(expectedSurname,actualSurname);
+        assertEquals(expectedAddress,actualAddress);
+        assertEquals(expectedUUID,actualUUID);
     }
 
     @Test
@@ -108,8 +155,7 @@ class FileBasedStudentRepositoryTest {
     void shouldCreateNewStudentCsvList() {
         //given
         final String PATH = "C:/Users/Mateusz/IdeaProjects/DanceSchool/DanceSchool/csv/students.csv";
-        FileBasedStudentRepository
-                .getFileBasedStudentRepositoryInstance()
+        getFileBasedStudentRepositoryInstance()
                 .createNewStudentList();
         File f = new File(PATH);
         //when

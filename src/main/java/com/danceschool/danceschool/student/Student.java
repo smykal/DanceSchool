@@ -5,6 +5,7 @@ import com.danceschool.danceschool.data.PersonalData;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Student {
@@ -30,18 +31,14 @@ public class Student {
 
     public UUID getId() { return id; }
 
-    public void setName(String newName) {
-        this.personalData.setName(newName); }
-
+    public void setName(String newName) { this.personalData.setName(newName); }
     public void setSurname(String newSurname) {
         this.personalData.setSurname(newSurname);
     }
     public void setAddress(String newAddress) {
         this.personalData.setAddress(newAddress);
     }
-    public void setLevel(Level level) {
-        this.level = level;
-    }
+    public void setLevel(Level level) { this.level = level; }
     public void setId(UUID id) { this.id = id; }
 
     public static class Builder {
@@ -78,7 +75,7 @@ public class Student {
     }
 
     public String[] convertStudentToCsvFormat() {
-        String[] studentArray = {getName(), getSurname(), getAddress(), getLevel().toString()};
+        String[] studentArray = {getName(), getSurname(), getAddress(), getLevel().toString(), String.valueOf(getId())};
         return studentArray;
     }
 
@@ -91,11 +88,13 @@ public class Student {
                     .withSurname(studentAsArray.get(1))
                     .withAddress(studentAsArray.get(2))
                     .build();
-            Level level = Level.valueOf(studentAsArray.get(3));
-            return new Builder()
+            Level level = Level.valueOf(studentAsArray.get(3).toUpperCase());
+            Student student = new Builder()
                     .personalData(studentPersonalData)
                     .level(level)
                     .build();
+            student.setId(UUID.fromString(studentAsArray.get(4)));
+            return student;
         }
         throw new IllegalStateException("unable to deserialize student");
     }
