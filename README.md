@@ -22,7 +22,9 @@ $
 $ FORK from git
 $ 
 ```
+###Database relation graph:
+![Algorithm schema](dbGraph.png)
 
-###Graph is going to be update soon.
+###Objects relation graph:
 ![Algorithm schema](umlGraph.png)
 
