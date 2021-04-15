@@ -1,4 +1,4 @@
-package com.danceschool.danceschool.student;
+package com.danceschool.danceschool.members.student;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
@@ -45,7 +45,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         String[] studentData = {
                 personalData.getName(),
                 personalData.getSurname(),
-                personalData.getAddress(),
+                personalData.getAddress().toString(),
                 level.name(),
                 student.getId().toString()};
         try {

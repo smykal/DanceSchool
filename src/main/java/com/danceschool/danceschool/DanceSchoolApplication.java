@@ -1,15 +1,13 @@
 package com.danceschool.danceschool;
 
+import com.danceschool.danceschool.data.Address;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 import com.danceschool.danceschool.secretary.Secretary;
-import com.danceschool.danceschool.student.FileBasedStudentRepository;
-import com.danceschool.danceschool.student.MemoryBasedStudentRepository;
-import com.danceschool.danceschool.student.Student;
+import com.danceschool.danceschool.members.student.MemoryBasedStudentRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @SpringBootApplication
 public class DanceSchoolApplication {
@@ -22,7 +20,13 @@ public class DanceSchoolApplication {
                 .createStudent(new PersonalData.PersonalDataBuilder()
                         .withName("Anna")
                         .withSurname("Nowak")
-                        .withAddress("Kraków, Gdziekolwiek 15")
+                        .withAddress(new Address.Builder()
+                                    .city("Kraków")
+                                    .postalCode("30-001")
+                                    .street("Grodzka")
+                                    .blockNumber("43")
+                                    .apartmentNumber("2")
+                                    .build())
                         .build(), Level.PROFESSIONAL);
 
         MemoryBasedStudentRepository
@@ -30,18 +34,34 @@ public class DanceSchoolApplication {
                 .createStudent(new PersonalData.PersonalDataBuilder()
                         .withName("Jakub")
                         .withSurname("Gzyl")
-                        .withAddress("Wieliczka, Street 12")
+                        .withAddress(new Address.Builder()
+                                .city("Warszawa")
+                                .postalCode("01-021")
+                                .street("Krakowska")
+                                .blockNumber("3")
+                                .apartmentNumber("21")
+                                .build())
                         .build(), Level.PROFESSIONAL);
 
         Secretary madzia = new Secretary.SecretaryBuilder()
                 .withPersonalData(new PersonalData.PersonalDataBuilder()
                         .withName("Madzia")
                         .withSurname("Ziarko")
-                        .withAddress("In the middle of nowhere")
+                        .withAddress(new Address.Builder()
+                                .city("Kielce")
+                                .postalCode("22-052")
+                                .street("Rydza")
+                                .blockNumber("2")
+                                .build())
                         .build())
                 .build();
 
         madzia.setUpNewGroup("Nowa Grupa");
-
+        Address address = new Address.Builder()
+                .city("Kraków")
+                .postalCode("30-912")
+                .street("Długa")
+                .blockNumber("12")
+                .build();
     }
 }

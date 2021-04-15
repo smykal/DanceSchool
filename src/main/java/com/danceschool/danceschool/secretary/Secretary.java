@@ -1,11 +1,8 @@
 package com.danceschool.danceschool.secretary;
 
-import com.danceschool.danceschool.data.Groups;
-import com.danceschool.danceschool.data.GroupInterface;
+import com.danceschool.danceschool.groups.Groups;
+import com.danceschool.danceschool.groups.GroupInterface;
 import com.danceschool.danceschool.data.PersonalData;
-import com.danceschool.danceschool.teacher.Teacher;
-
-import java.util.List;
 
 public class Secretary implements GroupInterface {
     private PersonalData personalData;

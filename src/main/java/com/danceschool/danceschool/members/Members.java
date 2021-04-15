@@ -1,4 +1,5 @@
-package com.danceschool.danceschool;
+package com.danceschool.danceschool.members;
 
-public class Members {
+public abstract class Members {
+
 }

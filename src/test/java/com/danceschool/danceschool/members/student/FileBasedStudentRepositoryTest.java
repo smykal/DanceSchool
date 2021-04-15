@@ -1,4 +1,4 @@
-package com.danceschool.danceschool.student;
+package com.danceschool.danceschool.members.student;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
@@ -93,7 +93,7 @@ class FileBasedStudentRepositoryTest {
         String actualSurname = actualStudent.getSurname();
         String expectedSurname = testPersonalData.getSurname();
 
-        String actualAddress = actualStudent.getAddress();
+        String actualAddress = actualStudent.getCity();
         String expectedAddress = testPersonalData.getAddress();
 
         UUID expectedUUID = actualStudent.getId();
@@ -136,7 +136,7 @@ class FileBasedStudentRepositoryTest {
         String expectedName = testNewPersonalData.getName();
         String actualSurname = actualStudent.getSurname();
         String expectedSurname = testNewPersonalData.getSurname();
-        String actualAddress = actualStudent.getAddress();
+        String actualAddress = actualStudent.getCity();
         String expectedAddress = testNewPersonalData.getAddress();
         UUID expectedUUID = actualStudent.getId();
 

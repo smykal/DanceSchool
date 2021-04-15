@@ -3,9 +3,9 @@ package com.danceschool.danceschool.data;
 public class PersonalData {
     private String name;
     private String surname;
-    private String address;
+    private Address address;
 
-    private PersonalData(String name, String surname, String address) {
+    private PersonalData(String name, String surname, Address address) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -19,7 +19,7 @@ public class PersonalData {
         this.surname = surname;
     }
 
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(Address address) { this.address = address; }
 
     public String getName() {
         return name;
@@ -29,7 +29,7 @@ public class PersonalData {
         return surname;
     }
 
-    public String getAddress() { return address; }
+    public Address getAddress() { return address; }
 
 
     @Override
@@ -37,7 +37,7 @@ public class PersonalData {
         return "PersonalData{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", address=" + address +
+                ", address=" + address.toString() +
                 '}';
     }
 
@@ -62,7 +62,7 @@ public class PersonalData {
     public static final class PersonalDataBuilder {
         private String name;
         private String surname;
-        private String address;
+        private Address address;
 
         public PersonalDataBuilder() {
         }
@@ -77,7 +77,7 @@ public class PersonalData {
             return this;
         }
 
-        public PersonalDataBuilder withAddress(String address) {
+        public PersonalDataBuilder withAddress(Address address) {
             this.address = address;
             return this;
         }

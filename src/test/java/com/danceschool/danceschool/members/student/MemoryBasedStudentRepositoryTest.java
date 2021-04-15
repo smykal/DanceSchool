@@ -1,4 +1,4 @@
-package com.danceschool.danceschool.student;
+package com.danceschool.danceschool.members.student;
 
 
 import com.danceschool.danceschool.data.Level;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 

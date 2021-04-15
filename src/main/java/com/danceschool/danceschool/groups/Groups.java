@@ -1,4 +1,4 @@
-package com.danceschool.danceschool.data;
+package com.danceschool.danceschool.groups;
 
 import com.danceschool.danceschool.members.Members;
 

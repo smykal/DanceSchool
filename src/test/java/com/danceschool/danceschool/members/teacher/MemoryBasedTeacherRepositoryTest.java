@@ -1,4 +1,4 @@
-package com.danceschool.danceschool.teacher;
+package com.danceschool.danceschool.members.teacher;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;

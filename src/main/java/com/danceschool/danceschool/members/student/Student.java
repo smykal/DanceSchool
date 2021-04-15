@@ -1,6 +1,7 @@
-package com.danceschool.danceschool.student;
+package com.danceschool.danceschool.members.student;
 
-import com.danceschool.danceschool.Members;
+import com.danceschool.danceschool.data.Address;
+import com.danceschool.danceschool.members.Members;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
@@ -21,8 +22,28 @@ public class Student extends Members {
         return personalData.getName();
     }
 
-    public String getAddress() {
-        return personalData.getAddress();
+    public String getCity() {
+        return personalData.getAddress().getCity();
+    }
+
+    public String getPostalCode() {
+        return personalData.getAddress().getPostalCode();
+    }
+
+    public String getStreet() {
+        return personalData.getAddress().getStreet();
+    }
+
+    public String getBlockNumber() {
+        return personalData.getAddress().getBlockNumber();
+    }
+
+    public String getApartmentNumber() {
+        if (personalData.getAddress().getApartmentNumber() == null) {
+            return "none";
+        } else {
+            return personalData.getAddress().getApartmentNumber();
+        }
     }
 
     public Level getLevel() {
@@ -35,9 +56,7 @@ public class Student extends Members {
     public void setSurname(String newSurname) {
         this.personalData.setSurname(newSurname);
     }
-    public void setAddress(String newAddress) {
-        this.personalData.setAddress(newAddress);
-    }
+    public void setAddress(Address newAddress) { this.personalData.setAddress(newAddress); }
     public void setLevel(Level level) { this.level = level; }
     public void setId(UUID id) { this.id = id; }
 
@@ -75,7 +94,9 @@ public class Student extends Members {
     }
 
     public String[] convertStudentToCsvFormat() {
-        String[] studentArray = {getName(), getSurname(), getAddress(), getLevel().toString(), String.valueOf(getId())};
+        String[] studentArray = {getName(), getSurname(), getCity(), getPostalCode(),
+                 getStreet(), getBlockNumber(), getApartmentNumber(),
+                 getLevel().toString(), String.valueOf(getId())};
         return studentArray;
     }
 
@@ -86,14 +107,20 @@ public class Student extends Members {
             PersonalData studentPersonalData = personalDataBuilder
                     .withName(studentAsArray.get(0))
                     .withSurname(studentAsArray.get(1))
-                    .withAddress(studentAsArray.get(2))
+                    .withAddress(new Address.Builder()
+                                    .city(studentAsArray.get(2))
+                                    .postalCode(studentAsArray.get(3))
+                                    .street(studentAsArray.get(4))
+                                    .blockNumber(studentAsArray.get(5))
+                                    .apartmentNumber(studentAsArray.get(6))
+                                    .build())
                     .build();
-            Level level = Level.valueOf(studentAsArray.get(3).toUpperCase());
+            Level level = Level.valueOf(studentAsArray.get(7).toUpperCase());
             Student student = new Builder()
                     .personalData(studentPersonalData)
                     .level(level)
                     .build();
-            student.setId(UUID.fromString(studentAsArray.get(4)));
+            student.setId(UUID.fromString(studentAsArray.get(8)));
             return student;
         }
         throw new IllegalStateException("unable to deserialize student");
