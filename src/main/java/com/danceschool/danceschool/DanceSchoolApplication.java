@@ -2,6 +2,7 @@ package com.danceschool.danceschool;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.danceschool.danceschool.secretary.Secretary;
 import com.danceschool.danceschool.student.FileBasedStudentRepository;
 import com.danceschool.danceschool.student.MemoryBasedStudentRepository;
 import com.danceschool.danceschool.student.Student;
@@ -31,6 +32,16 @@ public class DanceSchoolApplication {
                         .withSurname("Gzyl")
                         .withAddress("Wieliczka, Street 12")
                         .build(), Level.PROFESSIONAL);
+
+        Secretary madzia = new Secretary.SecretaryBuilder()
+                .withPersonalData(new PersonalData.PersonalDataBuilder()
+                        .withName("Madzia")
+                        .withSurname("Ziarko")
+                        .withAddress("In the middle of nowhere")
+                        .build())
+                .build();
+
+        madzia.setUpNewGroup("Nowa Grupa");
 
     }
 }
