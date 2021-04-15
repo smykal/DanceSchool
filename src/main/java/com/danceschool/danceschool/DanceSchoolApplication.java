@@ -3,6 +3,8 @@ package com.danceschool.danceschool;
 import com.danceschool.danceschool.data.Address;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.danceschool.danceschool.groups.Groups;
+import com.danceschool.danceschool.schools.School;
 import com.danceschool.danceschool.secretary.Secretary;
 import com.danceschool.danceschool.members.student.MemoryBasedStudentRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +14,12 @@ import java.io.IOException;
 @SpringBootApplication
 public class DanceSchoolApplication {
     public static void main(String[] args) throws IOException {
+        School getSchools = School.getSchoolListInstance();
+                getSchools.iterateSchools(getSchools.getSchoolsList());
+
         MemoryBasedStudentRepository memoryBasedStudentRepository = MemoryBasedStudentRepository
                 .getMemoryBasedStudentRepositoryInstance();
+        Groups getGroups = Groups.getDanceSchoolGroups();
 
         MemoryBasedStudentRepository
                 .getMemoryBasedStudentRepositoryInstance()
@@ -63,5 +69,16 @@ public class DanceSchoolApplication {
                 .street("Długa")
                 .blockNumber("12")
                 .build();
+
+        madzia.addSchool("Sabrosa", new Address.Builder()
+                                                    .city("Kraków")
+                                                    .postalCode("00-001")
+                                                    .street("Rondo Mogilskie")
+                                                    .blockNumber("12")
+                                                    .apartmentNumber("1")
+                                                    .build());
+
+        System.out.println(School.getSchoolListInstance().iterateSchools(getSchools.getSchoolsList()));
+
     }
 }
