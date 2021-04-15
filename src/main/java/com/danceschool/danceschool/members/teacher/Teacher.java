@@ -1,9 +1,10 @@
 package com.danceschool.danceschool.teacher;
 
+import com.danceschool.danceschool.Members;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
-public class Teacher {
+public class Teacher extends Members {
 
     private PersonalData personalData;
     private Level level;

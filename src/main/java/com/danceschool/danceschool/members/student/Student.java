@@ -1,14 +1,14 @@
 package com.danceschool.danceschool.student;
 
+import com.danceschool.danceschool.Members;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
-public class Student {
+public class Student extends Members {
     private PersonalData personalData;
     private Level level;
     private UUID id;
