@@ -6,7 +6,6 @@ import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 public class Student extends Members {
@@ -101,26 +100,26 @@ public class Student extends Members {
     }
 
     public static Student convertCsvStudentToStudent(String studentAsString) {
-        List<String> studentAsArray = Arrays.asList(studentAsString.split(","));
+        java.util.List studentAsArray = Arrays.asList(studentAsString.split(","));
         PersonalData.PersonalDataBuilder personalDataBuilder = new PersonalData.PersonalDataBuilder();
         if (studentAsArray != null) {
             PersonalData studentPersonalData = personalDataBuilder
-                    .withName(studentAsArray.get(0))
-                    .withSurname(studentAsArray.get(1))
+                    .withName(studentAsArray.get(0).toString())
+                    .withSurname(studentAsArray.get(1).toString())
                     .withAddress(new Address.Builder()
-                                    .city(studentAsArray.get(2))
-                                    .postalCode(studentAsArray.get(3))
-                                    .street(studentAsArray.get(4))
-                                    .blockNumber(studentAsArray.get(5))
-                                    .apartmentNumber(studentAsArray.get(6))
+                                    .city(studentAsArray.get(2).toString())
+                                    .postalCode(studentAsArray.get(3).toString())
+                                    .street(studentAsArray.get(4).toString())
+                                    .blockNumber(studentAsArray.get(5).toString())
+                                    .apartmentNumber(studentAsArray.get(6).toString())
                                     .build())
                     .build();
-            Level level = Level.valueOf(studentAsArray.get(7).toUpperCase());
+            Level level = Level.valueOf(studentAsArray.get(7).toString().toUpperCase());
             Student student = new Builder()
                     .personalData(studentPersonalData)
                     .level(level)
                     .build();
-            student.setId(UUID.fromString(studentAsArray.get(8)));
+            student.setId(UUID.fromString(studentAsArray.get(8).toString()));
             return student;
         }
         throw new IllegalStateException("unable to deserialize student");

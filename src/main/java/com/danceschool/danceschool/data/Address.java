@@ -2,11 +2,11 @@ package com.danceschool.danceschool.data;
 
 public class Address {
 
-    private String city;
-    private String postalCode;
-    private String street;
-    private String blockNumber;
-    private String apartmentNumber;
+    private final String city;
+    private final String postalCode;
+    private final String street;
+    private final String blockNumber;
+    private final String apartmentNumber;
 
     public static class Builder {
 
@@ -124,5 +124,4 @@ public class Address {
                     ", apartmentNumber='" + apartmentNumber + '\'' +
                     '}';
     }
-
 }

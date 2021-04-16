@@ -16,5 +16,19 @@ public class Groups {
     public static Groups getDanceSchoolGroups() {
         return danceSchoolGroups;
     }
+
+    public String iterateGroup(String groupName) {
+            List<Members> members = groups.get(groupName);
+            StringBuffer display = new StringBuffer();
+            display.append("Memberso of group: " + groupName + "\n");
+        if (members == null) {
+            System.out.println("Grupa jest pusta");
+        } else {
+            for (int i = 0; i < members.size(); i++) {
+                display.append(members.get(i).toString() + " \n");
+            }
+        }
+        return display.toString();
+    }
 }
 
