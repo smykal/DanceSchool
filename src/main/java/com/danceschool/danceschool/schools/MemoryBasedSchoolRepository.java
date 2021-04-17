@@ -38,28 +38,33 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
 
     @Override
     public String updateSchool(String schoolName, Address newSchoolAddress) {
-        StringBuffer display = new StringBuffer();
-        String oldAddress = MemoryBasedSchoolRepository
-                .getMemoryBasedSchoolRepositoryInstance()
-                .schools
-                .get(schoolName)
-                .toString();
-        display.append("Stary adres szkoły ")
-                .append(schoolName)
-                .append(" to: ")
-                .append(oldAddress)
-                .append("\n");
-        MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
-                .schools.put(schoolName,newSchoolAddress);
-        String newAddress = MemoryBasedSchoolRepository
-                .getMemoryBasedSchoolRepositoryInstance()
-                .schools
-                .get(schoolName)
-                .toString();
-        display.append("Nowy adres szkoły " + schoolName + " to: " + newAddress + "\n");
+        Boolean isSchoolExisting = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
+                .isSchoolExisting(schoolName);
+        if (isSchoolExisting) {
+            StringBuffer display = new StringBuffer();
+            String oldAddress = MemoryBasedSchoolRepository
+                    .getMemoryBasedSchoolRepositoryInstance()
+                    .schools
+                    .get(schoolName)
+                    .toString();
+            display.append("Stary adres szkoły ")
+                    .append(schoolName)
+                    .append(" to: ")
+                    .append(oldAddress)
+                    .append("\n");
+            MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
+                    .schools.put(schoolName,newSchoolAddress);
+            String newAddress = MemoryBasedSchoolRepository
+                    .getMemoryBasedSchoolRepositoryInstance()
+                    .schools
+                    .get(schoolName)
+                    .toString();
+            display.append("Nowy adres szkoły " + schoolName + " to: " + newAddress + "\n");
 
-        System.out.println(display);
-        return display.toString();
+            System.out.println(display);
+            return display.toString();
+        } else
+            return "No such school";
     }
 
     @Override
@@ -80,5 +85,11 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
             display.append(entry.getKey() + "/" + entry.getValue() + "\n");
         }
         return display.toString();
+    }
+
+    public Boolean isSchoolExisting(String schoolName) {
+        boolean result = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
+                .schools.containsKey(schoolName);
+        return result;
     }
 }

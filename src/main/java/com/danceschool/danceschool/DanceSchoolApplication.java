@@ -5,6 +5,7 @@ import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
 import com.danceschool.danceschool.groups.Groups;
 import com.danceschool.danceschool.groups.MemoryBasedGroupRepository;
+import com.danceschool.danceschool.members.teacher.Teacher;
 import com.danceschool.danceschool.schools.MemoryBasedSchoolRepository;
 import com.danceschool.danceschool.secretary.Secretary;
 import com.danceschool.danceschool.members.student.MemoryBasedStudentRepository;
@@ -80,8 +81,27 @@ public class DanceSchoolApplication {
                         .getMemoryBasedGroupRepositoryInstance()
                         .getGroups());
 
+        Address address = new Address.Builder()
+                .city("Kraków")
+                .postalCode("30-001")
+                .street("Grodzka")
+                .blockNumber("43")
+                .apartmentNumber("2")
+                .build();
+        Teacher teacher = new Teacher.Builder()
+                .personalData(new PersonalData.PersonalDataBuilder()
+                .withName("Andrzej")
+                .withSurname("Dupa")
+                .withAddress(address)
+                .build())
+                .level(Level.AMATEUR)
+                .build();
+
         MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .readGroup("P2");
+                .addMemberToGroup("P1",teacher);
+
+        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+                .readGroup("P1");
 
 
 

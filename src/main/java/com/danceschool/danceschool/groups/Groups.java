@@ -20,7 +20,7 @@ public class Groups {
     public String iterateGroup(String groupName) {
             List<Members> members = groups.get(groupName);
             StringBuffer display = new StringBuffer();
-            display.append("Memberso of group: " + groupName + "\n");
+            display.append("Members of group: " + groupName + "\n");
         if (members == null) {
             System.out.println("Grupa jest pusta");
         } else {

@@ -1,13 +1,8 @@
 package com.danceschool.danceschool.groups;
 
-import com.danceschool.danceschool.data.Address;
 import com.danceschool.danceschool.members.Members;
-import com.danceschool.danceschool.members.student.Student;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryBasedGroupRepository implements GroupRepository {
     Map<String, List<Members>> groups = new HashMap<>();
@@ -22,7 +17,8 @@ public class MemoryBasedGroupRepository implements GroupRepository {
 
     @Override
     public String createGroup(String groupName) {
-        groups.put(groupName, null);
+        ArrayList<Members> list = new ArrayList<>();
+        groups.put(groupName, list);
         StringBuffer display = new StringBuffer();
         display.append("Dodano grupę o nazwie: " + groupName + "\n");
         System.out.println(display);
@@ -31,11 +27,32 @@ public class MemoryBasedGroupRepository implements GroupRepository {
 
     @Override
     public String readGroup(String groupName) {
-        List<Members> groupMembers = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .getGroups()
-                .get(groupName);
-        return iterateGroupMembers(groupMembers);
+        if (isGroupExisting(groupName)) {
+            List<Members> groupMembers = MemoryBasedGroupRepository
+                    .getMemoryBasedGroupRepositoryInstance()
+                    .getGroups()
+                    .get(groupName);
+            if (groupMembers == null) {
+                System.out.println("Grupa o nazwie: " + groupName + " is empty");
+                return "Grupa o nazwie: " + groupName + " is empty";
+            } else {
+                System.out.println(iterateGroupMembers(groupMembers));
+                return iterateGroupMembers(groupMembers);
+            }
+        } else {
+            System.out.println("Grupa o nazwie: " + groupName + " nie istnieje");
+        }
+        return "nic ";
+    }
+
+    @Override
+    public String updateGroup(String groupName, Members member) {
+        if (isGroupExisting(groupName)) {
+            MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+                    .groups.get(groupName);
+            return "git";
+        }
+        return "nie ma takiej grupy";
     }
 
     public Map<String, List<Members>> getGroups() {
@@ -53,15 +70,33 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         return display.toString();
     }
 
-    public String iterateGroupMembers(List<Members> addressOfMembers) {
+    public String iterateGroupMembers(List<Members> membersList) {
         StringBuffer display = new StringBuffer();
-        Iterator<Members> listOfMembersIterator = addressOfMembers.iterator();
+        Iterator<Members> listOfMembersIterator = membersList.iterator();
 
         while(listOfMembersIterator.hasNext()) {
             display.append(listOfMembersIterator.next());
-            display.append("\n");
         }
         System.out.println(display);
         return display.toString();
+    }
+    public boolean isGroupExisting(String groupName) {
+        boolean result = MemoryBasedGroupRepository
+                .getMemoryBasedGroupRepositoryInstance()
+                .groups
+                .containsKey(groupName);
+        return result;
+    }
+
+    public boolean addMemberToGroup(String groupName, Members member) {
+        if (isGroupExisting(groupName)) {
+            MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+                    .groups
+                    .get(groupName)
+                    .add(member);
+            System.out.println("success");
+            return true;
+        } else
+        return false;
     }
 }
