@@ -6,5 +6,5 @@ import com.danceschool.danceschool.members.student.Student;
 public interface GroupRepository {
     String createGroup(String groupName);
     String readGroup(String groupName);
-    String updateGroup(String groupName, Members member);
+    boolean updateGroupName(String groupName, String newGroupName);
 }
