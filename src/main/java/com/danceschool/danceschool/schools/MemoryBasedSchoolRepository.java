@@ -69,22 +69,31 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
 
     @Override
     public String deleteSchool(String schoolName) {
-        Map<String, Address> schools = MemoryBasedSchoolRepository
-                .getMemoryBasedSchoolRepositoryInstance().schools;
-        schools.remove(schoolName);
-        String result = MemoryBasedSchoolRepository
-                .getMemoryBasedSchoolRepositoryInstance().iterateSchools(schools);
-        System.out.println(result);
-        return result;
+        boolean isSchoolExisting = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
+                .isSchoolExisting(schoolName);
+        if (isSchoolExisting) {
+            Map<String, Address> schools = MemoryBasedSchoolRepository
+                    .getMemoryBasedSchoolRepositoryInstance().schools;
+            schools.remove(schoolName);
+            String result = MemoryBasedSchoolRepository
+                    .getMemoryBasedSchoolRepositoryInstance().iterateSchools(schools);
+            System.out.println(result);
+            return result;
+        } else
+        return "No such school";
     }
 
     public String iterateSchools(Map<String, Address> map) {
-        StringBuffer display = new StringBuffer();
-        display.append("School name / " + "school address\n");
-        for (Map.Entry<String, Address> entry : map.entrySet()) {
-            display.append(entry.getKey() + "/" + entry.getValue() + "\n");
+        if (!map.isEmpty()) {
+            StringBuffer display = new StringBuffer();
+            display.append("School name / " + "school address\n");
+            for (Map.Entry<String, Address> entry : map.entrySet()) {
+                display.append(entry.getKey() + "/" + entry.getValue() + "\n");
+            }
+            return display.toString();
         }
-        return display.toString();
+        else
+            return "list is empty";
     }
 
     public Boolean isSchoolExisting(String schoolName) {
