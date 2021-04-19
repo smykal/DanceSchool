@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryBasedSchoolRepository implements SchoolRepository{
-    Map<String, Address> schools = new HashMap<>();
+
+
+    private Map<String, Address> schools = new HashMap<>();
 
 
     private static MemoryBasedSchoolRepository schoolsList = new MemoryBasedSchoolRepository();
@@ -81,6 +83,10 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
             return result;
         } else
         return "No such school";
+    }
+
+    public Map<String, Address> getSchools() {
+        return schools;
     }
 
     public String iterateSchools(Map<String, Address> map) {

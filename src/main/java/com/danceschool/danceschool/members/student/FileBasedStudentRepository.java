@@ -48,6 +48,7 @@ public class FileBasedStudentRepository implements StudentRepository {
                 personalData.getAddress().toString(),
                 level.name(),
                 student.getId().toString()};
+                UUID uuid = student.getId();
         try {
             FileWriter outputFile = new FileWriter(PATH, true);
             writer = new CSVWriter(outputFile);
@@ -59,13 +60,13 @@ public class FileBasedStudentRepository implements StudentRepository {
             System.out.println("createStudent: " + Arrays.toString(studentData));
             closeCsvWriterResource(writer);
         }
-        return student.getId();
+        return uuid;
     }
 
     @Override
     public Student readStudent(UUID uuid) {
         System.out.println("readStudent with id: " + uuid.toString());
-        Student testStudent;
+        Student testStudent = null;
         try (FileReader fileReader = new FileReader(PATH);
              BufferedReader reader = new BufferedReader(fileReader)) {
             String line = reader.readLine();
@@ -80,7 +81,7 @@ public class FileBasedStudentRepository implements StudentRepository {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        return null;
+        return testStudent;
     }
 
     @Override

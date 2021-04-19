@@ -35,12 +35,14 @@ public class MemoryBasedStudentRepository implements StudentRepository{
 
     @Override
     public Student readStudent(UUID uuid) {
-        for (int i = 0; i < studentList.size(); i++) {
-            Student student = studentList.get(i);
-            if (student.getId().equals(uuid)) {
-                System.out.println("show student data: " + student);
-                return student;
+        try {
+            int i = 0;
+            while (i < studentList.size() && !studentList.get(i).getId().equals(uuid)) {
+                ++i;
             }
+            return studentList.get(i);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -97,5 +99,16 @@ public class MemoryBasedStudentRepository implements StudentRepository{
     @Override
     public int hashCode() {
         return studentList != null ? studentList.hashCode() : 0;
+    }
+
+    public boolean searchUUID(UUID uuid, List<Student> list) {
+        boolean result = false;
+        do{
+            for (int i = 0; i < list.size(); i++) {
+                result = list.get(i).getId().equals(uuid);
+            }
+        }
+        while(result = true);
+        return result;
     }
 }
