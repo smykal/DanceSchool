@@ -1,6 +1,7 @@
 package com.danceschool.danceschool.schools;
 
 import com.danceschool.danceschool.data.Address;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,11 @@ class MemoryBasedSchoolRepositoryTest {
                 .blockNumber(blockNumber)
                 .apartmentNumber(apartmentNumber)
                 .build();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.getSchools().clear();
     }
 
     @Test

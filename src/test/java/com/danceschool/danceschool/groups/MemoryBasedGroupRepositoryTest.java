@@ -1,10 +1,12 @@
 package com.danceschool.danceschool.groups;
 
+import static org.mockito.Mockito.when;
 import com.danceschool.danceschool.members.Members;
-import com.danceschool.danceschool.members.teacher.Teacher;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,31 +15,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryBasedGroupRepositoryTest {
 
+    public static final MemoryBasedGroupRepository MEMORY_BASED_GROUP_REPOSITORY_INSTANCE = MemoryBasedGroupRepository
+            .getMemoryBasedGroupRepositoryInstance();
+    public static final String GROUP = "group";
+
     @Mock
     Members member;
-    Members member2;
 
-    @BeforeAll
-    public static void init(){
-        System.out.println("methods before all tests");
-    }
+    @Mock
+    Members member2;
 
     @BeforeEach
     public void initEach(){
-        System.out.println("\n\nmethods before each test");
-        String groupName = "group";
-        MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .createGroup(groupName);
+        MockitoAnnotations.openMocks(this);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .createGroup(GROUP);
     }
 
     @AfterEach
     public void cleanUpEach() {
-        System.out.println("methods after each test");
-        String groupName = "group";
-        MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
                 .clear();
     }
 
@@ -47,104 +45,95 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    @DisplayName("createGroup() - should add new group into groups")
-    void createGroupAndIncreaseHashMapSize() {
+    void shouldGenerateNewGroupAndIncreasieHashMapSize() {
         //given
         String groupName = "advanced group";
-        int actualSize = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups.size();
+        int actualSize = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .size();
 
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .createGroup(groupName);
 
         //than
-        int expectedSize = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups
+        int expectedSize = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
                 .size();
         assertEquals(actualSize+1,expectedSize);
     }
 
     @Test
-    @DisplayName("createGroup() - should add Key to HashMap")
-    void createGroupAndAddNewKey() {
+    void shouldCreateNewGroupInGroupsList() {
         //given
         String groupName = "medium Group";
 
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .createGroup(groupName);
 
         //than
-        boolean expectedTrue = MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .groups
+        boolean expectedTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
                 .containsKey(groupName);
         assertTrue(expectedTrue);
     }
 
     @Test
-    @DisplayName("createGroup() - should add Value >0-size-list< into HashMap")
-    void createGroupAndAddNewValue() {
+    void shouldCreateNewListInGroupNamedAmateurGroup() {
         //given
         String groupName = "amateur group";
-        int expectedSize = 0;
+
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .createGroup(groupName);
 
         //than
-        int actualSize = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups
+        int expectedSize = 0;
+        int actualSize = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
                 .get(groupName)
                 .size();
         assertEquals(expectedSize,actualSize);
     }
 
     @Test
-    @DisplayName("createGroup() - should add empty List as a value to HashMap")
-    void createGroupAndAddEmptyListValue() {
+    void shouldCreateNewGroupWithListWhichIsEmpty() {
         //given
         String groupName = "professional group";
 
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .createGroup(groupName);
 
         //than
-        boolean expectedTrue = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups
+        boolean expectedTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
                 .get(groupName)
                 .isEmpty();
         assertTrue(expectedTrue);
     }
 
     @Test
-    @DisplayName("readGroup() - with wrong group name should return String \"nic\" ")
-    void readGroupWithWrongGroupName() {
+    void shouldReturnStringNicWhenAskForNonExistingGroup() {
         //given
         String wrongGroupName = "wrong group name";
+
         //when
-        String actual = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .readGroup(wrongGroupName);
-        String expected = "nic";
 
         //than
+        String expected = "nic";
         assertEquals(expected,actual);
     }
 
     @Test
-    @DisplayName("readGroup() - with null group name should return String \"nic\" ")
-    void readGroupWithNullGroupName() {
+    void shouldReturnStringNicWhenAskForNullGroup() {
         //given
 
         //when
-        String actual = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .readGroup(null);
         String expected = "nic";
 
@@ -153,14 +142,12 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    @DisplayName("readGroup() - with correct group name should return String \"Grupa o nazwie: group is empty\" ")
-    void readGroupWithCorrectGroupName() {
+    void shouldReturnThatGroupIsEmpty() {
         //given
-        String correctGroupName = "group";
+
         //when
-        String actual = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .readGroup(correctGroupName);
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .readGroup(GROUP);
         String expected = "Grupa o nazwie: group is empty";
 
         //than
@@ -168,147 +155,147 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    @DisplayName("readGroup() - with correct group name should return Members of group")
-    void readGroupWithCorrectGroupNameAndMembers() {
+        void shouldReturnMembersInsideGroupList() {
         //given
-        String correctGroupName = "group";
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(correctGroupName,member);
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(correctGroupName,member2);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member2);
+
         //when
-        String actual = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .readGroup(correctGroupName);
-        String expected = "Grupa o nazwie: group is empty";
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .readGroup(GROUP);
 
         //than
-        assertNotEquals(expected,actual);
+        String expected = "\nmember\nmember2";
+        assertEquals(expected,actual);
     }
 
     @Test
-    @DisplayName("updateGroup() - changeGroupName when group exist")
-    void updateExistingGroupName() {
+    void shouldSetNewGroupNameIntoGroupsList() {
         //given
-        String oldName = "group";
         String newName = "newGroup";
 
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .updateGroupName(oldName, newName);
-        boolean expectTrue = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .updateGroupName(GROUP, newName);
+        boolean expectTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
                 .containsKey(newName);
         //than
         assertTrue(expectTrue);
     }
 
     @Test
-    @DisplayName("updateGroup() - changeGroupName when group doesn't exist")
-    void updateUnexistingGroupName() {
+    void shouldRemoveOldGroupNameFromGroupsList() {
         //given
-        String oldName = "unexisting group";
         String newName = "newGroup";
 
         //when
-        boolean expectFalse = MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .updateGroupName(oldName, newName);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .updateGroupName(GROUP, newName);
+        boolean expectFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .containsKey(GROUP);
 
         //than
         assertFalse(expectFalse);
     }
 
     @Test
-    @DisplayName("updateGroup() - changeGroupName when group name is null")
-    void updateNullGroupName() {
+    void shouldReturnFalseWhenTryToUpdateGroupWhichDoesNotExist() {
         //given
+        String groupWhichDoesNotExist = "unexisting group";
 
         //when
-        boolean expectFalse = MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .updateGroupName(null, null);
+        boolean expectFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .updateGroupName(groupWhichDoesNotExist, GROUP);
 
         //than
         assertFalse(expectFalse);
     }
 
     @Test
-    @DisplayName("getGroups() - should return Map<String, List<Members>>")
-    void getGroups() {
+    void shouldReturnFalseWhenTryToUpdateGroupNamedNull() {
         //given
 
         //when
-        Map objectActual = MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .getGroups();
+        boolean expectFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .updateGroupName(null, GROUP);
 
         //than
-        assertNotNull(objectActual);
+        assertFalse(expectFalse);
     }
 
     @Test
-    @DisplayName("iterateGroups() - should display list of groups")
-    void iterateGroupsTest() {
+    void shouldReturnHashMap() {
         //given
-        Map map = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .getGroups();
 
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .iterateGroups(map);
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .getClass()
+                .getSimpleName();
 
         //than
-        String expected = "Wykaz grup: \n" + "group" + "\n";
-        String actual = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .iterateGroups(map);
-        assertEquals(expected,actual);
-    }
-
-    @Test
-    @DisplayName("iterateGroupMembers() - should display group members list")
-    void iterateGroupMembersTest() {
-        //given
-        String groupName = "group";
-        List list = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .getGroups().get(groupName);
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(groupName,member);
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(groupName,member2);
-        //when
-        String actual =MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .iterateGroupMembers(list);
-
-        //than
-        String expected = "null\nnull\n";
+        String expected = "HashMap";
         assertEquals(expected, actual);
     }
 
     @Test
-    @DisplayName("isGroupExisting() - with wrong Key-value should give back false value")
-    void isGroupExistingWithWrongKeyValue() {
+    void shouldDisplayListOfGroups() {
         //given
-        String wrongKeyValue = "random";
+        Map map = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups();
 
         //when
-        boolean expectedFalse = MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .isGroupExisting(wrongKeyValue);
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .iterateGroups(map);
+
+        //than
+        String expected = "Wykaz grup: \n" + GROUP + "\n";
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void shouldDisplayGroupMembersFromGroupList() {
+        //given
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member2);
+        ArrayList<Members> list = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups().get(GROUP);
+
+        //when
+        String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .iterateGroupMembers(list);
+
+        //than
+        String expected = "\nmember\nmember2";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldReturnFalseWhenGroupDoesNotExist() {
+        //given
+        String groupWhichDoesNotExist = "Non existing group";
+
+        //when
+        boolean expectedFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .isGroupExisting(groupWhichDoesNotExist);
 
         //than
         assertFalse(expectedFalse);
     }
 
     @Test
-    @DisplayName("isGroupExisting() - with correct Key-value should give back true value")
-    void isGroupExistingWithCorrectKeyValue() {
+    void shouldReturnTrueWhenGroupExist() {
         //given
-        String correctKeyValue = "group";
+        String correctKeyValue = GROUP;
 
         //when
-        boolean expectedTrue = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
+        boolean expectedTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .isGroupExisting(correctKeyValue);
 
         //than
@@ -316,27 +303,23 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    @DisplayName("isGroupExisting() - with null value should give back false")
-    void isGroupExistingWithNullValue() {
+    void shouldReturnFalseWithNullValue() {
         //given
 
         //when
-        boolean expectedFalse = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
+        boolean expectedFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .isGroupExisting(null);
         //than
         assertFalse(expectedFalse);
     }
 
-
     @Test
-    @DisplayName("addMemberToGroup - with invalid group name should return false")
-    void addMemberToInvalidGroupName() {
+    void shouldReturnFalseWithWrongGroupName() {
         //given
         String invalidGroupName = "wrong name";
 
         //when
-        boolean expectedFalse = MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
+        boolean expectedFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .addMemberToGroup(invalidGroupName, member);
 
         //than
@@ -344,28 +327,23 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    @DisplayName("addMemberToGroup - with correct group should return true")
-    void addMemberToGroupWithCorrectGroupName(){
+    void shouldReturnTrueWithCorrectGroupName(){
         //given
-        String correctGroupName = "group";
 
         //when
-        boolean expectedTrue = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(correctGroupName, member);
+        boolean expectedTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP, member);
 
         //than
         assertTrue(expectedTrue);
     }
 
     @Test
-    @DisplayName("addMemberToGroup() - with null as a group name should return false")
-    void addMemberToGroupWithNullAsGroupName() {
+    void shouldReturnFalseWithNullAsGroupName() {
         //given
 
         //when
-        boolean expectFalse = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
+        boolean expectFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .addMemberToGroup(null, member);
 
         //than
@@ -373,22 +351,60 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    @DisplayName("addMemberToGroup() - should add member to group list")
-    void addMemberToGroupAndIncreaseGroupSize() {
+    void shouldIncreaseGroupListSize() {
         //given
-        String correctGroupName = "group";
+
         //when
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(correctGroupName,member);
-        MemoryBasedGroupRepository.getMemoryBasedGroupRepositoryInstance()
-                .addMemberToGroup(correctGroupName,member2);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member);
+
 
         //than
-        int actual = MemoryBasedGroupRepository
-                .getMemoryBasedGroupRepositoryInstance()
-                .groups
-                .get(correctGroupName)
+        int actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .get(GROUP)
                 .size();
-        assertEquals(2,actual);
+        assertEquals(1, actual);
+    }
+
+    @Test
+    void shouldIncreaseGroupListSizeTo2() {
+        //given
+
+        //when
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP, member);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP, member2);
+
+        //than
+        int actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .get(GROUP)
+                .size();
+        assertEquals(2, actual);
+    }
+
+    @Test
+    void shouldContainMembersInGroupList() {
+        //given
+
+        //when
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member);
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .addMemberToGroup(GROUP,member2);
+
+        //than
+        boolean expectedMember = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .get(GROUP)
+                .contains(member);
+        boolean expectedMember2 = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroups()
+                .get(GROUP)
+                .contains(member2);
+        assertTrue(expectedMember);
+        assertTrue(expectedMember2);
     }
 }

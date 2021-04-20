@@ -2,11 +2,12 @@ package com.danceschool.danceschool.groups;
 
 import com.danceschool.danceschool.members.Members;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class MemoryBasedGroupRepository implements GroupRepository {
 
-    Map<String, List<Members>> groups = new HashMap<>();
+    private Map<String, ArrayList<Members>> groups = new HashMap<>();
 
     private static MemoryBasedGroupRepository memoryBasedGroupRepository = new MemoryBasedGroupRepository();
 
@@ -37,7 +38,6 @@ public class MemoryBasedGroupRepository implements GroupRepository {
                 System.out.println("Grupa o nazwie: " + groupName + " is empty");
                 return "Grupa o nazwie: " + groupName + " is empty";
             } else {
-                System.out.println(iterateGroupMembers(groupMembers));
                 return iterateGroupMembers(groupMembers);
             }
         } else {
@@ -49,7 +49,7 @@ public class MemoryBasedGroupRepository implements GroupRepository {
     @Override
     public boolean updateGroupName(String groupName, String newGroupName) {
         if (isGroupExisting(groupName)) {
-            List<Members> newList = MemoryBasedGroupRepository
+            ArrayList<Members> newList = MemoryBasedGroupRepository
                     .getMemoryBasedGroupRepositoryInstance()
                     .groups
                     .get(groupName);
@@ -66,7 +66,7 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         return false;
     }
 
-    public Map<String, List<Members>> getGroups() {
+    public Map<String, ArrayList<Members>> getGroups() {
         return groups;
     }
 
@@ -86,9 +86,8 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         Iterator<Members> listOfMembersIterator = membersList.iterator();
 
         while(listOfMembersIterator.hasNext()) {
-            display.append(listOfMembersIterator.next() + "\n");
+            display.append("\n" + listOfMembersIterator.next());
         }
-        System.out.println(display);
         return display.toString();
     }
 
@@ -106,9 +105,9 @@ public class MemoryBasedGroupRepository implements GroupRepository {
                     .groups
                     .get(groupName)
                     .add(member);
-            System.out.println("success");
             return true;
         } else
         return false;
     }
+
 }
