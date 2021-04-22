@@ -27,7 +27,6 @@ public class MemoryBasedStudentRepository implements StudentRepository{
                        .level(level)
                        .build();
                studentList.add(student);
-               System.out.println("create student: " + student.toString());
                UUID uuid = student.getId();
         return uuid;
     }
@@ -69,7 +68,6 @@ public class MemoryBasedStudentRepository implements StudentRepository{
         for (int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
             if (student.getId().equals(uuid)) {
-                System.out.println("Student to remove: " + student.toString());
                 studentList.remove(i);
             }
         }
@@ -102,13 +100,13 @@ public class MemoryBasedStudentRepository implements StudentRepository{
     }
 
     public boolean searchUUID(UUID uuid, List<Student> list) {
-        boolean result = false;
-        do{
+        boolean result;
+        if (result = true) {
             for (int i = 0; i < list.size(); i++) {
                 result = list.get(i).getId().equals(uuid);
             }
+            return result;
         }
-        while(result = true);
         return result;
     }
 }

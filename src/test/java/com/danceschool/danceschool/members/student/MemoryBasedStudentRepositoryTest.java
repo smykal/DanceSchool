@@ -9,24 +9,26 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryBasedStudentRepositoryTest {
 
+    public static final MemoryBasedStudentRepository MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE =
+            MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance();
     @Mock
     PersonalData mockPersonalData;
     @Mock
-    UUID mockUUID;
-    @Mock
     Student mockStudent01;
-    @Mock
-    Student mockStudent02;
 
     @BeforeEach
     void setUp() {
@@ -36,99 +38,125 @@ class MemoryBasedStudentRepositoryTest {
 
     @AfterEach
     void tearDown() {
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.deleteAllStudents();
     }
 
     @Test
     @DisplayName("should add new student and increase student size list")
-    void createStudentTest() throws IOException {
+    void shouldIncreaseListSize() throws IOException {
         //given
 
         //when
-        UUID expectTrue = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
                 .createStudent(mockPersonalData, Level.AMATEUR);
 
-
         //than
+        int actualSize = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .getStudentList()
+                .size();
         int expectedSize = 1;
-        int actualSize = MemoryBasedStudentRepository
-                .getMemoryBasedStudentRepositoryInstance()
-                .getStudentList().size();
-        assertEquals(expectedSize,actualSize);
+        assertEquals(expectedSize, actualSize);
     }
 
     @Test
-    @DisplayName("should add new student with parameters")
-    void shouldCreateNewStudent() throws IOException {
+    void shouldAddNewStudent() throws IOException {
         //given
+
+        //when
+        UUID expectedUUID = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData, Level.AMATEUR);
+
+        //than
+        UUID actualUUID = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .getStudentList()
+                .get(0)
+                .getId();
+        assertEquals(expectedUUID, actualUUID);
+    }
+
+    @Test
+    void shouldAddNewStudentToStudentList() throws IOException {
+        //given
+        String testCity = "TestCity";
+        String testPostalCode = "23-333";
+        String testStreet = "TestStreet";
+        String testBlockNumber = "23";
+        String testApartmentNumber = "34";
+        String testName = "TestName";
+        String testSurname = "TestSurname";
+
         Address address = new Address.Builder()
-                .city("TestCity")
-                .postalCode("23-333")
-                .street("TestStreet")
-                .blockNumber("23")
-                .apartmentNumber("34")
+                .city(testCity)
+                .postalCode(testPostalCode)
+                .street(testStreet)
+                .blockNumber(testBlockNumber)
+                .apartmentNumber(testApartmentNumber)
                 .build();
 
         PersonalData personalData = new PersonalData.PersonalDataBuilder()
-                .withName("TestName")
-                .withSurname("TestSurname")
+                .withName(testName)
+                .withSurname(testSurname)
                 .withAddress(address)
                 .build();
         //when
-        UUID actualUUID = MemoryBasedStudentRepository
-                .getMemoryBasedStudentRepositoryInstance()
+        UUID actualUUID = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
                 .createStudent(personalData,Level.AMATEUR);
 
         //than
-        Student student = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
+        Student student = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
                 .readStudent(actualUUID);
-        MemoryBasedStudentRepository
-                .getMemoryBasedStudentRepositoryInstance()
-                .getStudentList();
-
         UUID expectedUUID = student.getId();
+        String expectedCity = testCity;
+        String expectedPostalCode = testPostalCode;
+        String expectedStreet = testStreet;
+        String expectedBlock = testBlockNumber;
+        String expectedApartment = testApartmentNumber;
+        String expectedName = testName;
+        String expectedSurname = testSurname;
+
+        String actualCity = student.getCity();
+        String actualPostalCode = student.getPostalCode();
+        String actualStreet = student.getStreet();
+        String actualBlock = student.getBlockNumber();
+        String actualApartment = student.getApartmentNumber();
+        String actualName = student.getName();
+        String actualSurname = student.getSurname();
+
+        assertEquals(expectedCity,actualCity);
+        assertEquals(expectedPostalCode,actualPostalCode);
+        assertEquals(expectedStreet,actualStreet);
+        assertEquals(expectedBlock,actualBlock);
+        assertEquals(expectedApartment,actualApartment);
+        assertEquals(expectedName,actualName);
+        assertEquals(expectedSurname,actualSurname);
         assertEquals(expectedUUID,actualUUID);
     }
 
     @Test
-    @DisplayName("should give back Student as a result of method")
-    void shouldReadStudentAndGiveUUIDasResult() throws IOException {
+    void shouldGiveStudentClasAsResult() throws IOException {
         //given
-        Address address = new Address.Builder()
-                .city("TestCity")
-                .postalCode("23-333")
-                .street("TestStreet")
-                .blockNumber("23")
-                .apartmentNumber("34")
-                .build();
-
-        PersonalData personalData = new PersonalData.PersonalDataBuilder()
-                .withName("TestName")
-                .withSurname("TestSurname")
-                .withAddress(address)
-                .build();
-        UUID uuid = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
-                .createStudent(personalData, Level.AMATEUR);
+        UUID uuid = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData, Level.AMATEUR);
 
         //when
-        Student student = MemoryBasedStudentRepository.getMemoryBasedStudentRepositoryInstance()
+        Student student = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
                 .readStudent(uuid);
         //than
-        String actual = MemoryBasedStudentRepository
-                .getMemoryBasedStudentRepositoryInstance()
-                .readStudent(uuid).getClass().getSimpleName();
+        String actual = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .readStudent(uuid)
+                .getClass()
+                .getSimpleName();
         String expected = "Student";
         assertEquals(actual, actual);
     }
 
     @Test
-    @DisplayName("read Student with wrong uuid should give back null")
-    void readStudentWithWrongUUID() {
+    void shouldGiveBackNullAsResult() {
         //given
         UUID wrongUUID = UUID.randomUUID();
 
         //when
-        Student student = MemoryBasedStudentRepository
-                .getMemoryBasedStudentRepositoryInstance()
+        Student student = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
                 .readStudent(wrongUUID);
 
         //than
@@ -136,35 +164,120 @@ class MemoryBasedStudentRepositoryTest {
     }
 
     @Test
-    @DisplayName("read Student with wrong uuid should give back Index Out Of Bounds Exception")
-    void readStudentWithWrongUUIDAndGiveBackExceptionStackTrace() {
+    void shouldGiveBackStudentAsResult() throws IOException {
         //given
-        UUID wrongUUID = UUID.randomUUID();
+        UUID studentUuid = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
 
         //when
-        Student student = MemoryBasedStudentRepository
-                .getMemoryBasedStudentRepositoryInstance()
-                .readStudent(wrongUUID);
+        Student student = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .readStudent(studentUuid);
 
         //than
-         // assertThrows(IndexOutOfBoundsException.class, Student.class);
+        assertEquals(student.getClass(), Student.class);
     }
 
     @Test
-    @DisplayName("should change student data")
-    void updateStudentData() {
+    public void shouldThrowIndexOutOfBoundException() {
+        assertThrows(IndexOutOfBoundsException.class,
+                ()->{
+                    MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                            .readStudent(mockStudent01.getId());
+                });
+    }
+
+
+    @Test
+    void shouldChangeLevelForProfessional() throws IOException {
+        //given
+        UUID studentUuid = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        //when
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .updateStudent(studentUuid,mockPersonalData,Level.PROFESSIONAL);
+
+        //than
+        Level expected = Level.PROFESSIONAL;
+        Level actual = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.getStudentList().get(0).getLevel();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void shouldDeleteStudent() throws IOException {
+        //given
+        UUID studentUuid01 = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        UUID studentUuid02 = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        UUID studentUuid03 = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        List<Student> list = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .getStudentList();
+
+        //when
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .deleteStudent(studentUuid01);
+        boolean expectedFalse = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.searchUUID(studentUuid01, list);
+
+        //than
+        assertFalse(expectedFalse);
+
+    }
+    @Test
+    void shouldLeftListSize2() throws IOException {
+        //given
+        UUID studentUuid01 = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        UUID studentUuid02 = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        UUID studentUuid03 = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        List<Student> list = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .getStudentList();
+
+        //when
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .deleteStudent(studentUuid01);
+        int expected = 2;
+        int actual = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.getStudentList().size();
+
+        //than
+        assertEquals(expected, actual);
 
     }
 
     @Test
-    void deleteStudent() {
+    void shouldReturnList() throws IOException {
+        //given
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+
+        //when
+        List<Student> list = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.getStudentList();
+
+        //than
+        assertEquals(list.getClass(), ArrayList.class);
     }
 
     @Test
-    void getStudentList() {
-    }
+    void shouldLeftEmptyList() throws IOException {
+        //given
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .createStudent(mockPersonalData,Level.AMATEUR);
 
-    @Test
-    void deleteAllStudents() {
+        //when
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .deleteAllStudents();
+
+        //than
+        int expected = 0;
+        int actual = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                .getStudentList()
+                .size();
+        assertEquals(expected, actual);
     }
 }
