@@ -2,6 +2,8 @@ package com.danceschool.danceschool.members.student;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.danceschool.danceschool.exceptions.UserNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,25 +11,26 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class MemoryBasedStudentRepository implements StudentRepository{
+public class MemoryBasedStudentRepository implements StudentRepository {
     private List<Student> studentList = new ArrayList<>();
 
     private static final MemoryBasedStudentRepository MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE =
             new MemoryBasedStudentRepository();
 
-    private MemoryBasedStudentRepository(){ }
+    private MemoryBasedStudentRepository() {
+    }
 
-    public static MemoryBasedStudentRepository getMemoryBasedStudentRepositoryInstance(){
+    public static MemoryBasedStudentRepository getMemoryBasedStudentRepositoryInstance() {
         return MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE;
     }
 
     @Override
     public UUID createStudent(PersonalData personalData, Level level) throws IOException {
-               Student student = new Student.Builder(personalData)
-                       .level(level)
-                       .build();
-               studentList.add(student);
-               UUID uuid = student.getId();
+        Student student = new Student.Builder(personalData)
+                .level(level)
+                .build();
+        studentList.add(student);
+        UUID uuid = student.getId();
         return uuid;
     }
 
@@ -41,9 +44,9 @@ public class MemoryBasedStudentRepository implements StudentRepository{
             }
             return studentList.get(i);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+            System.out.println("user with uuid: " + uuid.toString() + " doesn't exist");
+            throw new UserNotFoundException("user with uuid: " + uuid.toString() + " doesn't exist");
         }
-        return null;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class MemoryBasedStudentRepository implements StudentRepository{
             Student student = studentList.get(i);
             if (student.getId().equals(uuid)) {
                 System.out.println("old student: " + student.toString());
-                studentList.set(i,newStudent);
+                studentList.set(i, newStudent);
                 System.out.println("new student: " + newStudent.toString());
             }
         }

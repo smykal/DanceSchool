@@ -3,6 +3,7 @@ package com.danceschool.danceschool.members.student;
 import com.danceschool.danceschool.data.Address;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.danceschool.danceschool.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -148,19 +149,6 @@ class MemoryBasedStudentRepositoryTest {
     }
 
     @Test
-    void shouldGiveBackNullAsResult() {
-        //given
-        UUID wrongUUID = UUID.randomUUID();
-
-        //when
-        Student student = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
-                .readStudent(wrongUUID);
-
-        //than
-        assertNull(student);
-    }
-
-    @Test
     void shouldGiveBackStudentAsResult() throws IOException {
         //given
         UUID studentUuid = MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
@@ -175,13 +163,23 @@ class MemoryBasedStudentRepositoryTest {
     }
 
     @Test
-    public void shouldThrowIndexOutOfBoundException() {
-        assertThrows(IndexOutOfBoundsException.class,
+    public void shouldThrowIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class,
                 ()->{
                     MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
                             .readStudent(UUID.fromString("fee"));
                 });
     }
+
+    @Test
+    public void shouldThrowUserNotFoundExceptionWhenStudentNotFound() {
+        assertThrows(UserNotFoundException.class,
+                ()->{
+                    MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
+                            .readStudent(UUID.randomUUID());
+                });
+    }
+
 
 
     @Test
