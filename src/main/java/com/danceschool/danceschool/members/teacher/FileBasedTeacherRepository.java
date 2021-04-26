@@ -2,11 +2,12 @@ package com.danceschool.danceschool.members.teacher;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.danceschool.danceschool.members.Members;
 
 public class FileBasedTeacherRepository implements TeacherRepository    {
     @Override
-    public void createTeacher(PersonalData personalData, Level level) {
-
+    public Members createTeacher(PersonalData personalData, Level level) {
+        return null;
     }
 
     @Override

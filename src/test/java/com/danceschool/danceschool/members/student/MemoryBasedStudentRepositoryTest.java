@@ -1,7 +1,5 @@
 package com.danceschool.danceschool.members.student;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import com.danceschool.danceschool.data.Address;
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
@@ -9,17 +7,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class MemoryBasedStudentRepositoryTest {
 
@@ -182,7 +179,7 @@ class MemoryBasedStudentRepositoryTest {
         assertThrows(IndexOutOfBoundsException.class,
                 ()->{
                     MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE
-                            .readStudent(mockStudent01.getId());
+                            .readStudent(UUID.fromString("fee"));
                 });
     }
 

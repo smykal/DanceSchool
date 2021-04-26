@@ -2,13 +2,15 @@ package com.danceschool.danceschool.members.teacher;
 
 import com.danceschool.danceschool.data.Level;
 import com.danceschool.danceschool.data.PersonalData;
+import com.danceschool.danceschool.members.Members;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemoryBasedTeacherRepository implements TeacherRepository {
     private List<Teacher> teacherList = new ArrayList<>();
-    private static final MemoryBasedTeacherRepository MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE = new MemoryBasedTeacherRepository();
+    private static final MemoryBasedTeacherRepository MEMORY_BASED_TEACHER_REPOSITORY_INSTANCE =
+            new MemoryBasedTeacherRepository();
 
     private MemoryBasedTeacherRepository() {
     }
@@ -22,21 +24,20 @@ public class MemoryBasedTeacherRepository implements TeacherRepository {
     }
 
     @Override
-    public void createTeacher(PersonalData personalData, Level level) {
+    public Members createTeacher(PersonalData personalData, Level level) {
         Teacher teacher = new Teacher.Builder()
                 .personalData(personalData)
                 .level(level)
                 .build();
         teacherList.add(teacher);
-        System.out.println("Add element: " + teacher.getClass().getSimpleName());
-        System.out.println(teacher.toString());
+        return teacher;
     }
 
     @Override
     public void readTeacher(String surname) {
         for (int i = 0; i < teacherList.size(); i++) {
             Teacher teacher = teacherList.get(i);
-            if (teacher.getSurname().equals(surname) == true) {
+            if (teacher.getSurname().equals(surname)) {
                 System.out.println("READ: " + teacher.toString());
             }
         }
