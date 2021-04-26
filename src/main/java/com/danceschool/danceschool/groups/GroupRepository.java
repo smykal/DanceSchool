@@ -1,10 +1,8 @@
 package com.danceschool.danceschool.groups;
 
-import com.danceschool.danceschool.members.Members;
-import com.danceschool.danceschool.members.student.Student;
-
 public interface GroupRepository {
-    String createGroup(String groupName);
-    String readGroup(String groupName);
+    String createGroup(String groupName); // TODO UUID
+    String readGroup(String groupName); // TODO group
     boolean updateGroupName(String groupName, String newGroupName);
+    // TODO deleteGroup() : boolean
 }

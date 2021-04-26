@@ -13,4 +13,6 @@ public interface StudentRepository {
     Student updateStudent(UUID uuid, PersonalData newPersonalData, Level newLevel)
             throws IOException;
     UUID deleteStudent(UUID uuid) throws IOException;
+    // TODO budując FileBasedReposiotry usunąć z interfejsów throws,
+    //  a złapać wyjątek wewnątrz poszczególnych metod i rzucić własnymi
 }
