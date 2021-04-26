@@ -145,7 +145,7 @@ class MemoryBasedStudentRepositoryTest {
                 .getClass()
                 .getSimpleName();
         String expected = "Student";
-        assertEquals(actual, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -172,7 +172,10 @@ class MemoryBasedStudentRepositoryTest {
     }
 
     @Test
-    public void shouldThrowUserNotFoundExceptionWhenStudentNotFound() {
+    public void shouldThrowUserNotFoundExceptionWhenStudentNotFound() throws IOException {
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.createStudent(mockPersonalData, Level.AMATEUR);
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.createStudent(mockPersonalData, Level.AMATEUR);
+        MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE.createStudent(mockPersonalData, Level.AMATEUR);
         assertThrows(UserNotFoundException.class,
                 ()->{
                     MEMORY_BASED_STUDENT_REPOSITORY_INSTANCE

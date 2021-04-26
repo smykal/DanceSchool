@@ -37,15 +37,16 @@ public class MemoryBasedStudentRepository implements StudentRepository {
 
     @Override
     public Student readStudent(UUID uuid) {
-        try {
-            int i = 0;
-            while (i < studentList.size() && !studentList.get(i).getId().equals(uuid)) {
-                ++i;
-            }
-            return studentList.get(i);
-        } catch (IndexOutOfBoundsException e) {
+        int i = 0;
+        while (i < studentList.size() && !studentList.get(i).getId().equals(uuid)) {
+            ++i;
+            System.out.println(i);
+        }
+        if (i >= studentList.size()) {
             System.out.println("user with uuid: " + uuid.toString() + " doesn't exist");
             throw new UserNotFoundException("user with uuid: " + uuid.toString() + " doesn't exist");
+        } else {
+            return studentList.get(i);
         }
     }
 
