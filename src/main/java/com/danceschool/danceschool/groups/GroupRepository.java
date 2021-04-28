@@ -1,8 +1,10 @@
 package com.danceschool.danceschool.groups;
 
+import java.util.UUID;
+
 public interface GroupRepository {
-    String createGroup(String groupName); // TODO UUID
-    String readGroup(String groupName); // TODO group
-    boolean updateGroupName(String groupName, String newGroupName);
+    UUID createGroup(String groupName);
+    Group readGroup(UUID groupId);
+    Group updateGroupName(UUID groupId, String newGroupName);
     // TODO deleteGroup() : boolean
 }
