@@ -2,9 +2,11 @@ package com.danceschool.danceschool.schools;
 
 import com.danceschool.danceschool.data.Address;
 
+import java.util.UUID;
+
 public interface SchoolRepository {
-    String createSchool(String schoolName, Address schoolAddress);
-    String readSchool(String schoolName);
-    String updateSchool(String schoolName, Address newSchoolAddress);
-    String deleteSchool(String schoolName);
+    School createSchool(String schoolName, Address schoolAddress);
+    School readSchool(UUID schoolId);
+    School updateSchool(UUID schoolId, Address newSchoolAddress);
+    boolean deleteSchool(UUID schoolId);
 }

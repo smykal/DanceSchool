@@ -1,14 +1,18 @@
 package com.danceschool.danceschool.schools;
 
 import com.danceschool.danceschool.data.Address;
+import com.danceschool.danceschool.exceptions.SchoolNotFoundException;
+import com.danceschool.danceschool.groups.Group;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class MemoryBasedSchoolRepository implements SchoolRepository{
-
-
-    private Map<String, Address> schools = new HashMap<>();
+    public static final MemoryBasedSchoolRepository MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE =
+            MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance();
+    private List<School> schoolList = new ArrayList<School>();
 
 
     private static MemoryBasedSchoolRepository schoolsList = new MemoryBasedSchoolRepository();
@@ -17,76 +21,59 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
 
 
     @Override
-    public String createSchool(String schoolName, Address schoolAddress) {
-        Map<String, Address> schools = MemoryBasedSchoolRepository.schoolsList.schools;
-        schools.put(schoolName, schoolAddress);
-
-        String result = MemoryBasedSchoolRepository
-                .getMemoryBasedSchoolRepositoryInstance()
-                .iterateSchools(schools);
-        System.out.println(result);
-        return result;
+    public School createSchool(String schoolName, Address schoolAddress) {
+        School school = new School.Builder()
+                .schoolName(schoolName)
+                .schoolAddress(schoolAddress)
+                .build();
+        MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.getSchoolList().add(school);
+        return school;
     }
 
     @Override
-    public String readSchool(String schoolName) {
-        Address address = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
-                .schools.get(schoolName);
-        StringBuffer display = new StringBuffer();
-        display.append("Informacje o szkole " + schoolName + ": " + address.toString());
-        System.out.println(display);
-        return display.toString();
+    public School readSchool(UUID schoolId) {
+        List<School> schoolsList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+                .getSchoolList();
+        if (!isSchoolExisting(schoolId, schoolsList)) {
+            System.out.println("school with id: " + schoolId.toString() + " not found");
+            throw new SchoolNotFoundException("school with id: " + schoolId.toString() + " not found");
+        } else {
+            return findSchool(schoolId, schoolsList);
+        }
     }
 
     @Override
-    public String updateSchool(String schoolName, Address newSchoolAddress) {
-        Boolean isSchoolExisting = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
-                .isSchoolExisting(schoolName);
-        if (isSchoolExisting) {
-            StringBuffer display = new StringBuffer();
-            String oldAddress = MemoryBasedSchoolRepository
-                    .getMemoryBasedSchoolRepositoryInstance()
-                    .schools
-                    .get(schoolName)
-                    .toString();
-            display.append("Stary adres szkoły ")
-                    .append(schoolName)
-                    .append(" to: ")
-                    .append(oldAddress)
-                    .append("\n");
-            MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
-                    .schools.put(schoolName,newSchoolAddress);
-            String newAddress = MemoryBasedSchoolRepository
-                    .getMemoryBasedSchoolRepositoryInstance()
-                    .schools
-                    .get(schoolName)
-                    .toString();
-            display.append("Nowy adres szkoły " + schoolName + " to: " + newAddress + "\n");
-
-            System.out.println(display);
-            return display.toString();
-        } else
-            return "No such school";
+    public School updateSchool(UUID schoolId, Address newSchoolAddress) {
+        List<School> schoolsList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+                .getSchoolList();
+        if (!isSchoolExisting(schoolId, schoolsList)) {
+            System.out.println("school with id: " + schoolId.toString() + " not found");
+            throw new SchoolNotFoundException("school with id: " + schoolId.toString() + " not found");
+        } else {
+            String schoolName = findSchool(schoolId, schoolsList).getSchoolName();
+            School newSchool = new School.Builder()
+                    .schoolName(schoolName)
+                    .schoolAddress(newSchoolAddress)
+                    .build();
+            School oldSchool = findSchool(schoolId, schoolsList);
+            schoolsList.remove(oldSchool);
+            schoolsList.add(newSchool);
+            return newSchool;
+        }
     }
 
     @Override
-    public String deleteSchool(String schoolName) {
-        boolean isSchoolExisting = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
-                .isSchoolExisting(schoolName);
-        if (isSchoolExisting) {
-            Map<String, Address> schools = MemoryBasedSchoolRepository
-                    .getMemoryBasedSchoolRepositoryInstance().schools;
-            schools.remove(schoolName);
-            String result = MemoryBasedSchoolRepository
-                    .getMemoryBasedSchoolRepositoryInstance().iterateSchools(schools);
-            System.out.println(result);
-            return result;
-        } else
-        return "No such school";
-    }
-
-    public Map<String, Address> getSchools() {
-        return schools;
+    public boolean deleteSchool(UUID schoolId) {
+        List<School> schoolsList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+                .getSchoolList();
+        if (!isSchoolExisting(schoolId, schoolsList)) {
+            System.out.println("school with id: " + schoolId.toString() + " not found");
+            throw new SchoolNotFoundException("school with id: " + schoolId.toString() + " not found");
+        } else {
+            School school = findSchool(schoolId, schoolsList);
+            schoolsList.remove(school);
+            return true;
+        }
     }
 
     public String iterateSchools(Map<String, Address> map) {
@@ -102,9 +89,26 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
             return "list is empty";
     }
 
-    public Boolean isSchoolExisting(String schoolName) {
-        boolean result = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance()
-                .schools.containsKey(schoolName);
+    public boolean isSchoolExisting(UUID uuid, List<School> schoolsList) {
+        boolean result = false;
+        for (int i = 0; i < schoolsList.size(); i++) {
+            if (schoolsList.get(i).getSchoolId().equals(uuid)) {
+                result = true;
+                break;
+            }
+        }
         return result;
+    }
+    private School findSchool(UUID uuid, List<School> schoolsList) {
+        for (int i = 0; i < schoolsList.size(); i++) {
+            if (schoolsList.get(i).getSchoolId().equals(uuid)) {
+                return schoolsList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public List<School> getSchoolList() {
+        return schoolList;
     }
 }

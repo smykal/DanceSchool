@@ -43,13 +43,26 @@ public class MemoryBasedGroupRepository implements GroupRepository {
 
 
     @Override
-    public Group updateGroupName(UUID uuid, String newGroupName) {
+    public Group updateGroupName(UUID groupId, String newGroupName) {
         List<Group> groupList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList();
-        if (!isGroupExisting(uuid, groupsList)) {
-            throw new GroupNotFoundException("group not found");
+        if (!isGroupExisting(groupId, groupsList)) {
+            System.out.println("group with id: " + groupId.toString() + " not found");
+            throw new GroupNotFoundException("group with id: " + groupId.toString() + " not found");
         } else {
-            findGroup(uuid,groupsList).setGroupName(newGroupName);
-            return findGroup(uuid, groupsList);
+            findGroup(groupId,groupsList).setGroupName(newGroupName);
+            return findGroup(groupId, groupsList);
+        }
+    }
+
+    @Override
+    public boolean deleteGroup(UUID groupId) {
+        List<Group> groupList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList();
+        if (!isGroupExisting(groupId, groupList)) {
+            System.out.println("group with id: " + groupId.toString() + " not found");
+            throw new GroupNotFoundException("group with id: " + groupId.toString() + " not found");
+        } else {
+            Group groupToDelete = findGroup(groupId, groupsList);
+            return groupList.remove(groupToDelete);
         }
     }
 

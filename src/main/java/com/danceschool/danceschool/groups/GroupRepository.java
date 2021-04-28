@@ -6,5 +6,5 @@ public interface GroupRepository {
     UUID createGroup(String groupName);
     Group readGroup(UUID groupId);
     Group updateGroupName(UUID groupId, String newGroupName);
-    // TODO deleteGroup() : boolean
+    boolean deleteGroup(UUID groupId);
 }
