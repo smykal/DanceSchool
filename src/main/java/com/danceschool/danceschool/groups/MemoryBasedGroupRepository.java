@@ -84,11 +84,6 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         return display.toString();
     }
 
-    public void setGroupsListMember(UUID uuid, Student student) {
-        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
-                .readGroup(uuid).setGroupStudentMember(MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList(), student);
-    }
-
 
     public String iterateGroupMembers(List<Members> membersList) {
         StringBuffer display = new StringBuffer();

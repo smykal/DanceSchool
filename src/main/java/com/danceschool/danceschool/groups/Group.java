@@ -27,7 +27,35 @@ public class Group {
         this.groupName = groupName;
     }
 
-    public void setGroupStudentMember(List<Student> groupStudentList, Student student) {
+    public Teacher getGroupFemaleTeacher() {
+        return groupFemaleTeacher;
+    }
+
+    public void setGroupFemaleTeacher(Teacher groupFemaleTeacher) {
+        this.groupFemaleTeacher = groupFemaleTeacher;
+    }
+
+    public Teacher getGroupMaleTeacher() {
+        return groupMaleTeacher;
+    }
+
+    public void setGroupMaleTeacher(Teacher groupMaleTeacher) {
+        this.groupMaleTeacher = groupMaleTeacher;
+    }
+
+    public List<Student> getGroupStudentList() {
+        return groupStudentList;
+    }
+
+    public void setGroupStudentList(List<Student> groupStudentList) {
+        this.groupStudentList = groupStudentList;
+    }
+
+    public Student getGroupStudentFromList(int studentNumber) {
+        return groupStudentList.get(studentNumber);
+    }
+
+    public void setGroupStudentOnList(List<Student> groupStudentList, Student student){
         this.groupStudentList.add(student);
     }
 

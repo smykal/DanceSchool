@@ -144,6 +144,9 @@ class MemoryBasedGroupRepositoryTest {
         void shouldReturnMembersInsideGroupList() {
         //given
         MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .getGroupsList()
+                .get(0)
+                .setGroupStudentListStudent()
                 .addMemberToGroup(GROUP,member);
         MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .addMemberToGroup(GROUP,member2);
