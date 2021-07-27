@@ -2,6 +2,7 @@ package com.danceschool.danceschool.groups;
 
 import com.danceschool.danceschool.exceptions.GroupNotFoundException;
 import com.danceschool.danceschool.members.Members;
+import com.danceschool.danceschool.members.student.Student;
 
 import java.util.*;
 
@@ -70,6 +71,8 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         return groupsList;
     }
 
+
+
     public String iterateGroups(Map<String, List<Members>> values) {
         StringBuffer display = new StringBuffer();
         display.append("Wykaz grup: \n");
@@ -80,6 +83,12 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         System.out.println(display);
         return display.toString();
     }
+
+    public void setGroupsListMember(UUID uuid, Student student) {
+        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .readGroup(uuid).setGroupStudentMember(MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList(), student);
+    }
+
 
     public String iterateGroupMembers(List<Members> membersList) {
         StringBuffer display = new StringBuffer();
@@ -98,6 +107,7 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         }
         return null;
     }
+
     public boolean isGroupExisting(UUID uuid, List<Group> groupsList) {
         boolean result = false;
         for (int i = 0; i < groupsList.size(); i++) {

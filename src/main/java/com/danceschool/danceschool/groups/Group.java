@@ -21,8 +21,14 @@ public class Group {
         return groupId;
     }
 
+    public String getGroupName() { return groupName; }
+
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public void setGroupStudentMember(List<Student> groupStudentList, Student student) {
+        this.groupStudentList.add(student);
     }
 
     public static class Builder {
