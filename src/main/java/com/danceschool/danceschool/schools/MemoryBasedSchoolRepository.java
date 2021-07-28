@@ -2,7 +2,6 @@ package com.danceschool.danceschool.schools;
 
 import com.danceschool.danceschool.data.Address;
 import com.danceschool.danceschool.exceptions.SchoolNotFoundException;
-import com.danceschool.danceschool.groups.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +20,13 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
 
 
     @Override
-    public School createSchool(String schoolName, Address schoolAddress) {
+    public UUID createSchool(String schoolName, Address schoolAddress) {
         School school = new School.Builder()
                 .schoolName(schoolName)
                 .schoolAddress(schoolAddress)
                 .build();
         MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.getSchoolList().add(school);
-        return school;
+        return school.getSchoolId();
     }
 
     @Override

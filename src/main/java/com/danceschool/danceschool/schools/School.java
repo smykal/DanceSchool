@@ -64,4 +64,8 @@ public class School {
     public String getSchoolName() {
         return schoolName;
     }
+
+    public Address getSchoolAddress() {
+        return schoolAddress;
+    }
 }
