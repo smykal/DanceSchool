@@ -75,12 +75,14 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
         }
     }
 
-    public String iterateSchools(Map<String, Address> map) {
-        if (!map.isEmpty()) {
+    public String iterateSchools(List<School> schoolList) {
+        if (!schoolList.isEmpty()) {
             StringBuffer display = new StringBuffer();
             display.append("School name / " + "school address\n");
-            for (Map.Entry<String, Address> entry : map.entrySet()) {
-                display.append(entry.getKey() + "/" + entry.getValue() + "\n");
+            for (int i = 0; i < schoolList.size(); i++) {
+                display.append(schoolList.get(i).getSchoolAddress() + " "
+                                + schoolList.get(i).getSchoolName() + " "
+                                + schoolList.get(i).getSchoolId());
             }
             return display.toString();
         }
