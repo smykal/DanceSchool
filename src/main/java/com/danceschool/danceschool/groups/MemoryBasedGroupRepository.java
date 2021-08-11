@@ -4,7 +4,9 @@ import com.danceschool.danceschool.exceptions.GroupNotFoundException;
 import com.danceschool.danceschool.members.Members;
 import com.danceschool.danceschool.members.student.Student;
 
+
 import java.util.*;
+
 
 public class MemoryBasedGroupRepository implements GroupRepository {
     public static final MemoryBasedGroupRepository MEMORY_BASED_GROUP_REPOSITORY_INSTANCE = MemoryBasedGroupRepository
@@ -41,8 +43,6 @@ public class MemoryBasedGroupRepository implements GroupRepository {
         }
     }
 
-
-
     @Override
     public Group updateGroupName(UUID groupId, String newGroupName) {
         List<Group> groupList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList();
@@ -73,17 +73,21 @@ public class MemoryBasedGroupRepository implements GroupRepository {
 
 
 
-    public String iterateGroups(Map<String, List<Members>> values) {
+    public String iterateGroups(List<Group> groupsList) {
         StringBuffer display = new StringBuffer();
         display.append("Wykaz grup: \n");
 
-        for (Map.Entry<String, List<Members>> entry : values.entrySet()) {
-            display.append(entry.getKey() + "\n");
+        for (int i = 0; i < groupsList.size(); i++) {
+            display.append(groupsList.get(i).getGroupId() + " "
+                            + groupsList.get(i).getGroupName() + " "
+                            + groupsList.get(i).getGroupFemaleTeacher() + " "
+                            + groupsList.get(i).getGroupMaleTeacher() + " "
+                            );
         }
+
         System.out.println(display);
         return display.toString();
     }
-
 
     public String iterateGroupMembers(List<Members> membersList) {
         StringBuffer display = new StringBuffer();
