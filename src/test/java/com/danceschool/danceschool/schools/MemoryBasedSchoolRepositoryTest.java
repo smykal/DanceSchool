@@ -1,6 +1,7 @@
 package com.danceschool.danceschool.schools;
 
 import com.danceschool.danceschool.data.Address;
+import com.danceschool.danceschool.exceptions.SchoolNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,15 @@ class MemoryBasedSchoolRepositoryTest {
     public static final String APARTMENT_NUMBER = "5";
     public static final MemoryBasedSchoolRepository MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
             = MemoryBasedSchoolRepository.getMemoryBasedSchoolRepositoryInstance();
+    public static final Address SCHOOL_ADDRESS =
+            new Address.Builder()
+                    .city(CITY)
+                    .postalCode(POSTAL_CODE)
+                    .street(STREET_NAME)
+                    .blockNumber(BLOCK_NUMBER)
+                    .apartmentNumber(APARTMENT_NUMBER)
+                    .build();
+
 
     @BeforeEach
     public void setUp() {
@@ -48,12 +58,14 @@ class MemoryBasedSchoolRepositoryTest {
     @Test
     void shouldCheckIfSchoolExist() {
         //given
+        UUID schoolUUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.createSchool(SCHOOL_NAME, SCHOOL_ADDRESS);
         List<School> schoolList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.getSchoolList();
+
         //when
 
         //then
         boolean actual = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
-                .isSchoolExisting(UUID.randomUUID(),schoolList );
+                .isSchoolExisting(schoolUUID,schoolList );
         assertTrue(actual);
     }
 
@@ -115,46 +127,46 @@ class MemoryBasedSchoolRepositoryTest {
     @Test
     void shouldReadSchoolAndGiveStringAsAResult() {
         //given
-        UUID randomUUID = UUID.randomUUID();
+        UUID schoolUUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.createSchool(SCHOOL_NAME, SCHOOL_ADDRESS);
 
         //when
         String actualClass = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
-                .readSchool(randomUUID).getClass().getSimpleName();
+                .readSchool(schoolUUID).getClass().getSimpleName();
 
         //then
-        assertEquals("String",actualClass);
+        assertEquals("School",actualClass);
     }
 
     @Test
     void shouldGiveBackSchoolNameInsideResult() {
         //given
-        String schoolName = SCHOOL_NAME;
-        UUID schoolUUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.getSchoolList().get(0).getSchoolId();
+        UUID schoolUUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.createSchool(SCHOOL_NAME, SCHOOL_ADDRESS);
 
         //when
         StringBuilder result = new StringBuilder();
         result.append(MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
         .readSchool(schoolUUID));
 
+
         //then
-        boolean isTrue = result.toString().contains(schoolName);
+        boolean isTrue = result.toString().contains(SCHOOL_NAME);
         assertTrue(isTrue);
     }
 
     @Test
     void shouldReplaceSchoolAddress() {
         //given
+        UUID schoolUUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.createSchool(SCHOOL_NAME, SCHOOL_ADDRESS);
         Address newAddress = createAddress(
                 "Wrocław", "22-111", "Krótka", "A", "B");
-        UUID random_school_UUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.createSchool("random school", newAddress);
 
         //when
-        MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
-                .updateSchool(random_school_UUID,newAddress);
+        School schoolNew = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+                .updateSchool(schoolUUID, newAddress);
 
         //then
         Address actualAddress = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
-                .readSchool(random_school_UUID).getSchoolAddress();
+                .readSchool(schoolNew.getSchoolId()).getSchoolAddress();
         assertEquals(actualAddress.getCity(),"Wrocław");
         assertEquals(actualAddress.getPostalCode(),"22-111");
         assertEquals(actualAddress.getStreet(),"Krótka");
@@ -162,34 +174,21 @@ class MemoryBasedSchoolRepositoryTest {
         assertEquals(actualAddress.getApartmentNumber(),"B");
     }
 
-    @Test
-    void shouldInformThatSchoolDoesNotExistWhenWrongSchoolNameIsGiven() {
-        //given
-        UUID wrongSchoolUUID = UUID.randomUUID();
-        Address address = createAddress(CITY, POSTAL_CODE, STREET_NAME, BLOCK_NUMBER, BLOCK_NUMBER);
-
-        //when
-        School actual = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
-                .updateSchool(wrongSchoolUUID, address);
-
-        //then
-        String expected = "result of that asseration 'll be interesting";
-        assertEquals(expected, actual);
-    }
+   
 
     @Test
     void shouldInformThatSchoolDoesNotExistWhenNullIsGivenAsSchoolUUID() {
         //given
-        UUID wrongSchoolUUID = null;
-        Address address = createAddress(CITY, POSTAL_CODE, STREET_NAME, BLOCK_NUMBER, BLOCK_NUMBER);
-
+        UUID randomUUID = UUID.randomUUID();
         //when
-        School actual = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
-                .updateSchool(wrongSchoolUUID, address);
 
         //then
-        String expected = "No such school";
-        assertEquals(expected, actual);
+        assertThrows(SchoolNotFoundException.class,
+                ()->{
+                    MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.readSchool(randomUUID);
+                    //do whatever you want to do here
+                    //ex : objectName.thisMethodShoulThrowNullPointerExceptionForNullParameter(null);
+                });
     }
 
     @Test
@@ -211,7 +210,7 @@ class MemoryBasedSchoolRepositoryTest {
     }
 
     @Test
-    void shouldGiveInformationThatSchoolDoesNotExist() {
+    void shouldGiveInformationThatSchoolDoesExist() {
         //given
         UUID schoolIdUUID = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
                 .getSchoolList()
@@ -223,10 +222,22 @@ class MemoryBasedSchoolRepositoryTest {
                 .deleteSchool(schoolIdUUID);
 
         //then
-        String expected = "No such school";
-        assertEquals(expected, actual);
+        assertTrue(actual);
     }
+    @Test
+    void shouldThrowExceptionWhenSchoolDoNotExist() {
+        //given
 
+        //when
+
+        //then
+        assertThrows(SchoolNotFoundException.class,
+                ()->{
+                    MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.deleteSchool(UUID.randomUUID());
+                    //do whatever you want to do here
+                    //ex : objectName.thisMethodShoulThrowNullPointerExceptionForNullParameter(null);
+                });
+    }
 
     @Test
     void shouldDisplayAllSchools() {
@@ -236,12 +247,13 @@ class MemoryBasedSchoolRepositoryTest {
         //when
         String actual = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
                 .iterateSchools(schoolsListToIterate);
+        String expected =   "School name / school address\n" +
+                "Address{city='Kraków', postalCode='30-818', street='Długa', blockNumber='3'," +
+                " apartmentNumber='5'}";
 
         //then
-        String expected = "School name / school address\n" +
-                "szkola01/Address{city='Kraków', postalCode='30-818'," +
-                " street='Długa', blockNumber='3', apartmentNumber='5'}" + "\n";
-        assertEquals(expected, actual);
+        boolean actualContainsExpected = actual.contains(expected);
+        assertTrue(actualContainsExpected);
     }
 
     @Test

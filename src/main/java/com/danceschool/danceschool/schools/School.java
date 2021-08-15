@@ -68,4 +68,13 @@ public class School {
     public Address getSchoolAddress() {
         return schoolAddress;
     }
+
+    @Override
+    public String toString() {
+        return "School{" +
+                "schoolName='" + schoolName + '\'' +
+                ", schoolAddress=" + schoolAddress +
+                ", schoolId=" + schoolId +
+                '}';
+    }
 }

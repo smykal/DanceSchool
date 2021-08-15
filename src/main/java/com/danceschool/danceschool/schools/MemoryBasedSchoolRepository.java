@@ -25,13 +25,15 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
                 .schoolName(schoolName)
                 .schoolAddress(schoolAddress)
                 .build();
-        MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE.getSchoolList().add(school);
-        return school.getSchoolId();
+        getMemoryBasedSchoolRepositoryInstance().getSchoolList().add(school);
+        int indexOfSchool = getMemoryBasedSchoolRepositoryInstance().getSchoolList().indexOf(school);
+        UUID schoolId = getMemoryBasedSchoolRepositoryInstance().getSchoolList().get(indexOfSchool).getSchoolId();
+        return schoolId;
     }
 
     @Override
     public School readSchool(UUID schoolId) {
-        List<School> schoolsList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+        List<School> schoolsList = getMemoryBasedSchoolRepositoryInstance()
                 .getSchoolList();
         if (!isSchoolExisting(schoolId, schoolsList)) {
             System.out.println("school with id: " + schoolId.toString() + " not found");
@@ -43,7 +45,7 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
 
     @Override
     public School updateSchool(UUID schoolId, Address newSchoolAddress) {
-        List<School> schoolsList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+        List<School> schoolsList = getMemoryBasedSchoolRepositoryInstance()
                 .getSchoolList();
         if (!isSchoolExisting(schoolId, schoolsList)) {
             System.out.println("school with id: " + schoolId.toString() + " not found");
@@ -63,7 +65,7 @@ public class MemoryBasedSchoolRepository implements SchoolRepository{
 
     @Override
     public boolean deleteSchool(UUID schoolId) {
-        List<School> schoolsList = MEMORY_BASED_SCHOOL_REPOSITORY_INSTANCE
+        List<School> schoolsList = getMemoryBasedSchoolRepositoryInstance()
                 .getSchoolList();
         if (!isSchoolExisting(schoolId, schoolsList)) {
             System.out.println("school with id: " + schoolId.toString() + " not found");
