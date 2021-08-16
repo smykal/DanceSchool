@@ -174,7 +174,7 @@ class MemoryBasedSchoolRepositoryTest {
         assertEquals(actualAddress.getApartmentNumber(),"B");
     }
 
-   
+
 
     @Test
     void shouldInformThatSchoolDoesNotExistWhenNullIsGivenAsSchoolUUID() {

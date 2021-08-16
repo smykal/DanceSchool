@@ -28,13 +28,15 @@ public class MemoryBasedGroupRepository implements GroupRepository {
                 .groupName(groupName)
                 .build();
         group.setGroupId(UUID.randomUUID());
-        groupsList.add(group);
+        getMemoryBasedGroupRepositoryInstance()
+                .getGroupsList()
+                .add(group);
         return group.getGroupId();
     }
 
     @Override
     public Group readGroup(UUID uuid) {
-        List<Group> groupsList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+        List<Group> groupsList = getMemoryBasedGroupRepositoryInstance()
                 .getGroupsList();
         if (!isGroupExisting(uuid, groupsList)) {
             throw new GroupNotFoundException("group not found");
@@ -45,7 +47,7 @@ public class MemoryBasedGroupRepository implements GroupRepository {
 
     @Override
     public Group updateGroupName(UUID groupId, String newGroupName) {
-        List<Group> groupList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList();
+        List<Group> groupList = getMemoryBasedGroupRepositoryInstance().getGroupsList();
         if (!isGroupExisting(groupId, groupsList)) {
             System.out.println("group with id: " + groupId.toString() + " not found");
             throw new GroupNotFoundException("group with id: " + groupId.toString() + " not found");

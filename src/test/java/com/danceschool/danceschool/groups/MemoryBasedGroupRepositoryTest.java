@@ -3,8 +3,10 @@ package com.danceschool.danceschool.groups;
 import static org.mockito.Mockito.when;
 
 import com.danceschool.danceschool.exceptions.GroupNotFoundException;
+import com.danceschool.danceschool.exceptions.SchoolNotFoundException;
 import com.danceschool.danceschool.members.Members;
 import com.danceschool.danceschool.members.student.Student;
+import com.danceschool.danceschool.members.teacher.Teacher;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -75,17 +77,16 @@ class MemoryBasedGroupRepositoryTest {
         //given
         String groupName = "medium Group";
 
+
         //when
-        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+        UUID groupUUID = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .createGroup(groupName);
+        List<Group> groupsList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList();
 
         //then
-        for (int i = 0; i < MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList().size(); i++) {
-            if (MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList().get(i).getGroupName().equals(groupName)) {
-                Assertions.assertTrue(true);
-            }
-        }
-        Assertions.fail();
+        boolean isGroupExisting = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.isGroupExisting(groupUUID, groupsList);
+
+        assertTrue(isGroupExisting);
     }
 
     @Test
@@ -98,7 +99,7 @@ class MemoryBasedGroupRepositoryTest {
                 .createGroup(groupName);
 
         //then
-        int expectedSize = 0;
+        int expectedSize = 2;
         int actualSize = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .getGroupsList()
                 .size();
@@ -106,19 +107,52 @@ class MemoryBasedGroupRepositoryTest {
     }
 
     @Test
-    void shouldCreateNewGroupWithListWhichIsEmpty() {
+    void shouldCreateNewGroupWithStudentListWhichIsEmpty() {
         //given
         String groupName = "professional group";
 
         //when
-        MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+        UUID groupUUID = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .createGroup(groupName);
 
         //then
         boolean expectedTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
-                .getGroupsList()
+                .readGroup(groupUUID)
+                .getGroupStudentList()
                 .isEmpty();
         assertTrue(expectedTrue);
+    }
+
+    @Test
+    void shouldCreateNewGroupWithGroupFemaleTeacherWhichIsEmpty() {
+        //given
+        String groupName = "professional group";
+
+        //when
+        UUID groupUUID = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .createGroup(groupName);
+
+        //then
+        Teacher expectedTeacher = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .readGroup(groupUUID)
+                .getGroupFemaleTeacher();
+        assertNull(expectedTeacher);
+    }
+
+    @Test
+    void shouldCreateNewGroupWithGroupMaleTeacherWhichIsEmpty() {
+        //given
+        String groupName = "professional group";
+
+        //when
+        UUID groupUUID = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .createGroup(groupName);
+
+        //then
+        Teacher expectedTeacher = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .readGroup(groupUUID)
+                .getGroupMaleTeacher();
+        assertNull(expectedTeacher);
     }
 
     @Test
@@ -158,11 +192,12 @@ class MemoryBasedGroupRepositoryTest {
         //when
         MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .updateGroupName(groupUUID, newName);
-        boolean expectTrue = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
-                .getGroupsList()
-                .contains(newName);
+
+        String expectedName = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                .readGroup(groupUUID)
+                        .getGroupName();
         //then
-        assertTrue(expectTrue);
+        assertEquals(expectedName,newName);
     }
 
     @Test
@@ -181,33 +216,25 @@ class MemoryBasedGroupRepositoryTest {
         assertFalse(expectFalse);
     }
 
-//    @Test
-//    void shouldReturnFalseWhenTryToUpdateGroupWhichDoesNotExist() {
-//        //given
-//        UUID groupWhichDoesNotExist = UUID.randomUUID();
-//
-//        //when
-//        Group expectFalse = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
-//                .updateGroupName(groupWhichDoesNotExist, GROUP);
-//
-//        //then
-//        assertFalse(expectFalse);
-//    }
-
     @Test
-    void shouldReturnFalseWhenTryToUpdateGroupNamedNull() {
-        GroupNotFoundException thrown = assertThrows(
-                GroupNotFoundException.class,
-                () -> MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
-                        .updateGroupName(null, GROUP),
-                "Expected doThing() to throw, but it didn't"
-        );
+    void shouldCatchExceptionWhenTryToUpdateGroupWhichDoesNotExist() {
+        //given
+        UUID groupWhichDoesNotExist = UUID.randomUUID();
 
-        assertTrue(thrown.getMessage().contains("group with id: " ));
+        //when
+
+        //then
+        assertThrows(GroupNotFoundException.class,
+                ()->{
+                    MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
+                            .updateGroupName(groupWhichDoesNotExist, GROUP);
+                    //do whatever you want to do here
+                    //ex : objectName.thisMethodShoulThrowNullPointerExceptionForNullParameter(null);
+                });
     }
 
     @Test
-    void shouldReturnHashMap() {
+    void shouldReturnList() {
         //given
 
         //when
@@ -217,7 +244,7 @@ class MemoryBasedGroupRepositoryTest {
                 .getSimpleName();
 
         //then
-        String expected = "HashMap";
+        String expected = "ArrayList";
         assertEquals(expected, actual);
     }
 
@@ -230,9 +257,11 @@ class MemoryBasedGroupRepositoryTest {
         //when
         String actual = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .iterateGroups(groupsList);
+        UUID groupId = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList().get(0).getGroupId();
 
         //then
-        String expected = "Wykaz grup: \n" + GROUP + "\n";
+        String expected = "Wykaz grup: \n"
+                        + groupId.toString() + " group null null ";
         assertEquals(expected,actual);
     }
 
@@ -240,7 +269,8 @@ class MemoryBasedGroupRepositoryTest {
     void shouldDisplayGroupMembersFromGroupList() {
         //given
         UUID groupNameUUID = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.createGroup("groupName");
-        int indexOfGroup = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList().indexOf(groupNameUUID);
+        Group group = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList().get(0);
+        int indexOfGroup = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE.getGroupsList().indexOf(group);
         List<Student> groupStudentList = MEMORY_BASED_GROUP_REPOSITORY_INSTANCE
                 .getGroupsList()
                 .get(indexOfGroup)
@@ -250,15 +280,12 @@ class MemoryBasedGroupRepositoryTest {
         groupStudentList
                 .add(student2);
 
-
-
-
         //when
         String actual = groupStudentList.stream().iterator().toString();
-
+        String s = groupStudentList.iterator().toString();
         //then
         String expected = "\nmember\nmember2";
-        assertEquals(expected, actual);
+        assertEquals(expected, s);
     }
 
     @Test
