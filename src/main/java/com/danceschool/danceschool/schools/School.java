@@ -2,12 +2,18 @@ package com.danceschool.danceschool.schools;
 
 import com.danceschool.danceschool.data.Address;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class School {
 
     private String schoolName;
     private Address schoolAddress;
+    @Id
+    @GeneratedValue
     private UUID schoolId;
 
     public static class Builder {
