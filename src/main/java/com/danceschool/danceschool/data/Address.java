@@ -1,5 +1,9 @@
 package com.danceschool.danceschool.data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 public class Address {
 
     private final String city;

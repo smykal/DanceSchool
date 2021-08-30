@@ -7,13 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
-@Entity
 public class School {
 
     private String schoolName;
     private Address schoolAddress;
-    @Id
-    @GeneratedValue
     private UUID schoolId;
 
     public static class Builder {
