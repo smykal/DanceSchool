@@ -7,14 +7,14 @@ import org.hibernate.Transaction;
 
 
 public class AddressDao {
-    public void saveStudent(Address student) {
+    public void saveAddress(Address student) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
+
             transaction = session.beginTransaction();
-            // save the student object
+
             session.save(student);
-            // commit transaction
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

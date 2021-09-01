@@ -13,7 +13,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @AllArgsConstructor
-public class AddressService {
+public class AddressController {
 
     @Autowired
     private AddressRepository addressRepository;
@@ -22,6 +22,13 @@ public class AddressService {
     public List<Address> readAddress() {
         log.info("szukamy w db wszystkich: ");
         return addressRepository.findAll();
+    }
+
+    @GetMapping(name = "address")
+    public void addAddress(Address address) {
+        log.info("add new address to data table bleee ee e ");
+        addressRepository.save(address);
+        log.info("address has been added");
     }
 
     @GetMapping("/address/{id}")

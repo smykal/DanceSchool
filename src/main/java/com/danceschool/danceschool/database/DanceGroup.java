@@ -1,27 +1,30 @@
 package com.danceschool.danceschool.database;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 
 @Entity
 @Table(name="dance_group")
 public class DanceGroup {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dance_group_id")
-    private final int danceGroupId;
+    private int danceGroupId;
 
     @Column(name = "level_id")
-    private final int levelId;
+    private int levelId;
 
     @Column(name = "school_id")
-    private final int schoolId;
+    private int schoolId;
 
-    public DanceGroup(int danceGroupId, int levelId, int schoolId) {
-        this.danceGroupId = danceGroupId;
-        this.levelId = levelId;
-        this.schoolId = schoolId;
-    }
 }
