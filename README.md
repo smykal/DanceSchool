@@ -26,6 +26,7 @@ $
 * [slf4j manual ENG](http://www.slf4j.org/manual.html)
 * [REST introduction PL](https://devszczepaniak.pl/wstep-do-rest-api/)
 * [REST more ENG](https://restfulapi.net/)
+* [Baeldung controller vs restController ENG](https://www.baeldung.com/spring-controller-vs-restcontroller)
 
 ###Database relation graph:
 ![Algorithm schema](dbGraph.png)
