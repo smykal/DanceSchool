@@ -13,7 +13,6 @@ Project is created with:
 * draw.io
 * JUNIT5
 
-
 ## Setup
 To run this project, install it locally using:
 
@@ -22,6 +21,12 @@ $
 $ FORK from git
 $ 
 ```
+
+## Usefull links
+* [slf4j manual ENG](http://www.slf4j.org/manual.html)
+* [REST introduction PL](https://devszczepaniak.pl/wstep-do-rest-api/)
+* [REST more ENG](https://restfulapi.net/)
+
 ###Database relation graph:
 ![Algorithm schema](dbGraph.png)
 

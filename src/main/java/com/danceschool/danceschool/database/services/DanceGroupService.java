@@ -1,6 +1,8 @@
-package com.danceschool.danceschool.database;
+package com.danceschool.danceschool.database.services;
 
 
+import com.danceschool.danceschool.database.DanceGroup;
+import com.danceschool.danceschool.database.repositories.DanceGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -7,13 +7,13 @@ import org.hibernate.Transaction;
 
 
 public class AddressDao {
-    public void saveAddress(Address student) {
+    public void saveAddress(Address address) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             transaction = session.beginTransaction();
 
-            session.save(student);
+            session.save(address);
 
             transaction.commit();
         } catch (Exception e) {
@@ -24,9 +24,9 @@ public class AddressDao {
         }
     }
 
-    public List < Address > getStudents() {
+    public List < Address > getAddress() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Student", Address.class).list();
+            return session.createQuery("from Address", Address.class).list();
         }
     }
 }

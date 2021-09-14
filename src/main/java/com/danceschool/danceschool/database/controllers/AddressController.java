@@ -1,5 +1,7 @@
-package com.danceschool.danceschool.database;
+package com.danceschool.danceschool.database.controllers;
 
+import com.danceschool.danceschool.database.Address;
+import com.danceschool.danceschool.database.repositories.AddressRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
